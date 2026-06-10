@@ -6,7 +6,9 @@
         "group": "A",
         "time": "02:00",
         "home": "Mexico",
-        "away": "South Africa"
+        "away": "South Africa",
+        "homeScore":"2",
+        "awayScore":"1"
       },
       {
         "group": "A",
