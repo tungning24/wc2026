@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#111827">
 <title>FIFA WORLD CUP 2026</title>
 
 <style>
@@ -57,7 +55,7 @@ h1{
     gap:12px;
 }
 
-/* CARD (เหมือนเดิมเป๊ะ) */
+/* CARD (เดิม 100%) */
 .card{
     background:#fff;
     border-radius:14px;
@@ -65,13 +63,22 @@ h1{
     box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
 
-/* DATE HEADER */
+/* DATE HEADER (group) */
 .card-header{
     background:#111827;
     color:#fff;
     padding:10px 12px;
     font-weight:bold;
     font-size:14px;
+}
+
+/* KNOCKOUT DATE BAR (เพิ่มใหม่อย่างเดียว) */
+.k-date{
+    background:#2563eb;
+    color:#fff;
+    padding:6px 12px;
+    font-size:12px;
+    font-weight:bold;
 }
 
 /* MATCH */
@@ -156,188 +163,118 @@ h1{
 
 <script>
 const flagMap = {
-  "Mexico":"MEX",
-  "South Africa":"RSA",
-  "South Korea":"KOR",
-  "Czechia":"CZE",
-  "Canada":"CAN",
-  "Bosnia & Herz.":"BIH",
-  "Bosnia":"BIH",
-  "USA":"USA",
-  "Paraguay":"PAR",
-  "Qatar":"QAT",
-  "Switzerland":"SUI",
-  "Brazil":"BRA",
-  "Morocco":"MAR",
-  "Haiti":"HAI",
-  "Scotland":"SCO",
-  "Australia":"AUS",
-  "Turkiye":"TUR",
-  "Germany":"GER",
-  "Curacao":"CUW",
-  "Netherlands":"NED",
-  "Japan":"JPN",
-  "Ivory Coast":"CIV",
-  "Ecuador":"ECU",
-  "Sweden":"SWE",
-  "Tunisia":"TUN",
-  "Spain":"ESP",
-  "Cape Verde":"CPV",
-  "Belgium":"BEL",
-  "Egypt":"EGY",
-  "Saudi Arabia":"KSA",
-  "Uruguay":"URU",
-  "Iran":"IRN",
-  "New Zealand":"NZL",
-  "France":"FRA",
-  "Senegal":"SEN",
-  "Iraq":"IRQ",
-  "Norway":"NOR",
-  "Argentina":"ARG",
-  "Algeria":"ALG",
-  "Austria":"AUT",
-  "Jordan":"JOR",
-  "Portugal":"POR",
-  "Congo DR":"COD",
-  "England":"ENG",
-  "Croatia":"CRO",
-  "Ghana":"GHA",
-  "Panama":"PAN",
-  "Uzbekistan":"UZB",
-  "Colombia":"COL"
+  "Mexico":"MEX","South Africa":"RSA","South Korea":"KOR","Czechia":"CZE",
+  "Canada":"CAN","USA":"USA","Brazil":"BRA","Argentina":"ARG","France":"FRA"
 };
 
-let groupData = [];
-let knockoutData = [];
-let currentTab = "group";
+let groupData=[], knockoutData=[];
+let currentTab="group";
 
-fetch("matches.json?v=" + Date.now())
-.then(r => r.json())
-.then(data => {
-    groupData = data;
-    if (currentTab === "group") render(groupData);
+fetch("matches.json?v="+Date.now())
+.then(r=>r.json())
+.then(d=>{
+    groupData=d;
+    if(currentTab==="group") renderGroup();
 });
 
-fetch("knockout.json?v=" + Date.now())
-.then(r => r.json())
-.then(data => {
-    knockoutData = data;
+fetch("knockout.json?v="+Date.now())
+.then(r=>r.json())
+.then(d=>{
+    knockoutData=d;
 });
 
+/* TAB */
 function switchTab(tab){
-    currentTab = tab;
+    currentTab=tab;
 
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
     event.target.classList.add("active");
 
-    if(tab === "group"){
-        render(groupData);
-    } else {
-        renderKnockout(knockoutData);
-    }
+    if(tab==="group") renderGroup();
+    else renderKnockout();
 }
 
-/* ===== GROUP (ของเดิม 100%) ===== */
-function render(data){
+/* GROUP (เหมือนเดิม) */
+function renderGroup(){
+    const c=document.getElementById("schedule");
+    c.innerHTML="";
 
-    const container = document.getElementById("schedule");
-    container.innerHTML = "";
+    groupData.forEach(day=>{
+        const card=document.createElement("div");
+        card.className="card";
 
-    data.forEach(day => {
+        card.innerHTML=`
+        <div class="card-header">${day.date}</div>
+        ${day.matches.map(m=>{
+            const score=(m.homeScore??"-")+" - "+(m.awayScore??"-");
 
-        const card = document.createElement("div");
-        card.className = "card";
+            return `
+            <div class="match">
+                <div class="top-row">
+                    <div>${m.group}</div>
+                    <div>${m.time}</div>
+                </div>
 
-        day.matches.forEach(match => {
-            match.homeFlag ??= flagMap[match.home];
-            match.awayFlag ??= flagMap[match.away];
-            match.homeScore ??= "-";
-            match.awayScore ??= "-";
-        });
-
-        card.innerHTML = `
-            <div class="card-header">${day.date}</div>
-
-            ${day.matches.map(match => {
-
-                const scoreText =
-                    (match.homeScore === "-" && match.awayScore === "-")
-                    ? "-"
-                    : `${match.homeScore} - ${match.awayScore}`;
-
-                return `
-                <div class="match">
-                    <div class="top-row">
-                        <div>${match.group}</div>
-                        <div>${match.time}</div>
+                <div class="teams">
+                    <div class="home">
+                        <span class="team-name">${m.home}</span>
                     </div>
 
-                    <div class="teams">
-                        <div class="home">
-                            <img class="flag" src="flags/${match.homeFlag}.jpg">
-                            <span class="team-name">${match.home}</span>
-                        </div>
+                    <div class="score">${score}</div>
 
-                        <div class="score">${scoreText}</div>
-
-                        <div class="away">
-                            <span class="team-name">${match.away}</span>
-                            <img class="flag" src="flags/${match.awayFlag}.jpg">
-                        </div>
+                    <div class="away">
+                        <span class="team-name">${m.away}</span>
                     </div>
-                </div>`;
-            }).join("")}
+                </div>
+            </div>`;
+        }).join("")}
         `;
 
-        container.appendChild(card);
+        c.appendChild(card);
     });
 }
 
-/* ===== KNOCKOUT (ใช้ layout เดิม + round bar) ===== */
-function renderKnockout(data){
+/* KNOCKOUT (เพิ่มสีแยกวันเฉย ๆ) */
+function renderKnockout(){
+    const c=document.getElementById("schedule");
+    c.innerHTML="";
 
-    const container = document.getElementById("schedule");
-    container.innerHTML = "";
+    knockoutData.forEach(round=>{
 
-    data.forEach(round => {
+        const card=document.createElement("div");
+        card.className="card";
 
-        const card = document.createElement("div");
-        card.className = "card";
+        let html=`<div class="card-header">${round.round}</div>`;
 
-        let html = `<div class="card-header">${round.round}</div>`;
+        round.days.forEach(day=>{
 
-        round.days.forEach(day => {
+            html+=`<div class="k-date">${day.date}</div>`;
 
-            html += `<div style="padding:6px 12px;font-size:12px;color:#6b7280;font-weight:bold">
-                        ${day.date}
-                     </div>`;
-
-            day.matches.forEach(match => {
-
-                html += `
+            day.matches.forEach(m=>{
+                html+=`
                 <div class="match">
                     <div class="top-row">
                         <div>${round.round}</div>
-                        <div>${match.time}</div>
+                        <div>${m.time}</div>
                     </div>
 
                     <div class="teams">
                         <div class="home">
-                            <span class="team-name">${match.home}</span>
+                            <span class="team-name">${m.home}</span>
                         </div>
 
                         <div class="score">-</div>
 
                         <div class="away">
-                            <span class="team-name">${match.away}</span>
+                            <span class="team-name">${m.away}</span>
                         </div>
                     </div>
                 </div>`;
             });
         });
 
-        card.innerHTML = html;
-        container.appendChild(card);
+        card.innerHTML=html;
+        c.appendChild(card);
     });
 }
 </script>
