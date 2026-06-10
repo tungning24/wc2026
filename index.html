@@ -6,7 +6,11 @@
 <title>FIFA WORLD CUP 2026</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
 body{
     font-family:Arial,sans-serif;
@@ -25,15 +29,15 @@ h1{
 /* TABS */
 .tabs{
     display:flex;
-    gap:8px;
     justify-content:center;
+    gap:8px;
     margin-bottom:12px;
 }
 
 .tab{
     padding:8px 12px;
-    border-radius:8px;
     background:#e5e7eb;
+    border-radius:8px;
     cursor:pointer;
     font-size:13px;
 }
@@ -76,6 +80,10 @@ h1{
     gap:8px;
 }
 
+.match:last-child{
+    border-bottom:none;
+}
+
 .top-row{
     display:flex;
     justify-content:space-between;
@@ -87,7 +95,6 @@ h1{
     display:grid;
     grid-template-columns:1fr auto 1fr;
     align-items:center;
-    gap:6px;
 }
 
 .home,.away{
@@ -100,20 +107,11 @@ h1{
 
 .team-name{
     font-size:13px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
 }
 
 .score{
     font-weight:bold;
     text-align:center;
-}
-
-.flag{
-    width:22px;
-    height:15px;
-    border-radius:2px;
 }
 </style>
 </head>
@@ -131,11 +129,18 @@ h1{
 
 <script>
 const flagMap = {
-  "Mexico":"MEX","South Africa":"RSA","South Korea":"KOR","Czechia":"CZE",
-  "Canada":"CAN","USA":"USA","Brazil":"BRA","Argentina":"ARG","England":"ENG"
+  "Mexico":"MEX",
+  "South Africa":"RSA",
+  "South Korea":"KOR",
+  "Czechia":"CZE",
+  "Canada":"CAN",
+  "USA":"USA",
+  "Brazil":"BRA",
+  "Argentina":"ARG",
+  "England":"ENG"
 };
 
-/* ================= GROUP ================= */
+/* ================= GROUP STAGE ================= */
 function loadGroup(){
 
 document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -143,12 +148,12 @@ document.querySelectorAll('.tab')[0].classList.add('active');
 
 fetch(`matches.json?v=${Date.now()}`)
 .then(r=>r.json())
-.then(data=>renderGroup(data));
+.then(renderGroup);
 }
 
 function renderGroup(data){
 
-const container = document.getElementById("schedule");
+const container=document.getElementById("schedule");
 container.innerHTML="";
 
 data.forEach(day=>{
@@ -158,6 +163,7 @@ card.className="card";
 
 card.innerHTML=`
 <div class="card-header">${day.date}</div>
+
 ${day.matches.map(m=>{
 
 m.homeScore ??="-";
@@ -178,7 +184,7 @@ return `
 
   <div class="teams">
     <div class="home">
-      <img class="flag" src="flags/${m.homeFlag}.jpg">
+      <img src="flags/${m.homeFlag}.jpg" width="22">
       <div class="team-name">${m.home}</div>
     </div>
 
@@ -186,7 +192,7 @@ return `
 
     <div class="away">
       <div class="team-name">${m.away}</div>
-      <img class="flag" src="flags/${m.awayFlag}.jpg">
+      <img src="flags/${m.awayFlag}.jpg" width="22">
     </div>
   </div>
 </div>
@@ -206,25 +212,45 @@ document.querySelectorAll('.tab')[1].classList.add('active');
 
 fetch(`knockout.json?v=${Date.now()}`)
 .then(r=>r.json())
-.then(data=>renderKnockout(data));
+.then(renderKnockout);
 }
 
+/* flatten → group by date → same UI as group stage */
 function renderKnockout(data){
 
 const container=document.getElementById("schedule");
 container.innerHTML="";
 
-data.forEach(round=>{
+let flat=[];
 
-round.days.forEach(day=>{
+data.forEach(r=>{
+    r.days.forEach(d=>{
+        d.matches.forEach(m=>{
+            flat.push({
+                date:d.date,
+                round:r.round,
+                ...m
+            });
+        });
+    });
+});
+
+let grouped={};
+
+flat.forEach(m=>{
+    if(!grouped[m.date]) grouped[m.date]=[];
+    grouped[m.date].push(m);
+});
+
+Object.keys(grouped).forEach(date=>{
 
 const card=document.createElement("div");
 card.className="card";
 
 card.innerHTML=`
-<div class="card-header">${round.round} • ${day.date}</div>
+<div class="card-header">${date}</div>
 
-${day.matches.map(m=>{
+${grouped[date].map(m=>{
 
 m.homeScore ??="-";
 m.awayScore ??="-";
@@ -237,7 +263,7 @@ return `
 <div class="match">
 
   <div class="top-row">
-    <div>${round.round}</div>
+    <div>${m.round}</div>
     <div>${m.time}</div>
   </div>
 
@@ -264,7 +290,6 @@ container.appendChild(card);
 
 });
 
-});
 }
 
 /* init */
