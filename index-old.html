@@ -8,7 +8,6 @@
 <title>FIFA WORLD CUP 2026</title>
 
 <style>
-
 *{
     margin:0;
     padding:0;
@@ -17,117 +16,124 @@
 
 body{
     font-family:Arial,sans-serif;
-    background:#f5f5f5;
-    padding:20px;
+    background:#f3f4f6;
+    padding:12px;
+    overflow-x:hidden;
 }
 
+/* HEADER */
 h1{
     text-align:center;
-    margin-bottom:20px;
+    font-size:18px;
+    margin:10px 0 16px;
+    color:#111827;
 }
 
+/* MAIN GRID */
 #schedule{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(500px,1fr));
-    gap:20px;
+    grid-template-columns:1fr;
+    gap:12px;
 }
 
+/* CARD */
 .card{
     background:#fff;
-    border-radius:16px;
+    border-radius:14px;
     overflow:hidden;
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
 
+/* DATE HEADER */
 .card-header{
-    background:#111;
+    background:#111827;
     color:#fff;
-    padding:12px 16px;
+    padding:10px 12px;
     font-weight:bold;
+    font-size:14px;
 }
 
+/* MATCH BLOCK */
 .match{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:12px 16px;
+    padding:10px 12px;
     border-bottom:1px solid #eee;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
 }
 
 .match:last-child{
     border-bottom:none;
 }
 
-.group{
-    width:24px;
-    font-weight:bold;
-    color:#d32f2f;
-    flex-shrink:0;
+/* TOP ROW (GROUP + TIME) */
+.top-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:#6b7280;
 }
 
-.time{
-    width:55px;
-    font-weight:bold;
-    color:#1976d2;
-    flex-shrink:0;
-}
-
+/* TEAMS LAYOUT */
 .teams{
-    flex:1;
     display:grid;
-    grid-template-columns:1fr 80px 1fr;
+    grid-template-columns:1fr auto 1fr;
     align-items:center;
+    gap:6px;
+}
+
+/* TEAM SIDE */
+.home, .away{
+    display:flex;
+    align-items:center;
+    gap:6px;
     min-width:0;
 }
 
+.home{ justify-content:flex-start; }
+.away{ justify-content:flex-end; }
+
+/* NAME */
 .team-name{
-	white-space:nowrap;
-	overflow:hidden;
-	text-overflow:ellipsis;
+    font-size:13px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
-.home{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    justify-content:flex-start;
-}
-
-.away{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    justify-content:flex-end;
-}
-
+/* SCORE */
 .score{
-    text-align:center;
     font-weight:bold;
-    font-size:16px;
+    font-size:14px;
+    text-align:center;
+    color:#111827;
 }
 
+/* FLAG */
 .flag{
-    width:24px;
-    height:16px;
+    width:22px;
+    height:15px;
     object-fit:cover;
-    border:1px solid #ddd;
     border-radius:2px;
+    border:1px solid #ddd;
 }
 
-@media(max-width:600px){
-
+/* TABLET */
+@media(min-width:600px){
     #schedule{
-        grid-template-columns:1fr;
+        grid-template-columns:1fr 1fr;
     }
-
-    .teams{
-        grid-template-columns:1fr 60px 1fr;
-    }
-
 }
 
+/* DESKTOP */
+@media(min-width:1000px){
+    #schedule{
+        grid-template-columns:1fr 1fr 1fr;
+    }
+}
 </style>
 </head>
+
 <body>
 <script>
 
@@ -151,57 +157,18 @@ if ('serviceWorker' in navigator) {
 <div id="schedule"></div>
 
 <script>
-
 const flagMap = {
-  "Mexico":"MEX",
-  "South Africa":"RSA",
-  "South Korea":"KOR",
-  "Czechia":"CZE",
-  "Canada":"CAN",
-  "Bosnia & Herz.":"BIH",
-  "Bosnia":"BIH",
-  "USA":"USA",
-  "Paraguay":"PAR",
-  "Qatar":"QAT",
-  "Switzerland":"SUI",
-  "Brazil":"BRA",
-  "Morocco":"MAR",
-  "Haiti":"HAI",
-  "Scotland":"SCO",
-  "Australia":"AUS",
-  "Turkiye":"TUR",
-  "Germany":"GER",
-  "Curacao":"CUW",
-  "Netherlands":"NED",
-  "Japan":"JPN",
-  "Ivory Coast":"CIV",
-  "Ecuador":"ECU",
-  "Sweden":"SWE",
-  "Tunisia":"TUN",
-  "Spain":"ESP",
-  "Cape Verde":"CPV",
-  "Belgium":"BEL",
-  "Egypt":"EGY",
-  "Saudi Arabia":"KSA",
-  "Uruguay":"URU",
-  "Iran":"IRN",
-  "New Zealand":"NZL",
-  "France":"FRA",
-  "Senegal":"SEN",
-  "Iraq":"IRQ",
-  "Norway":"NOR",
-  "Argentina":"ARG",
-  "Algeria":"ALG",
-  "Austria":"AUT",
-  "Jordan":"JOR",
-  "Portugal":"POR",
-  "Congo DR":"COD",
-  "England":"ENG",
-  "Croatia":"CRO",
-  "Ghana":"GHA",
-  "Panama":"PAN",
-  "Uzbekistan":"UZB",
-  "Colombia":"COL"
+  "Mexico":"MEX","South Africa":"RSA","South Korea":"KOR","Czechia":"CZE",
+  "Canada":"CAN","Bosnia & Herz.":"BIH","USA":"USA","Paraguay":"PAR",
+  "Qatar":"QAT","Switzerland":"SUI","Brazil":"BRA","Morocco":"MAR",
+  "Haiti":"HAI","Scotland":"SCO","Australia":"AUS","Turkiye":"TUR",
+  "Germany":"GER","Netherlands":"NED","Japan":"JPN","Ivory Coast":"CIV",
+  "Ecuador":"ECU","Sweden":"SWE","Tunisia":"TUN","Spain":"ESP",
+  "Belgium":"BEL","Egypt":"EGY","Saudi Arabia":"KSA","Uruguay":"URU",
+  "Iran":"IRN","New Zealand":"NZL","France":"FRA","Senegal":"SEN",
+  "Norway":"NOR","Argentina":"ARG","Austria":"AUT","Portugal":"POR",
+  "England":"ENG","Croatia":"CRO","Ghana":"GHA","Colombia":"COL",
+  "Panama":"PAN","Uzbekistan":"UZB","Jordan":"JOR"
 };
 
 fetch(`matches.json?v=${Date.now()}`)
@@ -214,8 +181,8 @@ fetch(`matches.json?v=${Date.now()}`)
 
         const card = document.createElement("div");
         card.className = "card";
-
-        day.matches.forEach(match => {
+		
+		day.matches.forEach(match => {
 
             match.homeFlag ??= flagMap[match.home];
             match.awayFlag ??= flagMap[match.away];
@@ -238,40 +205,27 @@ fetch(`matches.json?v=${Date.now()}`)
                 return `
                     <div class="match">
 
-                        <div class="group">${match.group}</div>
-
-                        <div class="time">${match.time}</div>
+                        <div class="top-row">
+                            <div>${match.group}</div>
+                            <div>${match.time}</div>
+                        </div>
 
                         <div class="teams">
 
                             <div class="home">
-                                <img
-                                    class="flag"
+                                <img class="flag"
                                     src="flags/${match.homeFlag}.jpg"
-                                    alt="${match.home}"
-                                    onerror="this.style.display='none'"
-                                >
-
-                                <span class="team-name">
-                                    ${match.home}
-                                </span>
+                                    onerror="this.style.display='none'">
+                                <span class="team-name">${match.home}</span>
                             </div>
 
-                            <div class="score">
-                                ${scoreText}
-                            </div>
+                            <div class="score">${scoreText}</div>
 
                             <div class="away">
-                                <span class="team-name">
-                                    ${match.away}
-                                </span>
-
-                                <img
-                                    class="flag"
+                                <span class="team-name">${match.away}</span>
+                                <img class="flag"
                                     src="flags/${match.awayFlag}.jpg"
-                                    alt="${match.away}"
-                                    onerror="this.style.display='none'"
-                                >
+                                    onerror="this.style.display='none'">
                             </div>
 
                         </div>
@@ -279,16 +233,13 @@ fetch(`matches.json?v=${Date.now()}`)
                     </div>
                 `;
             }).join("")}
-
         `;
 
         container.appendChild(card);
-
     });
 
 })
 .catch(console.error);
-
 </script>
 
 </body>
