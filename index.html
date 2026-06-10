@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111827">
 <title>FIFA WORLD CUP 2026</title>
 
 <style>
@@ -126,6 +127,22 @@ h1{
 </style>
 </head>
 <body>
+<script>
+
+if ('serviceWorker' in navigator) {
+
+  window.addEventListener('load', () => {
+
+    navigator.serviceWorker
+      .register('./sw.js')
+      .then(() => console.log('SW Registered'))
+      .catch(err => console.log(err));
+
+  });
+
+}
+
+</script>
 
 <h1>FIFA WORLD CUP 2026</h1>
 
