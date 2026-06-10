@@ -202,7 +202,7 @@ const flagMap = {
   "Colombia":"COL"
 };
 
-fetch("matches.json")
+fetch(`matches.json?v=${Date.now()}`)
 .then(r => r.json())
 .then(data => {
 
