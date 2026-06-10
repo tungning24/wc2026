@@ -25,24 +25,24 @@ body{
 h1{
     text-align:center;
     font-size:18px;
-    margin:10px 0 16px;
+    margin:10px 0 10px;
     color:#111827;
 }
 
 /* TABS */
 .tabs{
     display:flex;
+    justify-content:center;
     gap:8px;
     margin-bottom:12px;
 }
 
 .tab{
-    flex:1;
-    padding:10px;
-    text-align:center;
-    border-radius:10px;
-    background:#ddd;
-    font-weight:bold;
+    padding:6px 10px;
+    border:none;
+    border-radius:8px;
+    background:#e5e7eb;
+    font-size:13px;
     cursor:pointer;
 }
 
@@ -96,7 +96,7 @@ h1{
     color:#6b7280;
 }
 
-/* TEAMS LAYOUT */
+/* TEAMS */
 .teams{
     display:grid;
     grid-template-columns:1fr auto 1fr;
@@ -104,7 +104,6 @@ h1{
     gap:6px;
 }
 
-/* TEAM SIDE */
 .home, .away{
     display:flex;
     align-items:center;
@@ -115,7 +114,6 @@ h1{
 .home{ justify-content:flex-start; }
 .away{ justify-content:flex-end; }
 
-/* NAME */
 .team-name{
     font-size:13px;
     white-space:nowrap;
@@ -140,6 +138,14 @@ h1{
     border:1px solid #ddd;
 }
 
+/* RESPONSIVE */
+@media(min-width:600px){
+    #schedule{ grid-template-columns:1fr 1fr; }
+}
+
+@media(min-width:1000px){
+    #schedule{ grid-template-columns:1fr 1fr 1fr; }
+}
 </style>
 </head>
 
@@ -148,8 +154,8 @@ h1{
 <h1>FIFA WORLD CUP 2026</h1>
 
 <div class="tabs">
-    <div class="tab active" id="tabGroup">Group Stage</div>
-    <div class="tab" id="tabKnock">Knockout</div>
+  <button class="tab active" onclick="switchTab('group')">Group Stage</button>
+  <button class="tab" onclick="switchTab('knockout')">Knockout</button>
 </div>
 
 <div id="schedule"></div>
@@ -157,163 +163,115 @@ h1{
 <script>
 const flagMap = {
   "Mexico":"MEX","South Africa":"RSA","South Korea":"KOR","Czechia":"CZE",
-  "Canada":"CAN","USA":"USA","Brazil":"BRA","Argentina":"ARG",
-  "France":"FRA","England":"ENG","Germany":"GER","Spain":"ESP","Portugal":"POR",
-  "Japan":"JPN"
+  "Canada":"CAN","Bosnia & Herz.":"BIH","Bosnia":"BIH","USA":"USA",
+  "Paraguay":"PAR","Qatar":"QAT","Switzerland":"SUI","Brazil":"BRA",
+  "Morocco":"MAR","Haiti":"HAI","Scotland":"SCO","Australia":"AUS",
+  "Turkiye":"TUR","Germany":"GER","Curacao":"CUW","Netherlands":"NED",
+  "Japan":"JPN","Ivory Coast":"CIV","Ecuador":"ECU","Sweden":"SWE",
+  "Tunisia":"TUN","Spain":"ESP","Cape Verde":"CPV","Belgium":"BEL",
+  "Egypt":"EGY","Saudi Arabia":"KSA","Uruguay":"URU","Iran":"IRN",
+  "New Zealand":"NZL","France":"FRA","Senegal":"SEN","Iraq":"IRQ",
+  "Norway":"NOR","Argentina":"ARG","Algeria":"ALG","Austria":"AUT",
+  "Jordan":"JOR","Portugal":"POR","Congo DR":"COD","England":"ENG",
+  "Croatia":"CRO","Ghana":"GHA","Panama":"PAN","Uzbekistan":"UZB",
+  "Colombia":"COL"
 };
 
-let mode = "group";
-
-/* TAB SWITCH */
-document.getElementById("tabGroup").onclick = () => {
-    mode = "group";
-    setTab();
-    loadGroup();
-};
-
-document.getElementById("tabKnock").onclick = () => {
-    mode = "knock";
-    setTab();
-    loadKnock();
-};
-
-function setTab(){
-    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-    if(mode==="group") document.getElementById("tabGroup").classList.add("active");
-    else document.getElementById("tabKnock").classList.add("active");
-}
-
-/* ================= GROUP (UI เดิม 100%) ================= */
-function loadGroup(){
+let groupData = [];
+let knockoutData = [];
+let currentTab = "group";
 
 fetch(`matches.json?v=${Date.now()}`)
-.then(r=>r.json())
-.then(data=>{
+.then(r => r.json())
+.then(data => {
+    groupData = data;
+    render(groupData);
+});
+
+fetch(`knockout.json?v=${Date.now()}`)
+.then(r => r.json())
+.then(data => {
+    knockoutData = data;
+});
+
+function switchTab(tab){
+    currentTab = tab;
+
+    document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+    event.target.classList.add("active");
+
+    if(tab === "group"){
+        render(groupData);
+    } else {
+        render(knockoutData);
+    }
+}
+
+function render(data){
 
     const container = document.getElementById("schedule");
     container.innerHTML = "";
 
-    data.forEach(day=>{
+    data.forEach(day => {
 
         const card = document.createElement("div");
         card.className = "card";
 
         card.innerHTML = `
-            <div class="card-header">${day.date}</div>
+            <div class="card-header">${day.date || day.round}</div>
 
-            ${day.matches.map(match=>{
+            ${day.matches.map(match => {
+
+                const home = match.home || match.team1;
+                const away = match.away || match.team2;
+
+                const homeScore = match.homeScore ?? "-";
+                const awayScore = match.awayScore ?? "-";
 
                 const scoreText =
-                    (match.homeScore == null || match.homeScore === "-")
+                    (homeScore === "-" && awayScore === "-")
                     ? "-"
-                    : `${match.homeScore} - ${match.awayScore}`;
+                    : `${homeScore} - ${awayScore}`;
+
+                const homeFlag = flagMap[home];
+                const awayFlag = flagMap[away];
 
                 return `
-                    <div class="match">
+                <div class="match">
 
-                        <div class="top-row">
-                            <div>${match.group}</div>
-                            <div>${match.time}</div>
+                    <div class="top-row">
+                        <div>${match.group || match.round || ""}</div>
+                        <div>${match.time || ""}</div>
+                    </div>
+
+                    <div class="teams">
+
+                        <div class="home">
+                            <img class="flag"
+                                src="flags/${homeFlag}.jpg"
+                                onerror="this.style.display='none'">
+                            <span class="team-name">${home}</span>
                         </div>
 
-                        <div class="teams">
+                        <div class="score">${scoreText}</div>
 
-                            <div class="home">
-                                <img class="flag"
-                                    src="flags/${flagMap[match.home]}.jpg"
-                                    onerror="this.style.display='none'">
-                                <span class="team-name">${match.home}</span>
-                            </div>
-
-                            <div class="score">${scoreText}</div>
-
-                            <div class="away">
-                                <span class="team-name">${match.away}</span>
-                                <img class="flag"
-                                    src="flags/${flagMap[match.away]}.jpg"
-                                    onerror="this.style.display='none'">
-                            </div>
-
+                        <div class="away">
+                            <span class="team-name">${away}</span>
+                            <img class="flag"
+                                src="flags/${awayFlag}.jpg"
+                                onerror="this.style.display='none'">
                         </div>
 
                     </div>
+
+                </div>
                 `;
             }).join("")}
         `;
 
         container.appendChild(card);
     });
-
-});
 }
-
-/* ================= KNOCKOUT (ใช้ UI เดิม 100%) ================= */
-function loadKnock(){
-
-fetch(`knockout.json?v=${Date.now()}`)
-.then(r=>r.json())
-.then(data=>{
-
-    const container = document.getElementById("schedule");
-    container.innerHTML = "";
-
-    data.forEach(round=>{
-
-        round.days.forEach(day=>{
-
-            const card = document.createElement("div");
-            card.className = "card";
-
-            card.innerHTML = `
-                <div class="card-header">
-                    ${day.date} • ${round.round}
-                </div>
-
-                ${day.matches.map(match=>{
-
-                    const scoreText =
-                        (match.homeScore == null)
-                        ? "-"
-                        : `${match.homeScore} - ${match.awayScore}`;
-
-                    return `
-                        <div class="match">
-
-                            <div class="top-row">
-                                <div>${round.round}</div>
-                                <div>${match.time}</div>
-                            </div>
-
-                            <div class="teams">
-
-                                <div class="home">
-                                    <span class="team-name">${match.home}</span>
-                                </div>
-
-                                <div class="score">${scoreText}</div>
-
-                                <div class="away">
-                                    <span class="team-name">${match.away}</span>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    `;
-                }).join("")}
-            `;
-
-            container.appendChild(card);
-        });
-
-    });
-
-});
-}
-
-/* default */
-loadGroup();
-
 </script>
 
 </body>
