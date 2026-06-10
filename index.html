@@ -4,46 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>FIFA WORLD CUP 2026</title>
-
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:Arial,sans-serif;
-    background:#f5f5f5;
-    padding:20px;
-}
-
-h1{
-    text-align:center;
-    margin-bottom:20px;
-}
-
-#schedule{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(500px,1fr));
-    gap:20px;
-}
-
-.card{
-    background:#fff;
-    border-radius:16px;
-    overflow:hidden;
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
-}
-
-.card-header{
-    background:#111;
-    color:#fff;
-    padding:12px 16px;
-    font-weight:bold;
-}
 
 .match{
     display:flex;
@@ -51,10 +12,6 @@ h1{
     gap:12px;
     padding:12px 16px;
     border-bottom:1px solid #eee;
-}
-
-.match:last-child{
-    border-bottom:none;
 }
 
 .group{
@@ -72,10 +29,33 @@ h1{
 }
 
 .teams{
+    flex:1;
+    display:grid;
+    grid-template-columns:1fr 80px 1fr;
+    align-items:center;
+    min-width:0;
+}
+
+.home{
     display:flex;
     align-items:center;
     gap:8px;
-    flex-wrap:wrap;
+    justify-content:flex-start;
+    min-width:0;
+}
+
+.away{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    justify-content:flex-end;
+    min-width:0;
+}
+
+.score{
+    text-align:center;
+    font-weight:bold;
+    font-size:16px;
 }
 
 .flag{
@@ -88,169 +68,39 @@ h1{
 
 .team-name{
     white-space:nowrap;
-}
-
-.score{
-    min-width:50px;
-    text-align:center;
-    font-weight:bold;
-}
-
-@media(max-width:600px){
-
-    #schedule{
-        grid-template-columns:1fr;
-    }
-
-    .match{
-        flex-wrap:wrap;
-    }
-
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
 </style>
 </head>
 <body>
 
-<h1>FIFA WORLD CUP 2026</h1>
+<div class="match">
 
-<div id="schedule"></div>
+    <div class="group">A</div>
 
-<script>
+    <div class="time">02:00</div>
 
-const flagMap = {
-  "Mexico":"MEX",
-  "South Africa":"RSA",
-  "South Korea":"KOR",
-  "Czechia":"CZE",
-  "Canada":"CAN",
-  "Bosnia & Herz.":"BIH",
-  "Bosnia":"BIH",
-  "USA":"USA",
-  "Paraguay":"PAR",
-  "Qatar":"QAT",
-  "Switzerland":"SUI",
-  "Brazil":"BRA",
-  "Morocco":"MAR",
-  "Haiti":"HAI",
-  "Scotland":"SCO",
-  "Australia":"AUS",
-  "Turkiye":"TUR",
-  "Germany":"GER",
-  "Curacao":"CUW",
-  "Netherlands":"NED",
-  "Japan":"JPN",
-  "Ivory Coast":"CIV",
-  "Ecuador":"ECU",
-  "Sweden":"SWE",
-  "Tunisia":"TUN",
-  "Spain":"ESP",
-  "Cape Verde":"CPV",
-  "Belgium":"BEL",
-  "Egypt":"EGY",
-  "Saudi Arabia":"KSA",
-  "Uruguay":"URU",
-  "Iran":"IRN",
-  "New Zealand":"NZL",
-  "France":"FRA",
-  "Senegal":"SEN",
-  "Iraq":"IRQ",
-  "Norway":"NOR",
-  "Argentina":"ARG",
-  "Algeria":"ALG",
-  "Austria":"AUT",
-  "Jordan":"JOR",
-  "Portugal":"POR",
-  "Congo DR":"COD",
-  "England":"ENG",
-  "Croatia":"CRO",
-  "Ghana":"GHA",
-  "Panama":"PAN",
-  "Uzbekistan":"UZB",
-  "Colombia":"COL"
-};
+    <div class="teams">
 
-fetch("matches.json")
-.then(r => r.json())
-.then(data => {
+        <div class="home">
+            <img class="flag" src="flags/MEX.jpg">
+            <span class="team-name">Mexico</span>
+        </div>
 
-    const container = document.getElementById("schedule");
+        <div class="score">
+            2 - 1
+        </div>
 
-    data.forEach(day => {
+        <div class="away">
+            <span class="team-name">South Africa</span>
+            <img class="flag" src="flags/RSA.jpg">
+        </div>
 
-        const card = document.createElement("div");
-        card.className = "card";
+    </div>
 
-        day.matches.forEach(match => {
-
-            match.homeFlag ??= flagMap[match.home];
-            match.awayFlag ??= flagMap[match.away];
-
-            match.homeScore ??= "-";
-            match.awayScore ??= "-";
-
-        });
-
-        card.innerHTML = `
-            <div class="card-header">${day.date}</div>
-
-            ${day.matches.map(match => {
-
-                const scoreText =
-                    (match.homeScore === "-" && match.awayScore === "-")
-                    ? "-"
-                    : `${match.homeScore} - ${match.awayScore}`;
-
-                return `
-                    <div class="match">
-
-                        <div class="group">${match.group}</div>
-
-                        <div class="time">${match.time}</div>
-
-                        <div class="teams">
-
-                            <img
-                                class="flag"
-                                src="flags/${match.homeFlag}.jpg"
-                                alt="${match.home}"
-                                onerror="this.style.display='none'"
-                            >
-
-                            <span class="team-name">
-                                ${match.home}
-                            </span>
-
-                            <span class="score">
-                                ${scoreText}
-                            </span>
-
-                            <span class="team-name">
-                                ${match.away}
-                            </span>
-
-                            <img
-                                class="flag"
-                                src="flags/${match.awayFlag}.jpg"
-                                alt="${match.away}"
-                                onerror="this.style.display='none'"
-                            >
-
-                        </div>
-
-                    </div>
-                `;
-            }).join("")}
-        `;
-
-        container.appendChild(card);
-
-    });
-
-})
-.catch(console.error);
-
-</script>
+</div>
 
 </body>
 </html>
