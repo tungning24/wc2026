@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111827">
 <title>FIFA WORLD CUP 2026</title>
 
 <style>
@@ -48,14 +50,14 @@ h1{
     color:#fff;
 }
 
-/* GRID */
+/* MAIN GRID */
 #schedule{
     display:grid;
     grid-template-columns:1fr;
     gap:12px;
 }
 
-/* CARD (เดิม 100%) */
+/* CARD */
 .card{
     background:#fff;
     border-radius:14px;
@@ -63,7 +65,7 @@ h1{
     box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
 
-/* GROUP DATE HEADER */
+/* DATE HEADER */
 .card-header{
     background:#111827;
     color:#fff;
@@ -72,16 +74,16 @@ h1{
     font-size:14px;
 }
 
-/* 🔥 NEW: knockout date highlight */
-.k-date{
-    background:#2563eb;
+/* 🔥 NEW: knockout date separator */
+.knockout-date{
+    background:#374151;
     color:#fff;
     padding:6px 12px;
     font-size:12px;
     font-weight:bold;
 }
 
-/* MATCH (เดิมทั้งหมด) */
+/* MATCH */
 .match{
     padding:10px 12px;
     border-bottom:1px solid #eee;
@@ -101,6 +103,7 @@ h1{
     color:#6b7280;
 }
 
+/* TEAMS */
 .teams{
     display:grid;
     grid-template-columns:1fr auto 1fr;
@@ -167,61 +170,102 @@ const flagMap = {
   "South Korea":"KOR",
   "Czechia":"CZE",
   "Canada":"CAN",
+  "Bosnia & Herz.":"BIH",
+  "Bosnia":"BIH",
   "USA":"USA",
+  "Paraguay":"PAR",
+  "Qatar":"QAT",
+  "Switzerland":"SUI",
   "Brazil":"BRA",
+  "Morocco":"MAR",
+  "Haiti":"HAI",
+  "Scotland":"SCO",
+  "Australia":"AUS",
+  "Turkiye":"TUR",
+  "Germany":"GER",
+  "Curacao":"CUW",
+  "Netherlands":"NED",
+  "Japan":"JPN",
+  "Ivory Coast":"CIV",
+  "Ecuador":"ECU",
+  "Sweden":"SWE",
+  "Tunisia":"TUN",
+  "Spain":"ESP",
+  "Cape Verde":"CPV",
+  "Belgium":"BEL",
+  "Egypt":"EGY",
+  "Saudi Arabia":"KSA",
+  "Uruguay":"URU",
+  "Iran":"IRN",
+  "New Zealand":"NZL",
+  "France":"FRA",
+  "Senegal":"SEN",
+  "Iraq":"IRQ",
+  "Norway":"NOR",
   "Argentina":"ARG",
-  "France":"FRA"
+  "Algeria":"ALG",
+  "Austria":"AUT",
+  "Jordan":"JOR",
+  "Portugal":"POR",
+  "Congo DR":"COD",
+  "England":"ENG",
+  "Croatia":"CRO",
+  "Ghana":"GHA",
+  "Panama":"PAN",
+  "Uzbekistan":"UZB",
+  "Colombia":"COL"
 };
 
 let groupData = [];
 let knockoutData = [];
 let currentTab = "group";
 
-/* LOAD */
 fetch("matches.json?v=" + Date.now())
 .then(r => r.json())
-.then(d => {
-    groupData = d;
-    if (currentTab === "group") renderGroup();
+.then(data => {
+    groupData = data;
+    if(currentTab === "group") render(groupData);
 });
 
 fetch("knockout.json?v=" + Date.now())
 .then(r => r.json())
-.then(d => {
-    knockoutData = d;
+.then(data => {
+    knockoutData = data;
 });
 
-/* TAB */
 function switchTab(tab){
+
     currentTab = tab;
 
-    document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
     event.target.classList.add("active");
 
-    if(tab === "group") renderGroup();
-    else renderKnockout();
+    if(tab === "group") render(groupData);
+    else renderKnockout(knockoutData);
 }
 
-/* =========================
-   GROUP (UNCHANGED 100%)
-========================= */
-function renderGroup(){
+/* ===== GROUP (เดิม 100%) ===== */
+function render(data){
 
-    const c = document.getElementById("schedule");
-    c.innerHTML = "";
+    const container = document.getElementById("schedule");
+    container.innerHTML = "";
 
-    groupData.forEach(day => {
+    data.forEach(day => {
 
         const card = document.createElement("div");
         card.className = "card";
+
+        day.matches.forEach(m=>{
+            m.homeFlag ??= flagMap[m.home];
+            m.awayFlag ??= flagMap[m.away];
+            m.homeScore ??= "-";
+            m.awayScore ??= "-";
+        });
 
         card.innerHTML = `
             <div class="card-header">${day.date}</div>
 
             ${day.matches.map(match => {
-
-                const homeFlag = flagMap[match.home];
-                const awayFlag = flagMap[match.away];
 
                 const scoreText =
                     (match.homeScore === "-" && match.awayScore === "-")
@@ -237,7 +281,7 @@ function renderGroup(){
 
                     <div class="teams">
                         <div class="home">
-                            <img class="flag" src="flags/${homeFlag}.jpg">
+                            <img class="flag" src="flags/${match.homeFlag}.jpg">
                             <span class="team-name">${match.home}</span>
                         </div>
 
@@ -245,26 +289,24 @@ function renderGroup(){
 
                         <div class="away">
                             <span class="team-name">${match.away}</span>
-                            <img class="flag" src="flags/${awayFlag}.jpg">
+                            <img class="flag" src="flags/${match.awayFlag}.jpg">
                         </div>
                     </div>
                 </div>`;
             }).join("")}
         `;
 
-        c.appendChild(card);
+        container.appendChild(card);
     });
 }
 
-/* =========================
-   KNOCKOUT (ONLY ADD DATE COLOR)
-========================= */
-function renderKnockout(){
+/* ===== KNOCKOUT (แก้แค่ “วันที่ + สี + ยังใช้ UI เดิม”) ===== */
+function renderKnockout(data){
 
-    const c = document.getElementById("schedule");
-    c.innerHTML = "";
+    const container = document.getElementById("schedule");
+    container.innerHTML = "";
 
-    knockoutData.forEach(round => {
+    data.forEach(round => {
 
         const card = document.createElement("div");
         card.className = "card";
@@ -273,10 +315,12 @@ function renderKnockout(){
 
         round.days.forEach(day => {
 
-            // 🔥 only change: colored date bar
-            html += `<div class="k-date">${day.date}</div>`;
+            html += `<div class="knockout-date">${day.date}</div>`;
 
             day.matches.forEach(match => {
+
+                const homeFlag = flagMap[match.home] || "";
+                const awayFlag = flagMap[match.away] || "";
 
                 html += `
                 <div class="match">
@@ -287,6 +331,7 @@ function renderKnockout(){
 
                     <div class="teams">
                         <div class="home">
+                            <img class="flag" src="flags/${homeFlag}.jpg">
                             <span class="team-name">${match.home}</span>
                         </div>
 
@@ -294,6 +339,7 @@ function renderKnockout(){
 
                         <div class="away">
                             <span class="team-name">${match.away}</span>
+                            <img class="flag" src="flags/${awayFlag}.jpg">
                         </div>
                     </div>
                 </div>`;
@@ -301,7 +347,7 @@ function renderKnockout(){
         });
 
         card.innerHTML = html;
-        c.appendChild(card);
+        container.appendChild(card);
     });
 }
 </script>
