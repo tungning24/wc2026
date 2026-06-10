@@ -24,6 +24,216 @@ h1{
     margin:10px 0;
 }
 
+/* tabs */
+.tabs{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    margin-bottom:12px;
+}
+
+.tab{
+    padding:6px 12px;
+    background:#e5e7eb;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.tab.active{
+    background:#111827;
+    color:#fff;
+}
+
+/* layout เดิม */
+#schedule{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
+}
+
+.card{
+    background:#fff;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+
+.card-header{
+    background:#111827;
+    color:#fff;
+    padding:10px 12px;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.match{
+    padding:10px 12px;
+    border-bottom:1px solid #eee;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.match:last-child{border-bottom:none;}
+
+.top-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:#6b7280;
+}
+
+.teams{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+}
+
+.home,.away{
+    display:flex;
+    gap:6px;
+    align-items:center;
+}
+
+.home{justify-content:flex-start;}
+.away{justify-content:flex-end;}
+
+.team-name{font-size:13px;}
+
+.score{
+    font-weight:bold;
+    text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<h1>FIFA WORLD CUP 2026</h1>
+
+<div class="tabs">
+    <div class="tab active" onclick="switchTab('group',event)">Group</div>
+    <div class="tab" onclick="switchTab('knockout',event)">Knockout</div>
+</div>
+
+<div id="schedule"></div>
+
+<script>
+let groupData=[], knockoutData=[];
+let tab="group";
+
+/* LOAD */
+fetch("matches.json")
+.then(r=>r.json())
+.then(d=>{
+    groupData=d;
+    render(groupData);
+});
+
+fetch("knockout.json")
+.then(r=>r.json())
+.then(d=>{
+    knockoutData=d;
+});
+
+/* TAB */
+function switchTab(t,e){
+    tab=t;
+
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    e.target.classList.add("active");
+
+    if(t==="group") render(groupData);
+    else renderKnockout();
+}
+
+/* 🔥 CORE: ใช้ renderer เดียว */
+function render(data){
+    const c=document.getElementById("schedule");
+    c.innerHTML="";
+
+    data.forEach(day=>{
+        const card=document.createElement("div");
+        card.className="card";
+
+        let html=`<div class="card-header">${day.date}</div>`;
+
+        day.matches.forEach(m=>{
+
+            html+=`
+            <div class="match">
+                <div class="top-row">
+                    <div>${m.group || m.round || ""}</div>
+                    <div>${m.time}</div>
+                </div>
+
+                <div class="teams">
+                    <div class="home">
+                        <span class="team-name">${m.home}</span>
+                    </div>
+
+                    <div class="score">-</div>
+
+                    <div class="away">
+                        <span class="team-name">${m.away}</span>
+                    </div>
+                </div>
+            </div>`;
+        });
+
+        card.innerHTML=html;
+        c.appendChild(card);
+    });
+}
+
+/* 🔥 IMPORTANT: knockout = แปลง shape ให้เหมือน group */
+function renderKnockout(){
+    const flat=[];
+
+    knockoutData.forEach(r=>{
+        r.days.forEach(d=>{
+            flat.push({
+                date:d.date,
+                matches:d.matches.map(m=>({
+                    ...m,
+                    round:r.round
+                }))
+            });
+        });
+    });
+
+    render(flat);
+}
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FIFA WORLD CUP 2026</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f3f4f6;
+    padding:12px;
+}
+
+h1{
+    text-align:center;
+    font-size:18px;
+    margin:10px 0;
+}
+
 /* TAB */
 .tabs{
     display:flex;
