@@ -3,33 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#111827">
-<title>FIFA WORLD CUP 2026</title>
+<title>World Cup 2026</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-    font-family:Arial,sans-serif;
+    font-family:Arial;
     background:#f3f4f6;
     padding:12px;
-    overflow-x:hidden;
 }
 
 /* HEADER */
 h1{
     text-align:center;
     font-size:18px;
-    margin:10px 0 16px;
-    color:#111827;
+    margin:10px 0;
 }
 
-/* MAIN GRID */
+/* TABS */
+.tabs{
+    display:flex;
+    gap:8px;
+    margin-bottom:12px;
+}
+
+.tab{
+    flex:1;
+    padding:10px;
+    border-radius:10px;
+    text-align:center;
+    background:#ddd;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.tab.active{
+    background:#111827;
+    color:#fff;
+}
+
+/* CONTAINER */
 #schedule{
     display:grid;
     grid-template-columns:1fr;
@@ -39,236 +53,150 @@ h1{
 /* CARD */
 .card{
     background:#fff;
-    border-radius:14px;
+    border-radius:12px;
     overflow:hidden;
-    box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
 
-/* DATE HEADER */
+/* HEADER */
 .card-header{
     background:#111827;
     color:#fff;
-    padding:10px 12px;
+    padding:10px;
     font-weight:bold;
     font-size:14px;
 }
 
-/* MATCH BLOCK */
+/* MATCH */
 .match{
-    padding:10px 12px;
+    padding:10px;
     border-bottom:1px solid #eee;
-    display:flex;
-    flex-direction:column;
-    gap:8px;
 }
 
-.match:last-child{
-    border-bottom:none;
-}
-
-/* TOP ROW (GROUP + TIME) */
 .top-row{
     display:flex;
     justify-content:space-between;
     font-size:12px;
-    color:#6b7280;
+    color:#666;
 }
 
-/* TEAMS LAYOUT */
 .teams{
     display:grid;
     grid-template-columns:1fr auto 1fr;
     align-items:center;
-    gap:6px;
+    margin-top:6px;
 }
 
-/* TEAM SIDE */
-.home, .away{
+.home,.away{
     display:flex;
     align-items:center;
     gap:6px;
-    min-width:0;
 }
 
-.home{ justify-content:flex-start; }
-.away{ justify-content:flex-end; }
+.away{justify-content:flex-end;}
 
-/* NAME */
-.team-name{
-    font-size:13px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-/* SCORE */
 .score{
     font-weight:bold;
-    font-size:14px;
     text-align:center;
-    color:#111827;
 }
 
-/* FLAG */
 .flag{
-    width:22px;
-    height:15px;
-    object-fit:cover;
-    border-radius:2px;
-    border:1px solid #ddd;
+    width:20px;
+    height:14px;
 }
 
-/* TABLET */
-@media(min-width:600px){
-    #schedule{
-        grid-template-columns:1fr 1fr;
-    }
-}
+/* HIDE */
+.hidden{display:none;}
 
-/* DESKTOP */
-@media(min-width:1000px){
-    #schedule{
-        grid-template-columns:1fr 1fr 1fr;
-    }
-}
 </style>
 </head>
 
 <body>
-<script>
-
-if ('serviceWorker' in navigator) {
-
-  window.addEventListener('load', () => {
-
-    navigator.serviceWorker
-      .register('./sw.js')
-      .then(() => console.log('SW Registered'))
-      .catch(err => console.log(err));
-
-  });
-
-}
-
-</script>
 
 <h1>FIFA WORLD CUP 2026</h1>
+
+<div class="tabs">
+    <div class="tab active" id="tabGroup">Group Stage</div>
+    <div class="tab" id="tabKnock">Knockout</div>
+</div>
 
 <div id="schedule"></div>
 
 <script>
 const flagMap = {
-  "Mexico":"MEX",
-  "South Africa":"RSA",
-  "South Korea":"KOR",
-  "Czechia":"CZE",
-  "Canada":"CAN",
-  "Bosnia & Herz.":"BIH",
-  "Bosnia":"BIH",
-  "USA":"USA",
-  "Paraguay":"PAR",
-  "Qatar":"QAT",
-  "Switzerland":"SUI",
-  "Brazil":"BRA",
-  "Morocco":"MAR",
-  "Haiti":"HAI",
-  "Scotland":"SCO",
-  "Australia":"AUS",
-  "Turkiye":"TUR",
-  "Germany":"GER",
-  "Curacao":"CUW",
-  "Netherlands":"NED",
-  "Japan":"JPN",
-  "Ivory Coast":"CIV",
-  "Ecuador":"ECU",
-  "Sweden":"SWE",
-  "Tunisia":"TUN",
-  "Spain":"ESP",
-  "Cape Verde":"CPV",
-  "Belgium":"BEL",
-  "Egypt":"EGY",
-  "Saudi Arabia":"KSA",
-  "Uruguay":"URU",
-  "Iran":"IRN",
-  "New Zealand":"NZL",
-  "France":"FRA",
-  "Senegal":"SEN",
-  "Iraq":"IRQ",
-  "Norway":"NOR",
-  "Argentina":"ARG",
-  "Algeria":"ALG",
-  "Austria":"AUT",
-  "Jordan":"JOR",
-  "Portugal":"POR",
-  "Congo DR":"COD",
-  "England":"ENG",
-  "Croatia":"CRO",
-  "Ghana":"GHA",
-  "Panama":"PAN",
-  "Uzbekistan":"UZB",
-  "Colombia":"COL"
+  "Mexico":"MEX","South Africa":"RSA","South Korea":"KOR","Czechia":"CZE",
+  "Canada":"CAN","USA":"USA","Brazil":"BRA","Argentina":"ARG","France":"FRA",
+  "England":"ENG","Germany":"GER","Spain":"ESP","Portugal":"POR","Japan":"JPN"
 };
 
+let currentTab = "group";
+
+/* ---------- TAB SWITCH ---------- */
+document.getElementById("tabGroup").onclick = () => {
+    currentTab = "group";
+    setActiveTab();
+    loadGroup();
+};
+
+document.getElementById("tabKnock").onclick = () => {
+    currentTab = "knock";
+    setActiveTab();
+    loadKnockout();
+};
+
+function setActiveTab(){
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    if(currentTab==="group"){
+        document.getElementById("tabGroup").classList.add("active");
+    }else{
+        document.getElementById("tabKnock").classList.add("active");
+    }
+}
+
+/* ---------- GROUP STAGE ---------- */
+function loadGroup(){
+
 fetch(`matches.json?v=${Date.now()}`)
-.then(r => r.json())
-.then(data => {
+.then(r=>r.json())
+.then(data=>{
 
     const container = document.getElementById("schedule");
+    container.innerHTML = "";
 
-    data.forEach(day => {
+    data.forEach(day=>{
 
         const card = document.createElement("div");
         card.className = "card";
-		
-		day.matches.forEach(match => {
-
-            match.homeFlag ??= flagMap[match.home];
-            match.awayFlag ??= flagMap[match.away];
-
-            match.homeScore ??= "-";
-            match.awayScore ??= "-";
-
-        });
 
         card.innerHTML = `
             <div class="card-header">${day.date}</div>
+            ${day.matches.map(m=>{
 
-            ${day.matches.map(match => {
-
-                const scoreText =
-                    (match.homeScore === "-" && match.awayScore === "-")
+                const score =
+                    (m.homeScore === "-" || m.homeScore==null)
                     ? "-"
-                    : `${match.homeScore} - ${match.awayScore}`;
+                    : `${m.homeScore} - ${m.awayScore}`;
 
                 return `
-                    <div class="match">
-
-                        <div class="top-row">
-                            <div>${match.group}</div>
-                            <div>${match.time}</div>
-                        </div>
-
-                        <div class="teams">
-
-                            <div class="home">
-                                <img class="flag"
-                                    src="flags/${match.homeFlag}.jpg"
-                                    onerror="this.style.display='none'">
-                                <span class="team-name">${match.home}</span>
-                            </div>
-
-                            <div class="score">${scoreText}</div>
-
-                            <div class="away">
-                                <span class="team-name">${match.away}</span>
-                                <img class="flag"
-                                    src="flags/${match.awayFlag}.jpg"
-                                    onerror="this.style.display='none'">
-                            </div>
-
-                        </div>
-
+                <div class="match">
+                    <div class="top-row">
+                        <div>${m.group}</div>
+                        <div>${m.time}</div>
                     </div>
+
+                    <div class="teams">
+                        <div class="home">
+                            <img class="flag" src="flags/${flagMap[m.home]}.jpg">
+                            <span>${m.home}</span>
+                        </div>
+
+                        <div class="score">${score}</div>
+
+                        <div class="away">
+                            <span>${m.away}</span>
+                            <img class="flag" src="flags/${flagMap[m.away]}.jpg">
+                        </div>
+                    </div>
+                </div>
                 `;
             }).join("")}
         `;
@@ -276,8 +204,72 @@ fetch(`matches.json?v=${Date.now()}`)
         container.appendChild(card);
     });
 
-})
-.catch(console.error);
+});
+}
+
+/* ---------- KNOCKOUT ---------- */
+function loadKnockout(){
+
+fetch(`knockout.json?v=${Date.now()}`)
+.then(r=>r.json())
+.then(data=>{
+
+    const container = document.getElementById("schedule");
+    container.innerHTML = "";
+
+    data.forEach(round=>{
+
+        round.days.forEach(day=>{
+
+            const card = document.createElement("div");
+            card.className = "card";
+
+            card.innerHTML = `
+                <div class="card-header">
+                    ${round.round} • ${day.date}
+                </div>
+
+                ${day.matches.map(m=>{
+
+                    const score =
+                        (m.homeScore==null)
+                        ? "-"
+                        : `${m.homeScore} - ${m.awayScore}`;
+
+                    return `
+                    <div class="match">
+                        <div class="top-row">
+                            <div>${round.round}</div>
+                            <div>${m.time}</div>
+                        </div>
+
+                        <div class="teams">
+                            <div class="home">
+                                <span>${m.home}</span>
+                            </div>
+
+                            <div class="score">${score}</div>
+
+                            <div class="away">
+                                <span>${m.away}</span>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                }).join("")}
+            `;
+
+            container.appendChild(card);
+        });
+
+    });
+
+});
+}
+
+/* default */
+loadGroup();
+
 </script>
 
 </body>
