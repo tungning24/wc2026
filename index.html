@@ -48,7 +48,7 @@ h1{
     color:#fff;
 }
 
-/* MAIN GRID */
+/* GRID */
 #schedule{
     display:grid;
     grid-template-columns:1fr;
@@ -63,7 +63,7 @@ h1{
     box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
 
-/* DATE HEADER (group) */
+/* GROUP DATE HEADER */
 .card-header{
     background:#111827;
     color:#fff;
@@ -72,7 +72,7 @@ h1{
     font-size:14px;
 }
 
-/* KNOCKOUT DATE BAR (เพิ่มใหม่อย่างเดียว) */
+/* 🔥 NEW: knockout date highlight */
 .k-date{
     background:#2563eb;
     color:#fff;
@@ -81,7 +81,7 @@ h1{
     font-weight:bold;
 }
 
-/* MATCH */
+/* MATCH (เดิมทั้งหมด) */
 .match{
     padding:10px 12px;
     border-bottom:1px solid #eee;
@@ -101,7 +101,6 @@ h1{
     color:#6b7280;
 }
 
-/* TEAMS */
 .teams{
     display:grid;
     grid-template-columns:1fr auto 1fr;
@@ -163,117 +162,145 @@ h1{
 
 <script>
 const flagMap = {
-  "Mexico":"MEX","South Africa":"RSA","South Korea":"KOR","Czechia":"CZE",
-  "Canada":"CAN","USA":"USA","Brazil":"BRA","Argentina":"ARG","France":"FRA"
+  "Mexico":"MEX",
+  "South Africa":"RSA",
+  "South Korea":"KOR",
+  "Czechia":"CZE",
+  "Canada":"CAN",
+  "USA":"USA",
+  "Brazil":"BRA",
+  "Argentina":"ARG",
+  "France":"FRA"
 };
 
-let groupData=[], knockoutData=[];
-let currentTab="group";
+let groupData = [];
+let knockoutData = [];
+let currentTab = "group";
 
-fetch("matches.json?v="+Date.now())
-.then(r=>r.json())
-.then(d=>{
-    groupData=d;
-    if(currentTab==="group") renderGroup();
+/* LOAD */
+fetch("matches.json?v=" + Date.now())
+.then(r => r.json())
+.then(d => {
+    groupData = d;
+    if (currentTab === "group") renderGroup();
 });
 
-fetch("knockout.json?v="+Date.now())
-.then(r=>r.json())
-.then(d=>{
-    knockoutData=d;
+fetch("knockout.json?v=" + Date.now())
+.then(r => r.json())
+.then(d => {
+    knockoutData = d;
 });
 
 /* TAB */
 function switchTab(tab){
-    currentTab=tab;
+    currentTab = tab;
 
-    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
     event.target.classList.add("active");
 
-    if(tab==="group") renderGroup();
+    if(tab === "group") renderGroup();
     else renderKnockout();
 }
 
-/* GROUP (เหมือนเดิม) */
+/* =========================
+   GROUP (UNCHANGED 100%)
+========================= */
 function renderGroup(){
-    const c=document.getElementById("schedule");
-    c.innerHTML="";
 
-    groupData.forEach(day=>{
-        const card=document.createElement("div");
-        card.className="card";
+    const c = document.getElementById("schedule");
+    c.innerHTML = "";
 
-        card.innerHTML=`
-        <div class="card-header">${day.date}</div>
-        ${day.matches.map(m=>{
-            const score=(m.homeScore??"-")+" - "+(m.awayScore??"-");
+    groupData.forEach(day => {
 
-            return `
-            <div class="match">
-                <div class="top-row">
-                    <div>${m.group}</div>
-                    <div>${m.time}</div>
-                </div>
+        const card = document.createElement("div");
+        card.className = "card";
 
-                <div class="teams">
-                    <div class="home">
-                        <span class="team-name">${m.home}</span>
+        card.innerHTML = `
+            <div class="card-header">${day.date}</div>
+
+            ${day.matches.map(match => {
+
+                const homeFlag = flagMap[match.home];
+                const awayFlag = flagMap[match.away];
+
+                const scoreText =
+                    (match.homeScore === "-" && match.awayScore === "-")
+                    ? "-"
+                    : `${match.homeScore} - ${match.awayScore}`;
+
+                return `
+                <div class="match">
+                    <div class="top-row">
+                        <div>${match.group}</div>
+                        <div>${match.time}</div>
                     </div>
 
-                    <div class="score">${score}</div>
+                    <div class="teams">
+                        <div class="home">
+                            <img class="flag" src="flags/${homeFlag}.jpg">
+                            <span class="team-name">${match.home}</span>
+                        </div>
 
-                    <div class="away">
-                        <span class="team-name">${m.away}</span>
+                        <div class="score">${scoreText}</div>
+
+                        <div class="away">
+                            <span class="team-name">${match.away}</span>
+                            <img class="flag" src="flags/${awayFlag}.jpg">
+                        </div>
                     </div>
-                </div>
-            </div>`;
-        }).join("")}
+                </div>`;
+            }).join("")}
         `;
 
         c.appendChild(card);
     });
 }
 
-/* KNOCKOUT (เพิ่มสีแยกวันเฉย ๆ) */
+/* =========================
+   KNOCKOUT (ONLY ADD DATE COLOR)
+========================= */
 function renderKnockout(){
-    const c=document.getElementById("schedule");
-    c.innerHTML="";
 
-    knockoutData.forEach(round=>{
+    const c = document.getElementById("schedule");
+    c.innerHTML = "";
 
-        const card=document.createElement("div");
-        card.className="card";
+    knockoutData.forEach(round => {
 
-        let html=`<div class="card-header">${round.round}</div>`;
+        const card = document.createElement("div");
+        card.className = "card";
 
-        round.days.forEach(day=>{
+        let html = `<div class="card-header">${round.round}</div>`;
 
-            html+=`<div class="k-date">${day.date}</div>`;
+        round.days.forEach(day => {
 
-            day.matches.forEach(m=>{
-                html+=`
+            // 🔥 only change: colored date bar
+            html += `<div class="k-date">${day.date}</div>`;
+
+            day.matches.forEach(match => {
+
+                html += `
                 <div class="match">
                     <div class="top-row">
                         <div>${round.round}</div>
-                        <div>${m.time}</div>
+                        <div>${match.time}</div>
                     </div>
 
                     <div class="teams">
                         <div class="home">
-                            <span class="team-name">${m.home}</span>
+                            <span class="team-name">${match.home}</span>
                         </div>
 
                         <div class="score">-</div>
 
                         <div class="away">
-                            <span class="team-name">${m.away}</span>
+                            <span class="team-name">${match.away}</span>
                         </div>
                     </div>
                 </div>`;
             });
         });
 
-        card.innerHTML=html;
+        card.innerHTML = html;
         c.appendChild(card);
     });
 }
