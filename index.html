@@ -6,7 +6,11 @@
 <title>World Cup 2026</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
 body{
     font-family:Arial;
@@ -14,7 +18,6 @@ body{
     padding:12px;
 }
 
-/* HEADER */
 h1{
     text-align:center;
     font-size:18px;
@@ -31,11 +34,11 @@ h1{
 .tab{
     flex:1;
     padding:10px;
-    border-radius:10px;
     text-align:center;
     background:#ddd;
-    cursor:pointer;
+    border-radius:10px;
     font-weight:bold;
+    cursor:pointer;
 }
 
 .tab.active{
@@ -43,7 +46,7 @@ h1{
     color:#fff;
 }
 
-/* CONTAINER */
+/* GRID */
 #schedule{
     display:grid;
     grid-template-columns:1fr;
@@ -53,8 +56,9 @@ h1{
 /* CARD */
 .card{
     background:#fff;
-    border-radius:12px;
+    border-radius:14px;
     overflow:hidden;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
 
 /* HEADER */
@@ -72,6 +76,11 @@ h1{
     border-bottom:1px solid #eee;
 }
 
+.match:last-child{
+    border-bottom:none;
+}
+
+/* TOP */
 .top-row{
     display:flex;
     justify-content:space-between;
@@ -79,6 +88,7 @@ h1{
     color:#666;
 }
 
+/* TEAMS */
 .teams{
     display:grid;
     grid-template-columns:1fr auto 1fr;
@@ -99,14 +109,6 @@ h1{
     text-align:center;
 }
 
-.flag{
-    width:20px;
-    height:14px;
-}
-
-/* HIDE */
-.hidden{display:none;}
-
 </style>
 </head>
 
@@ -115,8 +117,8 @@ h1{
 <h1>FIFA WORLD CUP 2026</h1>
 
 <div class="tabs">
-    <div class="tab active" id="tabGroup">Group Stage</div>
-    <div class="tab" id="tabKnock">Knockout</div>
+    <div class="tab active" id="tab1">Group Stage</div>
+    <div class="tab" id="tab2">Knockout</div>
 </div>
 
 <div id="schedule"></div>
@@ -124,43 +126,39 @@ h1{
 <script>
 const flagMap = {
   "Mexico":"MEX","South Africa":"RSA","South Korea":"KOR","Czechia":"CZE",
-  "Canada":"CAN","USA":"USA","Brazil":"BRA","Argentina":"ARG","France":"FRA",
-  "England":"ENG","Germany":"GER","Spain":"ESP","Portugal":"POR","Japan":"JPN"
+  "Canada":"CAN","USA":"USA","Brazil":"BRA","Argentina":"ARG",
+  "France":"FRA","England":"ENG","Germany":"GER","Spain":"ESP","Portugal":"POR"
 };
 
-let currentTab = "group";
+let mode = "group";
 
-/* ---------- TAB SWITCH ---------- */
-document.getElementById("tabGroup").onclick = () => {
-    currentTab = "group";
-    setActiveTab();
+document.getElementById("tab1").onclick = () => {
+    mode = "group";
+    setTab();
     loadGroup();
 };
 
-document.getElementById("tabKnock").onclick = () => {
-    currentTab = "knock";
-    setActiveTab();
-    loadKnockout();
+document.getElementById("tab2").onclick = () => {
+    mode = "knock";
+    setTab();
+    loadKnock();
 };
 
-function setActiveTab(){
+function setTab(){
     document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-    if(currentTab==="group"){
-        document.getElementById("tabGroup").classList.add("active");
-    }else{
-        document.getElementById("tabKnock").classList.add("active");
-    }
+    if(mode==="group") document.getElementById("tab1").classList.add("active");
+    else document.getElementById("tab2").classList.add("active");
 }
 
-/* ---------- GROUP STAGE ---------- */
+/* ================= GROUP ================= */
 function loadGroup(){
 
-fetch(`matches.json?v=${Date.now()}`)
+fetch("matches.json")
 .then(r=>r.json())
 .then(data=>{
 
-    const container = document.getElementById("schedule");
-    container.innerHTML = "";
+    const c = document.getElementById("schedule");
+    c.innerHTML = "";
 
     data.forEach(day=>{
 
@@ -169,23 +167,25 @@ fetch(`matches.json?v=${Date.now()}`)
 
         card.innerHTML = `
             <div class="card-header">${day.date}</div>
+
             ${day.matches.map(m=>{
 
                 const score =
-                    (m.homeScore === "-" || m.homeScore==null)
+                    (m.homeScore==null || m.homeScore=="-")
                     ? "-"
                     : `${m.homeScore} - ${m.awayScore}`;
 
                 return `
                 <div class="match">
+
                     <div class="top-row">
-                        <div>${m.group}</div>
+                        <div>${m.group ?? ""}</div>
                         <div>${m.time}</div>
                     </div>
 
                     <div class="teams">
+
                         <div class="home">
-                            <img class="flag" src="flags/${flagMap[m.home]}.jpg">
                             <span>${m.home}</span>
                         </div>
 
@@ -193,29 +193,30 @@ fetch(`matches.json?v=${Date.now()}`)
 
                         <div class="away">
                             <span>${m.away}</span>
-                            <img class="flag" src="flags/${flagMap[m.away]}.jpg">
                         </div>
+
                     </div>
+
                 </div>
                 `;
             }).join("")}
         `;
 
-        container.appendChild(card);
+        c.appendChild(card);
     });
 
 });
 }
 
-/* ---------- KNOCKOUT ---------- */
-function loadKnockout(){
+/* ================= KNOCKOUT ================= */
+function loadKnock(){
 
-fetch(`knockout.json?v=${Date.now()}`)
+fetch("knockout.json")
 .then(r=>r.json())
 .then(data=>{
 
-    const container = document.getElementById("schedule");
-    container.innerHTML = "";
+    const c = document.getElementById("schedule");
+    c.innerHTML = "";
 
     data.forEach(round=>{
 
@@ -226,7 +227,7 @@ fetch(`knockout.json?v=${Date.now()}`)
 
             card.innerHTML = `
                 <div class="card-header">
-                    ${round.round} • ${day.date}
+                    ${day.date} • ${round.round}
                 </div>
 
                 ${day.matches.map(m=>{
@@ -238,12 +239,14 @@ fetch(`knockout.json?v=${Date.now()}`)
 
                     return `
                     <div class="match">
+
                         <div class="top-row">
-                            <div>${round.round}</div>
+                            <div></div>
                             <div>${m.time}</div>
                         </div>
 
                         <div class="teams">
+
                             <div class="home">
                                 <span>${m.home}</span>
                             </div>
@@ -253,13 +256,15 @@ fetch(`knockout.json?v=${Date.now()}`)
                             <div class="away">
                                 <span>${m.away}</span>
                             </div>
+
                         </div>
+
                     </div>
                     `;
                 }).join("")}
             `;
 
-            container.appendChild(card);
+            c.appendChild(card);
         });
 
     });
