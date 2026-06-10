@@ -1,0 +1,519 @@
+[
+  {
+    "date": "Fri 12 June",
+    "matches": [
+      {
+        "group": "A",
+        "time": "02:00",
+        "home": "Mexico",
+        "away": "South Africa"
+      },
+      {
+        "group": "A",
+        "time": "09:00",
+        "home": "South Korea",
+        "away": "Czechia"
+      }
+    ]
+  },
+  {
+    "date": "Sat 13 June",
+    "matches": [
+      {
+        "group": "B",
+        "time": "02:00",
+        "home": "Canada",
+        "away": "Bosnia & Herz."
+      },
+      {
+        "group": "D",
+        "time": "08:00",
+        "home": "USA",
+        "away": "Paraguay"
+      }
+    ]
+  },
+  {
+    "date": "Sun 14 June",
+    "matches": [
+      {
+        "group": "B",
+        "time": "02:00",
+        "home": "Qatar",
+        "away": "Switzerland"
+      },
+      {
+        "group": "C",
+        "time": "05:00",
+        "home": "Brazil",
+        "away": "Morocco"
+      },
+      {
+        "group": "C",
+        "time": "08:00",
+        "home": "Haiti",
+        "away": "Scotland"
+      },
+      {
+        "group": "D",
+        "time": "11:00",
+        "home": "Australia",
+        "away": "Turkiye"
+      }
+    ]
+  },
+  {
+    "date": "Mon 15 June",
+    "matches": [
+      {
+        "group": "E",
+        "time": "00:00",
+        "home": "Germany",
+        "away": "Curacao"
+      },
+      {
+        "group": "F",
+        "time": "03:00",
+        "home": "Netherlands",
+        "away": "Japan"
+      },
+      {
+        "group": "E",
+        "time": "06:00",
+        "home": "Ivory Coast",
+        "away": "Ecuador"
+      },
+      {
+        "group": "F",
+        "time": "09:00",
+        "home": "Sweden",
+        "away": "Tunisia"
+      },
+      {
+        "group": "H",
+        "time": "23:00",
+        "home": "Spain",
+        "away": "Cape Verde"
+      }
+    ]
+  },
+  {
+    "date": "Tue 16 June",
+    "matches": [
+      {
+        "group": "G",
+        "time": "02:00",
+        "home": "Belgium",
+        "away": "Egypt"
+      },
+      {
+        "group": "H",
+        "time": "05:00",
+        "home": "Saudi Arabia",
+        "away": "Uruguay"
+      },
+      {
+        "group": "G",
+        "time": "08:00",
+        "home": "Iran",
+        "away": "New Zealand"
+      }
+    ]
+  },
+  {
+    "date": "Wed 17 June",
+    "matches": [
+      {
+        "group": "I",
+        "time": "02:00",
+        "home": "France",
+        "away": "Senegal"
+      },
+      {
+        "group": "I",
+        "time": "05:00",
+        "home": "Iraq",
+        "away": "Norway"
+      },
+      {
+        "group": "J",
+        "time": "08:00",
+        "home": "Argentina",
+        "away": "Algeria"
+      },
+      {
+        "group": "J",
+        "time": "11:00",
+        "home": "Austria",
+        "away": "Jordan"
+      }
+    ]
+  },
+  {
+    "date": "Thu 18 June",
+    "matches": [
+      {
+        "group": "K",
+        "time": "00:00",
+        "home": "Portugal",
+        "away": "Congo DR"
+      },
+      {
+        "group": "L",
+        "time": "03:00",
+        "home": "England",
+        "away": "Croatia"
+      },
+      {
+        "group": "L",
+        "time": "06:00",
+        "home": "Ghana",
+        "away": "Panama"
+      },
+      {
+        "group": "K",
+        "time": "09:00",
+        "home": "Uzbekistan",
+        "away": "Colombia"
+      },
+      {
+        "group": "A",
+        "time": "23:00",
+        "home": "Czechia",
+        "away": "South Africa"
+      }
+    ]
+  },
+  {
+    "date": "Fri 19 June",
+    "matches": [
+      {
+        "group": "B",
+        "time": "02:00",
+        "home": "Switzerland",
+        "away": "Bosnia"
+      },
+      {
+        "group": "B",
+        "time": "05:00",
+        "home": "Canada",
+        "away": "Qatar"
+      },
+      {
+        "group": "A",
+        "time": "08:00",
+        "home": "Mexico",
+        "away": "South Korea"
+      }
+    ]
+  },
+  {
+    "date": "Sat 20 June",
+    "matches": [
+      {
+        "group": "D",
+        "time": "02:00",
+        "home": "USA",
+        "away": "Australia"
+      },
+      {
+        "group": "C",
+        "time": "05:00",
+        "home": "Scotland",
+        "away": "Morocco"
+      },
+      {
+        "group": "C",
+        "time": "07:30",
+        "home": "Brazil",
+        "away": "Haiti"
+      },
+      {
+        "group": "D",
+        "time": "10:00",
+        "home": "Turkiye",
+        "away": "Paraguay"
+      }
+    ]
+  },
+  {
+    "date": "Sun 21 June",
+    "matches": [
+      {
+        "group": "F",
+        "time": "00:00",
+        "home": "Netherlands",
+        "away": "Sweden"
+      },
+      {
+        "group": "E",
+        "time": "03:00",
+        "home": "Germany",
+        "away": "Ivory Coast"
+      },
+      {
+        "group": "E",
+        "time": "07:00",
+        "home": "Ecuador",
+        "away": "Curacao"
+      },
+      {
+        "group": "F",
+        "time": "11:00",
+        "home": "Tunisia",
+        "away": "Japan"
+      },
+      {
+        "group": "H",
+        "time": "23:00",
+        "home": "Spain",
+        "away": "Saudi Arabia"
+      }
+    ]
+  },
+  {
+    "date": "Mon 22 June",
+    "matches": [
+      {
+        "group": "G",
+        "time": "02:00",
+        "home": "Belgium",
+        "away": "Iran"
+      },
+      {
+        "group": "H",
+        "time": "05:00",
+        "home": "Uruguay",
+        "away": "Cape Verde"
+      },
+      {
+        "group": "G",
+        "time": "08:00",
+        "home": "New Zealand",
+        "away": "Egypt"
+      }
+    ]
+  },
+  {
+    "date": "Tue 23 June",
+    "matches": [
+      {
+        "group": "J",
+        "time": "00:00",
+        "home": "Argentina",
+        "away": "Austria"
+      },
+      {
+        "group": "I",
+        "time": "04:00",
+        "home": "France",
+        "away": "Iraq"
+      },
+      {
+        "group": "I",
+        "time": "07:00",
+        "home": "Norway",
+        "away": "Senegal"
+      },
+      {
+        "group": "J",
+        "time": "10:00",
+        "home": "Jordan",
+        "away": "Algeria"
+      }
+    ]
+  },
+  {
+    "date": "Wed 24 June",
+    "matches": [
+      {
+        "group": "K",
+        "time": "00:00",
+        "home": "Portugal",
+        "away": "Uzbekistan"
+      },
+      {
+        "group": "L",
+        "time": "03:00",
+        "home": "England",
+        "away": "Ghana"
+      },
+      {
+        "group": "L",
+        "time": "06:00",
+        "home": "Panama",
+        "away": "Croatia"
+      },
+      {
+        "group": "K",
+        "time": "09:00",
+        "home": "Colombia",
+        "away": "Congo DR"
+      }
+    ]
+  },
+  {
+    "date": "Thu 25 June",
+    "matches": [
+      {
+        "group": "B",
+        "time": "02:00",
+        "home": "Switzerland",
+        "away": "Canada"
+      },
+      {
+        "group": "B",
+        "time": "02:00",
+        "home": "Bosnia",
+        "away": "Qatar"
+      },
+      {
+        "group": "C",
+        "time": "05:00",
+        "home": "Scotland",
+        "away": "Brazil"
+      },
+      {
+        "group": "C",
+        "time": "05:00",
+        "home": "Morocco",
+        "away": "Haiti"
+      },
+      {
+        "group": "A",
+        "time": "08:00",
+        "home": "Czechia",
+        "away": "Mexico"
+      },
+      {
+        "group": "A",
+        "time": "08:00",
+        "home": "South Africa",
+        "away": "South Korea"
+      }
+    ]
+  },
+  {
+    "date": "Fri 26 June",
+    "matches": [
+      {
+        "group": "E",
+        "time": "03:00",
+        "home": "Curacao",
+        "away": "Ivory Coast"
+      },
+      {
+        "group": "E",
+        "time": "03:00",
+        "home": "Ecuador",
+        "away": "Germany"
+      },
+      {
+        "group": "F",
+        "time": "06:00",
+        "home": "Japan",
+        "away": "Sweden"
+      },
+      {
+        "group": "F",
+        "time": "06:00",
+        "home": "Tunisia",
+        "away": "Netherlands"
+      },
+      {
+        "group": "D",
+        "time": "09:00",
+        "home": "Turkiye",
+        "away": "USA"
+      },
+      {
+        "group": "D",
+        "time": "09:00",
+        "home": "Paraguay",
+        "away": "Australia"
+      }
+    ]
+  },
+  {
+    "date": "Sat 27 June",
+    "matches": [
+      {
+        "group": "I",
+        "time": "02:00",
+        "home": "Norway",
+        "away": "France"
+      },
+      {
+        "group": "I",
+        "time": "02:00",
+        "home": "Senegal",
+        "away": "Iraq"
+      },
+      {
+        "group": "H",
+        "time": "07:00",
+        "home": "Cape Verde",
+        "away": "Saudi Arabia"
+      },
+      {
+        "group": "H",
+        "time": "07:00",
+        "home": "Uruguay",
+        "away": "Spain"
+      },
+      {
+        "group": "G",
+        "time": "10:00",
+        "home": "Egypt",
+        "away": "Iran"
+      },
+      {
+        "group": "G",
+        "time": "10:00",
+        "home": "New Zealand",
+        "away": "Belgium"
+      }
+    ]
+  },
+  {
+    "date": "Sun 28 June",
+    "matches": [
+      {
+        "group": "L",
+        "time": "04:00",
+        "home": "Panama",
+        "away": "England"
+      },
+      {
+        "group": "L",
+        "time": "04:00",
+        "home": "Croatia",
+        "away": "Ghana"
+      },
+      {
+        "group": "K",
+        "time": "06:30",
+        "home": "Colombia",
+        "away": "Portugal"
+      },
+      {
+        "group": "K",
+        "time": "06:30",
+        "home": "Congo DR",
+        "away": "Uzbekistan"
+      },
+      {
+        "group": "J",
+        "time": "09:00",
+        "home": "Jordan",
+        "away": "Argentina"
+      },
+      {
+        "group": "J",
+        "time": "09:00",
+        "home": "Algeria",
+        "away": "Austria"
+      }
+    ]
+  }
+]
