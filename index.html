@@ -14,14 +14,7 @@ body{
     padding:12px;
 }
 
-/* HEADER */
-h1{
-    text-align:center;
-    font-size:18px;
-    margin:10px 0;
-}
-
-/* TABS */
+/* tabs */
 .tabs{
     display:flex;
     gap:8px;
@@ -42,14 +35,19 @@ h1{
     color:#fff;
 }
 
-/* GRID */
+h1{
+    text-align:center;
+    font-size:18px;
+    margin:10px 0;
+}
+
+/* SAME LAYOUT */
 #schedule{
     display:grid;
     grid-template-columns:1fr;
     gap:12px;
 }
 
-/* CARD */
 .card{
     background:#fff;
     border-radius:14px;
@@ -57,7 +55,6 @@ h1{
     box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
 
-/* DATE HEADER */
 .card-header{
     background:#111827;
     color:#fff;
@@ -66,12 +63,6 @@ h1{
     font-size:14px;
 }
 
-/* KNOCKOUT DATE HEADER */
-.knock-date{
-    background:linear-gradient(90deg,#111827,#374151);
-}
-
-/* MATCH */
 .match{
     padding:10px 12px;
     border-bottom:1px solid #eee;
@@ -104,7 +95,9 @@ h1{
 .home{justify-content:flex-start;}
 .away{justify-content:flex-end;}
 
-.team-name{font-size:13px;}
+.team-name{
+    font-size:13px;
+}
 
 .score{
     font-weight:bold;
@@ -125,7 +118,7 @@ h1{
 <div id="schedule"></div>
 
 <script>
-const flagMap={
+const flagMap = {
  "Mexico":"MEX","South Africa":"RSA","South Korea":"KOR","Czechia":"CZE",
  "Canada":"CAN","USA":"USA","Brazil":"BRA","Argentina":"ARG","France":"FRA"
 };
@@ -133,85 +126,88 @@ const flagMap={
 let groupData=[], knockoutData=[];
 let tab="group";
 
-/* LOAD DATA */
+/* LOAD */
 fetch("matches.json").then(r=>r.json()).then(d=>{
     groupData=d;
-    if(tab==="group") renderGroup();
+    render(groupData);
 });
 
 fetch("knockout.json").then(r=>r.json()).then(d=>{
     knockoutData=d;
 });
 
-/* TAB SWITCH */
+/* TAB */
 function switchTab(t){
     tab=t;
+
     document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
     event.target.classList.add("active");
 
-    if(t==="group") renderGroup();
-    else renderKnockout();
+    if(t==="group") render(groupData);
+    else renderKnockout(knockoutData);
 }
 
-/* CARD */
-function createCard(date, matches, isKnock=false){
+/* ===== SAME CARD RENDER (GROUP STYLE ONLY) ===== */
+function createCard(date, matches){
     const card=document.createElement("div");
     card.className="card";
 
-    card.innerHTML=`
-        <div class="card-header ${isKnock?'knock-date':''}">
-            ${date}
-        </div>
+    let html=`<div class="card-header">${date}</div>`;
 
-        ${matches.map(m=>{
-            const score=(m.homeScore==null||m.awayScore==null)
-                ? "-"
-                : `${m.homeScore}-${m.awayScore}`;
+    matches.forEach(m=>{
 
-            return `
-            <div class="match">
-                <div class="top-row">
-                    <div>${m.group||m.round||""}</div>
-                    <div>${m.time||""}</div>
+        const homeFlag=flagMap[m.home]||"";
+        const awayFlag=flagMap[m.away]||"";
+
+        const score = (m.homeScore==null||m.awayScore==null)
+            ? "-"
+            : `${m.homeScore}-${m.awayScore}`;
+
+        html+=`
+        <div class="match">
+            <div class="top-row">
+                <div>${m.group||m.round||""}</div>
+                <div>${m.time||""}</div>
+            </div>
+
+            <div class="teams">
+                <div class="home">
+                    <span class="team-name">${m.home}</span>
                 </div>
 
-                <div class="teams">
-                    <div class="home">
-                        <span class="team-name">${m.home}</span>
-                    </div>
+                <div class="score">${score}</div>
 
-                    <div class="score">${score}</div>
-
-                    <div class="away">
-                        <span class="team-name">${m.away}</span>
-                    </div>
+                <div class="away">
+                    <span class="team-name">${m.away}</span>
                 </div>
-            </div>`;
-        }).join("")}
-    `;
+            </div>
+        </div>`;
+    });
 
+    card.innerHTML=html;
     return card;
 }
 
 /* GROUP */
-function renderGroup(){
+function render(data){
     const c=document.getElementById("schedule");
     c.innerHTML="";
-    groupData.forEach(d=>{
-        c.appendChild(createCard(d.date,d.matches,false));
+    data.forEach(d=>{
+        c.appendChild(createCard(d.date,d.matches));
     });
 }
 
 /* KNOCKOUT */
-function renderKnockout(){
+function renderKnockout(data){
     const c=document.getElementById("schedule");
     c.innerHTML="";
 
-    knockoutData.forEach(r=>{
+    data.forEach(r=>{
         r.days.forEach(day=>{
-            c.appendChild(
-                createCard(day.date,day.matches.map(m=>({...m,round:r.round})),true)
-            );
+            c.appendChild(createCard(day.date,day.matches.map(m=>({
+                ...m,
+                round:r.round
+            }))));
         });
     });
 }
