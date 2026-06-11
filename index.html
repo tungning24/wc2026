@@ -337,6 +337,10 @@ function renderKnockout(data){
 
                 const homeFlag = flagMap[match.home] || "";
                 const awayFlag = flagMap[match.away] || "";
+                const scoreText =
+                    (match.homeScore == null && match.awayScore == null)
+                    ? "-"
+                    : `${match.homeScore} - ${match.awayScore}`;
 
                 html += `
                 <div class="match">
@@ -351,7 +355,7 @@ function renderKnockout(data){
                             <span class="team-name">${match.home}</span>
                         </div>
 
-                        <div class="score">-</div>
+                        <div class="score">${scoreText}</div>
 
                         <div class="away">
                             <span class="team-name">${match.away}</span>
