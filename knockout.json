@@ -9,8 +9,8 @@
             "time": "02:00",
             "home": "2A",
             "away": "2B",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 2,
+            "awayScore": 1
           }
         ]
       },
