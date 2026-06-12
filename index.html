@@ -142,6 +142,12 @@ h1{
     border-radius:2px;
     border:1px solid #ddd;
 }
+.tv-icon{
+    width:14px;
+    height:14px;
+    margin-left:4px;
+    vertical-align:middle;
+}
 
 @media(min-width:600px){
     #schedule{ grid-template-columns:1fr 1fr; }
@@ -292,7 +298,10 @@ function render(data){
                 <div class="match">
                     <div class="top-row">
                         <div>${match.group}</div>
-                        <div>${match.time}</div>
+                        <div>
+							${match.time}
+							${match.tv ? `<img src="tv/${match.tv}.png" class="tv-icon">` : ''}
+						</div>
                     </div>
 
                     <div class="teams">
@@ -346,7 +355,10 @@ function renderKnockout(data){
                 <div class="match">
                     <div class="top-row">
                         <div>${round.round}</div>
-                        <div>${match.time}</div>
+                        <div>
+							${match.time}
+							${match.tv ? `<img src="tv/${match.tv}.png" class="tv-icon">` : ''}
+						</div>
                     </div>
 
                     <div class="teams">
