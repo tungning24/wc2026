@@ -8,13 +8,15 @@
         "home": "Mexico",
         "away": "South Africa",
         "homeScore":"2",
-        "awayScore":"1"
+        "awayScore":"0"
       },
       {
         "group": "A",
         "time": "09:00",
         "home": "South Korea",
-        "away": "Czechia"
+        "away": "Czechia",
+        "homeScore":"2",
+        "awayScore":"1"
       }
     ]
   },
