@@ -8,7 +8,8 @@
         "home": "Mexico",
         "away": "South Africa",
         "homeScore":"2",
-        "awayScore":"0"
+        "awayScore":"0",
+        "tv":"mono"
       },
       {
         "group": "A",
@@ -33,7 +34,8 @@
         "group": "D",
         "time": "08:00",
         "home": "USA",
-        "away": "Paraguay"
+        "away": "Paraguay",
+        "tv":"mono"
       }
     ]
   },
@@ -50,7 +52,8 @@
         "group": "C",
         "time": "05:00",
         "home": "Brazil",
-        "away": "Morocco"
+        "away": "Morocco",
+        "tv":"mono"
       },
       {
         "group": "C",
@@ -73,7 +76,8 @@
         "group": "E",
         "time": "00:00",
         "home": "Germany",
-        "away": "Curacao"
+        "away": "Curacao",
+        "tv":"mono"
       },
       {
         "group": "F",
@@ -97,7 +101,8 @@
         "group": "H",
         "time": "23:00",
         "home": "Spain",
-        "away": "Cape Verde"
+        "away": "Cape Verde",
+        "tv":"mono"
       }
     ]
   },
@@ -143,7 +148,8 @@
         "group": "J",
         "time": "08:00",
         "home": "Argentina",
-        "away": "Algeria"
+        "away": "Algeria",
+        "tv":"mono"
       },
       {
         "group": "J",
@@ -160,7 +166,8 @@
         "group": "K",
         "time": "00:00",
         "home": "Portugal",
-        "away": "Congo DR"
+        "away": "Congo DR",
+        "tv":"mono"
       },
       {
         "group": "L",
@@ -207,7 +214,8 @@
         "group": "A",
         "time": "08:00",
         "home": "Mexico",
-        "away": "South Korea"
+        "away": "South Korea",
+        "tv":"mono"
       }
     ]
   },
@@ -236,7 +244,8 @@
         "group": "D",
         "time": "10:00",
         "home": "Turkiye",
-        "away": "Paraguay"
+        "away": "Paraguay",
+        "tv":"mono"
       }
     ]
   },
@@ -265,7 +274,8 @@
         "group": "F",
         "time": "11:00",
         "home": "Tunisia",
-        "away": "Japan"
+        "away": "Japan",
+        "tv":"mono"
       },
       {
         "group": "H",
@@ -294,7 +304,8 @@
         "group": "G",
         "time": "08:00",
         "home": "New Zealand",
-        "away": "Egypt"
+        "away": "Egypt",
+        "tv":"mono"
       }
     ]
   },
@@ -317,7 +328,8 @@
         "group": "I",
         "time": "07:00",
         "home": "Norway",
-        "away": "Senegal"
+        "away": "Senegal",
+        "tv":"mono"
       },
       {
         "group": "J",
@@ -340,7 +352,8 @@
         "group": "L",
         "time": "03:00",
         "home": "England",
-        "away": "Ghana"
+        "away": "Ghana",
+        "tv":"mono"
       },
       {
         "group": "L",
@@ -387,7 +400,8 @@
         "group": "A",
         "time": "08:00",
         "home": "Czechia",
-        "away": "Mexico"
+        "away": "Mexico",
+        "tv":"mono"
       },
       {
         "group": "A",
@@ -422,7 +436,8 @@
         "group": "F",
         "time": "06:00",
         "home": "Tunisia",
-        "away": "Netherlands"
+        "away": "Netherlands",
+        "tv":"mono"
       },
       {
         "group": "D",
@@ -475,7 +490,8 @@
         "group": "G",
         "time": "10:00",
         "home": "New Zealand",
-        "away": "Belgium"
+        "away": "Belgium",
+        "tv":"mono"
       }
     ]
   },
@@ -516,7 +532,8 @@
         "group": "J",
         "time": "09:00",
         "home": "Algeria",
-        "away": "Austria"
+        "away": "Austria",
+        "tv":"mono"
       }
     ]
   }
