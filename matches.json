@@ -28,14 +28,18 @@
         "group": "B",
         "time": "02:00",
         "home": "Canada",
-        "away": "Bosnia & Herz."
+        "away": "Bosnia & Herz.",
+        "homeScore":"1",
+        "awayScore":"1"
       },
       {
         "group": "D",
         "time": "08:00",
         "home": "USA",
         "away": "Paraguay",
-        "tv":"mono"
+        "tv":"mono",
+        "homeScore":"3",
+        "awayScore":"0"
       }
     ]
   },
