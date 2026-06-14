@@ -363,7 +363,7 @@ function renderKnockout(data){
 
                     <div class="teams">
                         <div class="home">
-                            <img class="flag" src="flags/${homeFlag}.jpg">
+                            <img class="flag" src="flags/${homeFlag}.jpg" onerror="this.src='flags/none.png'">
                             <span class="team-name">${match.home}</span>
                         </div>
 
@@ -371,7 +371,7 @@ function renderKnockout(data){
 
                         <div class="away">
                             <span class="team-name">${match.away}</span>
-                            <img class="flag" src="flags/${awayFlag}.jpg">
+                            <img class="flag" src="flags/${awayFlag}.jpg" onerror="this.src='flags/none.png'">
                         </div>
                     </div>
                 </div>`;
