@@ -50,14 +50,18 @@
         "group": "B",
         "time": "02:00",
         "home": "Qatar",
-        "away": "Switzerland"
+        "away": "Switzerland",
+        "homeScore":"1",
+        "awayScore":"1"
       },
       {
         "group": "C",
         "time": "05:00",
         "home": "Brazil",
         "away": "Morocco",
-        "tv":"mono"
+        "tv":"mono",
+        "homeScore":"1",
+        "awayScore":"1"
       },
       {
         "group": "C",
