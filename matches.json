@@ -75,7 +75,9 @@
         "group": "D",
         "time": "11:00",
         "home": "Australia",
-        "away": "Turkiye"
+        "away": "Turkiye",
+        "homeScore":"2",
+        "awayScore":"0"
       }
     ]
   },
