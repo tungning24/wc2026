@@ -89,25 +89,33 @@
         "time": "00:00",
         "home": "Germany",
         "away": "Curacao",
-        "tv":"mono"
+        "tv":"mono",
+        "homeScore":"7",
+        "awayScore":"1"
       },
       {
         "group": "F",
         "time": "03:00",
         "home": "Netherlands",
-        "away": "Japan"
+        "away": "Japan",
+        "homeScore":"2",
+        "awayScore":"2"
       },
       {
         "group": "E",
         "time": "06:00",
         "home": "Ivory Coast",
-        "away": "Ecuador"
+        "away": "Ecuador",
+        "homeScore":"1",
+        "awayScore":"0"
       },
       {
         "group": "F",
         "time": "09:00",
         "home": "Sweden",
-        "away": "Tunisia"
+        "away": "Tunisia",
+        "homeScore":"2",
+        "awayScore":"1"
       },
       {
         "group": "H",
