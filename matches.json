@@ -122,7 +122,9 @@
         "time": "23:00",
         "home": "Spain",
         "away": "Cape Verde",
-        "tv":"mono"
+        "tv":"mono",
+        "homeScore":"0",
+        "awayScore":"0"
       }
     ]
   },
