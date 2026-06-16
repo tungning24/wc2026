@@ -135,19 +135,25 @@
         "group": "G",
         "time": "02:00",
         "home": "Belgium",
-        "away": "Egypt"
+        "away": "Egypt",
+        "homeScore":"1",
+        "awayScore":"1"
       },
       {
         "group": "H",
         "time": "05:00",
         "home": "Saudi Arabia",
-        "away": "Uruguay"
+        "away": "Uruguay",
+        "homeScore":"1",
+        "awayScore":"1"
       },
       {
         "group": "G",
         "time": "08:00",
         "home": "Iran",
-        "away": "New Zealand"
+        "away": "New Zealand",
+        "homeScore":"1",
+        "awayScore":"1"
       }
     ]
   },
