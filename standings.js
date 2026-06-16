@@ -17,7 +17,7 @@ function calculateStandings(data){
       const hs = Number(m.homeScore);
       const as = Number(m.awayScore);
 
-      // ถ้ายังไม่มีสกอร์ ข้าม
+      // ❗ ยังไม่แข่ง = ข้าม
       if(Number.isNaN(hs) || Number.isNaN(as)) return;
 
       if(!groups[g][home]) groups[g][home] = init(home);
@@ -45,10 +45,9 @@ function calculateStandings(data){
       else{
         groups[g][home].draw++;
         groups[g][away].draw++;
-        groups[g][home].pts++;
-        groups[g][away].pts++;
+        groups[g][home].pts += 1;
+        groups[g][away].pts += 1;
       }
-
     });
   });
 
@@ -65,7 +64,7 @@ function calculateStandings(data){
 }
 
 function init(name){
-  return{
+  return {
     name,
     played:0,
     win:0,
