@@ -225,9 +225,6 @@ function renderStandings(){
 
   const table = calculateStandings(groupData);
 
-  const wrap = document.createElement("div");
-  wrap.className = "standings";
-
   Object.keys(table).forEach(group=>{
 
     const card = document.createElement("div");
@@ -293,10 +290,9 @@ function renderStandings(){
     html += `</table></div>`;
 
     card.innerHTML = html;
-    wrap.appendChild(card);
   });
 
-  container.appendChild(wrap);
+  container.appendChild(card);
 }
 
 /* ================= KNOCKOUT (ของเดิมคุณ ไม่แตะ logic) ================= */
