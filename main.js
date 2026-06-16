@@ -235,7 +235,6 @@ function renderStandings(){
 
     html += `
     <div class="match">
-	<div class="knockout-date">
     <table style="width:100%;font-size:13px;border-collapse:collapse;table-layout:fixed">
 
       <colgroup>
@@ -250,7 +249,7 @@ function renderStandings(){
         <col style="width:10%">
       </colgroup>
 
-      <tr>
+      <tr class="knockout-date">
         <th style="text-align:left">Team</th>
         <th style="text-align:center">P</th>
         <th style="text-align:center">W</th>
@@ -260,7 +259,7 @@ function renderStandings(){
         <th style="text-align:center">A</th>
         <th style="text-align:center">GD</th>
         <th style="text-align:center">Pts</th>
-      </tr></div>`;
+      </tr>`;
 
     table[group].forEach(t=>{
 
