@@ -148,6 +148,43 @@ h1{
 @media(min-width:1000px){
     #schedule{ grid-template-columns:1fr 1fr 1fr; }
 }
+/* card table ของ standings เท่านั้น */
+.card table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+}
+
+/* header แถวบน */
+.card th{
+    background:#111827;
+    color:#fff;
+    padding:6px 4px;
+    font-size:12px;
+}
+
+/* ช่องข้อมูล */
+.card td{
+    padding:6px 4px;
+    font-size:12px;
+    text-align:center;
+}
+
+/* ทีม (คอลัมน์แรก) */
+.card td:first-child{
+    text-align:left;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/* flag */
+.card td img{
+    width:18px;
+    height:12px;
+    vertical-align:middle;
+    margin-right:6px;
+}
 </style>
 </head>
 
