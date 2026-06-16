@@ -1,27 +1,40 @@
-function calculateStandings(data){
+function calculateStandings(data, flagMap){
 
   const groups = {};
+  const allTeams = {};
+
+  data.forEach(day=>{
+    day.matches.forEach(m=>{
+      if(!m.group) return;
+
+      if(!allTeams[m.group]) allTeams[m.group] = new Set();
+
+      allTeams[m.group].add(m.home);
+      allTeams[m.group].add(m.away);
+    });
+  });
+
+  Object.keys(allTeams).forEach(g=>{
+    groups[g] = {};
+
+    allTeams[g].forEach(team=>{
+      groups[g][team] = init(team);
+    });
+  });
 
   data.forEach(day=>{
     day.matches.forEach(m=>{
 
-      if(!m.group) return;
-
       const g = m.group;
-
-      if(!groups[g]) groups[g] = {};
-
-      const home = m.home;
-      const away = m.away;
+      if(!g) return;
 
       const hs = Number(m.homeScore);
       const as = Number(m.awayScore);
 
-      // ❗ ยังไม่แข่ง = ข้าม
       if(Number.isNaN(hs) || Number.isNaN(as)) return;
 
-      if(!groups[g][home]) groups[g][home] = init(home);
-      if(!groups[g][away]) groups[g][away] = init(away);
+      const home = m.home;
+      const away = m.away;
 
       groups[g][home].played++;
       groups[g][away].played++;
@@ -36,17 +49,15 @@ function calculateStandings(data){
         groups[g][home].win++;
         groups[g][away].lose++;
         groups[g][home].pts += 3;
-      }
-      else if(hs < as){
+      } else if(hs < as){
         groups[g][away].win++;
         groups[g][home].lose++;
         groups[g][away].pts += 3;
-      }
-      else{
+      } else {
         groups[g][home].draw++;
         groups[g][away].draw++;
-        groups[g][home].pts += 1;
-        groups[g][away].pts += 1;
+        groups[g][home].pts++;
+        groups[g][away].pts++;
       }
     });
   });
@@ -55,8 +66,7 @@ function calculateStandings(data){
     groups[g] = Object.values(groups[g]).sort((a,b)=>{
       if(b.pts !== a.pts) return b.pts - a.pts;
       const gd = (b.gf-b.ga) - (a.gf-a.ga);
-      if(gd !== 0) return gd;
-      return b.gf - a.gf;
+      return gd !== 0 ? gd : b.gf - a.gf;
     });
   });
 
@@ -74,4 +84,53 @@ function init(name){
     ga:0,
     pts:0
   };
+}
+
+/* ===== RENDER STANDINGS ===== */
+function renderStandings(groupData, flagMap){
+
+  const container = document.getElementById("schedule");
+  container.innerHTML = "";
+
+  const table = calculateStandings(groupData, flagMap);
+
+  Object.keys(table).forEach(group=>{
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    let html = `<div class="card-header">Group ${group}</div>`;
+
+    html += `<div class="match">
+    <table style="width:100%;font-size:13px;border-collapse:collapse">
+      <tr>
+        <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
+      </tr>`;
+
+    table[group].forEach(t=>{
+
+      const flag = flagMap[t.name] || "none";
+
+      html += `
+      <tr>
+        <td style="text-align:left">
+          <img src="flags/${flag}.jpg"
+          style="width:18px;height:12px;margin-right:6px"
+          onerror="this.src='flags/none.png'">
+          ${t.name}
+        </td>
+        <td>${t.played}</td>
+        <td>${t.win}</td>
+        <td>${t.draw}</td>
+        <td>${t.lose}</td>
+        <td>${t.gf - t.ga}</td>
+        <td><b>${t.pts}</b></td>
+      </tr>`;
+    });
+
+    html += `</table></div>`;
+
+    card.innerHTML = html;
+    container.appendChild(card);
+  });
 }
