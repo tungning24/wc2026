@@ -233,10 +233,19 @@ function renderStandings(){
 
     let html = `<div class="card-header">Group ${group}</div>`;
 
-    html += `<div class="match">
-    <table style="width:100%;font-size:13px;border-collapse:collapse">
+    html += `
+    <div class="match">
+    <table style="width:100%;font-size:13px;border-collapse:collapse;table-layout:fixed">
       <tr>
-        <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
+        <th style="text-align:left">Team</th>
+        <th style="text-align:center">P</th>
+        <th style="text-align:center">W</th>
+        <th style="text-align:center">D</th>
+        <th style="text-align:center">L</th>
+        <th style="text-align:center">F</th>
+        <th style="text-align:center">A</th>
+        <th style="text-align:center">GD</th>
+        <th style="text-align:center">Pts</th>
       </tr>`;
 
     table[group].forEach(t=>{
@@ -245,18 +254,23 @@ function renderStandings(){
 
       html += `
       <tr>
-        <td style="text-align:left;white-space:nowrap">
+        <td style="text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:140px">
           <img src="flags/${flag}.jpg"
           style="width:18px;height:12px;vertical-align:middle;margin-right:6px"
           onerror="this.src='flags/none.png'">
           ${t.name}
         </td>
-        <td style="text-align:center">${t.played}</td>
-        <td style="text-align:center">${t.win}</td>
-        <td style="text-align:center">${t.draw}</td>
-        <td style="text-align:center">${t.lose}</td>
-        <td style="text-align:center">${t.gf - t.ga}</td>
-        <td style="text-align:center"><b>${t.pts}</b></td>
+
+        <td style="text-align:center;width:35px">${t.played}</td>
+        <td style="text-align:center;width:35px">${t.win}</td>
+        <td style="text-align:center;width:35px">${t.draw}</td>
+        <td style="text-align:center;width:35px">${t.lose}</td>
+
+        <td style="text-align:center;width:35px">${t.gf}</td>
+        <td style="text-align:center;width:35px">${t.ga}</td>
+
+        <td style="text-align:center;width:35px">${t.gf - t.ga}</td>
+        <td style="text-align:center;width:40px"><b>${t.pts}</b></td>
       </tr>`;
     });
 
