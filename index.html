@@ -157,7 +157,7 @@ h1{
 
 /* header แถวบน */
 .card th{
-    background:#4c5563;
+    background:#111827;
     color:#fff;
     padding:6px 4px;
     font-size:12px;
@@ -184,6 +184,47 @@ h1{
     height:12px;
     vertical-align:middle;
     margin-right:6px;
+}
+/* ทำให้ standings เป็น scope แยก */
+.standings table{
+    width:100%;
+    border-collapse:collapse;
+    margin:0;
+}
+
+/* header ของ table */
+.standings th{
+    background:#1f2937;
+    color:#fff;
+    padding:10px 6px;
+    border:0;
+}
+
+/* cell */
+.standings td{
+    padding:6px 4px;
+    text-align:center;
+}
+
+/* team column */
+.standings td:first-child{
+    text-align:left;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/* flag */
+.standings td img{
+    width:18px;
+    height:12px;
+    vertical-align:middle;
+    margin-right:6px;
+}
+
+/* ลบช่องว่างให้ติด card-header */
+.standings .match{
+    padding:0;
 }
 </style>
 </head>
