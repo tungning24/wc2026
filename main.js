@@ -2,16 +2,33 @@ let matchData = [];
 let knockoutData = [];
 let currentTab = "matches";
 
-const app = document.getElementById("app");
+const container = document.getElementById("schedule");
 
-fetch("matches.json")
+const flagMap = {
+  "Mexico":"MEX",
+  "South Africa":"RSA",
+  "South Korea":"KOR",
+  "Czechia":"CZE",
+  "Canada":"CAN",
+  "Bosnia & Herz.":"BIH",
+  "USA":"USA",
+  "Brazil":"BRA",
+  "Argentina":"ARG",
+  "France":"FRA",
+  "Germany":"GER",
+  "Japan":"JPN",
+  "England":"ENG",
+  "Spain":"ESP"
+};
+
+fetch("matches.json?v=" + Date.now())
 .then(r=>r.json())
 .then(data=>{
   matchData = data;
   if(currentTab==="matches") renderMatches();
 });
 
-fetch("knockout.json")
+fetch("knockout.json?v=" + Date.now())
 .then(r=>r.json())
 .then(data=>{
   knockoutData = data;
@@ -28,63 +45,83 @@ function switchTab(tab, e){
   if(tab==="knockout") renderKnockout();
 }
 
-/* ===== MATCHES ===== */
+/* ================= MATCHES ================= */
 function renderMatches(){
 
-  app.innerHTML = "";
+  container.innerHTML = "";
 
   matchData.forEach(day=>{
 
     const card = document.createElement("div");
-    card.className="card";
+    card.className = "card";
 
     let html = `<div class="card-header">${day.date}</div>`;
 
     day.matches.forEach(m=>{
+
+      const homeFlag = flagMap[m.home] || "none";
+      const awayFlag = flagMap[m.away] || "none";
+
+      const hs = m.homeScore;
+      const as = m.awayScore;
+
+      const scoreText =
+        (hs === undefined || as === undefined || hs === "-" || as === "-")
+        ? "-"
+        : `${hs} - ${as}`;
+
       html += `
       <div class="match">
-        <div class="row">
+        <div class="top-row">
           <div>${m.group}</div>
-          <div>${m.time}</div>
+          <div>
+            ${m.tv ? `<img src="tv/${m.tv}.png" class="tv-icon">` : ''}
+            ${m.time}
+          </div>
         </div>
 
-        <div class="row">
-          <div>${m.home}</div>
-          <div class="score">${m.homeScore} - ${m.awayScore}</div>
-          <div>${m.away}</div>
+        <div class="teams">
+          <div class="home">
+            <img class="flag" src="flags/${homeFlag}.jpg"
+            onerror="this.src='flags/none.jpg'">
+            <span class="team-name">${m.home}</span>
+          </div>
+
+          <div class="score">${scoreText}</div>
+
+          <div class="away">
+            <span class="team-name">${m.away}</span>
+            <img class="flag" src="flags/${awayFlag}.jpg"
+            onerror="this.src='flags/none.jpg'">
+          </div>
         </div>
       </div>`;
     });
 
     card.innerHTML = html;
-    app.appendChild(card);
+    container.appendChild(card);
   });
 }
 
-/* ===== STANDINGS ===== */
+/* ================= STANDINGS ================= */
 function renderStandings(){
 
-  app.innerHTML = "";
+  container.innerHTML = "";
 
   const table = calculateStandings(matchData);
 
   Object.keys(table).forEach(group=>{
 
     const card = document.createElement("div");
-    card.className="card";
+    card.className = "card";
 
     let html = `<div class="card-header">Group ${group}</div>`;
 
     html += `
-    <table class="table">
+    <div class="match">
+    <table style="width:100%;font-size:13px">
       <tr>
-        <th>Team</th>
-        <th>P</th>
-        <th>W</th>
-        <th>D</th>
-        <th>L</th>
-        <th>GD</th>
-        <th>Pts</th>
+        <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
       </tr>
     `;
 
@@ -101,41 +138,72 @@ function renderStandings(){
       </tr>`;
     });
 
-    html += `</table>`;
+    html += `</table></div>`;
 
     card.innerHTML = html;
-    app.appendChild(card);
+    container.appendChild(card);
   });
 }
 
-/* ===== KNOCKOUT ===== */
+/* ================= KNOCKOUT ================= */
 function renderKnockout(){
 
-  app.innerHTML = "";
+  container.innerHTML = "";
 
   knockoutData.forEach(round=>{
 
     const card = document.createElement("div");
-    card.className="card";
+    card.className = "card";
 
     let html = `<div class="card-header">${round.round}</div>`;
 
     round.days.forEach(day=>{
-      html += `<div class="match"><b>${day.date}</b></div>`;
+
+      html += `<div class="knockout-date">${day.date}</div>`;
 
       day.matches.forEach(m=>{
+
+        const homeFlag = flagMap[m.home] || "none";
+        const awayFlag = flagMap[m.away] || "none";
+
+        const hs = m.homeScore;
+        const as = m.awayScore;
+
+        const scoreText =
+          (hs === undefined || as === undefined)
+          ? "-"
+          : `${hs} - ${as}`;
+
         html += `
         <div class="match">
-          <div class="row">
-            <div>${m.home}</div>
-            <div class="score">${m.homeScore ?? "-"} - ${m.awayScore ?? "-"}</div>
-            <div>${m.away}</div>
+          <div class="top-row">
+            <div>${round.round}</div>
+            <div>
+              ${m.tv ? `<img src="tv/${m.tv}.png" class="tv-icon">` : ''}
+              ${m.time}
+            </div>
+          </div>
+
+          <div class="teams">
+            <div class="home">
+              <img class="flag" src="flags/${homeFlag}.jpg"
+              onerror="this.src='flags/none.jpg'">
+              <span class="team-name">${m.home}</span>
+            </div>
+
+            <div class="score">${scoreText}</div>
+
+            <div class="away">
+              <span class="team-name">${m.away}</span>
+              <img class="flag" src="flags/${awayFlag}.jpg"
+              onerror="this.src='flags/none.jpg'">
+            </div>
           </div>
         </div>`;
       });
     });
 
     card.innerHTML = html;
-    app.appendChild(card);
+    container.appendChild(card);
   });
 }
