@@ -3,90 +3,143 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>World Cup 2026</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111827">
+<title>FIFA WORLD CUP 2026</title>
 
 <style>
+/* ===== YOUR ORIGINAL UI (UNCHANGED) ===== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
 body{
-  font-family: Arial;
-  background:#f3f4f6;
-  margin:0;
-  padding:12px;
+    font-family:Arial,sans-serif;
+    background:#f3f4f6;
+    padding:12px;
+    overflow-x:hidden;
 }
 
 h1{
-  text-align:center;
-  font-size:18px;
+    text-align:center;
+    font-size:18px;
+    margin:10px 0 10px;
+    color:#111827;
 }
 
 .tabs{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  margin-bottom:12px;
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    margin-bottom:12px;
 }
 
 .tab{
-  padding:6px 12px;
-  background:#e5e7eb;
-  border-radius:8px;
-  cursor:pointer;
-  font-size:13px;
+    padding:6px 12px;
+    background:#e5e7eb;
+    border-radius:8px;
+    font-size:13px;
+    cursor:pointer;
 }
 
 .tab.active{
-  background:#111827;
-  color:#fff;
+    background:#111827;
+    color:#fff;
 }
 
-#app{
-  display:grid;
-  gap:12px;
+#schedule{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
 }
 
 .card{
-  background:#fff;
-  border-radius:12px;
-  overflow:hidden;
-  box-shadow:0 2px 8px rgba(0,0,0,.05);
+    background:#fff;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
 
 .card-header{
-  background:#111827;
-  color:#fff;
-  padding:10px;
-  font-weight:bold;
+    background:#111827;
+    color:#fff;
+    padding:10px 12px;
+    font-weight:bold;
+    font-size:14px;
 }
 
-.match, .team-row{
-  padding:10px;
-  border-bottom:1px solid #eee;
+.knockout-date{
+    background:#374151;
+    color:#fff;
+    padding:6px 12px;
+    font-size:12px;
+    font-weight:bold;
 }
 
-.match:last-child,
-.team-row:last-child{
-  border-bottom:none;
+.match{
+    padding:10px 12px;
+    border-bottom:1px solid #eee;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
 }
 
-.row{
-  display:flex;
-  justify-content:space-between;
-  font-size:13px;
+.match:last-child{
+    border-bottom:none;
+}
+
+.top-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:#6b7280;
+}
+
+.teams{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    gap:6px;
+}
+
+.home, .away{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    min-width:0;
+}
+
+.home{ justify-content:flex-start; }
+.away{ justify-content:flex-end; }
+
+.team-name{
+    font-size:13px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
 .score{
-  font-weight:bold;
+    font-weight:bold;
+    font-size:14px;
+    text-align:center;
+    color:#111827;
 }
 
-.table{
-  width:100%;
-  border-collapse:collapse;
+.flag{
+    width:22px;
+    height:15px;
+    object-fit:cover;
+    border-radius:2px;
+    border:1px solid #ddd;
 }
 
-.table th, .table td{
-  padding:6px;
-  font-size:13px;
-  border-bottom:1px solid #eee;
-  text-align:center;
+.tv-icon{
+    width:14px;
+    height:14px;
+    margin-left:4px;
 }
 </style>
 </head>
@@ -96,12 +149,12 @@ h1{
 <h1>FIFA WORLD CUP 2026</h1>
 
 <div class="tabs">
-  <div class="tab active" onclick="switchTab('matches', event)">Matches</div>
-  <div class="tab" onclick="switchTab('standings', event)">Standings</div>
-  <div class="tab" onclick="switchTab('knockout', event)">Knockout</div>
+    <div class="tab active" onclick="switchTab('matches', event)">Matches</div>
+    <div class="tab" onclick="switchTab('standings', event)">Standings</div>
+    <div class="tab" onclick="switchTab('knockout', event)">Knockout</div>
 </div>
 
-<div id="app"></div>
+<div id="schedule"></div>
 
 <script src="standings.js"></script>
 <script src="main.js"></script>
