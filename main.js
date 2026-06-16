@@ -252,11 +252,11 @@ function renderStandings(){
           ${t.name}
         </td>
         <td style="text-align:center">${t.played}</td>
-		<td style="text-align:center">${t.win}</td>
-		<td style="text-align:center">${t.draw}</td>
-		<td style="text-align:center">${t.lose}</td>
-		<td style="text-align:center">${t.gf - t.ga}</td>
-		<td style="text-align:center"><b>${t.pts}</b></td>
+        <td style="text-align:center">${t.win}</td>
+        <td style="text-align:center">${t.draw}</td>
+        <td style="text-align:center">${t.lose}</td>
+        <td style="text-align:center">${t.gf - t.ga}</td>
+        <td style="text-align:center"><b>${t.pts}</b></td>
       </tr>`;
     });
 
