@@ -161,7 +161,7 @@ function calculateStandings(data){
 
     // 👇 INIT ก่อนเสมอ (สำคัญ)
     if(!groups[g][home]) groups[g][home] = init(home);
-    if(!groups[g][away]) groups[g][away] = init(away));
+    if(!groups[g][away]) groups[g][away] = init(away);
 
     const hs = Number(m.homeScore);
     const as = Number(m.awayScore);
