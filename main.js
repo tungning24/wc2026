@@ -235,56 +235,57 @@ function renderStandings(){
 
     html += `
     <div class="match">
-    <table style="width:100%;font-size:13px;border-collapse:collapse;table-layout:fixed">
+      <table>
 
-      <colgroup>
-        <col style="width:38%">
-        <col style="width:7%">
-        <col style="width:7%">
-        <col style="width:7%">
-        <col style="width:7%">
-        <col style="width:7%">
-        <col style="width:7%">
-        <col style="width:10%">
-        <col style="width:10%">
-      </colgroup>
+        <colgroup>
+          <col style="width:38%">
+          <col style="width:7%">
+          <col style="width:7%">
+          <col style="width:7%">
+          <col style="width:7%">
+          <col style="width:7%">
+          <col style="width:7%">
+          <col style="width:10%">
+          <col style="width:10%">
+        </colgroup>
 
-      <tr class="knockout-date">
-        <th style="text-align:left">Team</th>
-        <th style="text-align:center">P</th>
-        <th style="text-align:center">W</th>
-        <th style="text-align:center">D</th>
-        <th style="text-align:center">L</th>
-        <th style="text-align:center">F</th>
-        <th style="text-align:center">A</th>
-        <th style="text-align:center">GD</th>
-        <th style="text-align:center">Pts</th>
-      </tr>`;
+        <tr>
+          <th>Team</th>
+          <th>P</th>
+          <th>W</th>
+          <th>D</th>
+          <th>L</th>
+          <th>F</th>
+          <th>A</th>
+          <th>GD</th>
+          <th>Pts</th>
+        </tr>
+    `;
 
     table[group].forEach(t=>{
 
       const flag = flagMap[t.name] || "none";
 
       html += `
-      <tr>
-        <td style="text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
-          <img src="flags/${flag}.jpg"
-          style="width:18px;height:12px;vertical-align:middle;margin-right:6px"
-          onerror="this.src='flags/none.png'">
-          ${t.name}
-        </td>
+        <tr>
+          <td>
+            <img src="flags/${flag}.jpg"
+                 onerror="this.src='flags/none.png'">
+            ${t.name}
+          </td>
 
-        <td style="text-align:center">${t.played}</td>
-        <td style="text-align:center">${t.win}</td>
-        <td style="text-align:center">${t.draw}</td>
-        <td style="text-align:center">${t.lose}</td>
+          <td>${t.played}</td>
+          <td>${t.win}</td>
+          <td>${t.draw}</td>
+          <td>${t.lose}</td>
 
-        <td style="text-align:center">${t.gf}</td>
-        <td style="text-align:center">${t.ga}</td>
+          <td>${t.gf}</td>
+          <td>${t.ga}</td>
 
-        <td style="text-align:center">${t.gf - t.ga}</td>
-        <td style="text-align:center"><b>${t.pts}</b></td>
-      </tr>`;
+          <td>${t.gf - t.ga}</td>
+          <td><b>${t.pts}</b></td>
+        </tr>
+      `;
     });
 
     html += `</table></div>`;
