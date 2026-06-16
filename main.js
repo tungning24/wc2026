@@ -1,10 +1,3 @@
-let groupData = [];
-let knockoutData = [];
-let currentTab = "matches";
-
-const container = document.getElementById("schedule");
-
-/* ===== FLAG MAP ของคุณ (ไม่แตะ) ===== */
 const flagMap = {
   "Mexico":"MEX",
   "South Africa":"RSA",
@@ -22,12 +15,18 @@ const flagMap = {
   "Spain":"ESP"
 };
 
-/* ===== LOAD DATA ===== */
+let groupData = [];
+let knockoutData = [];
+let currentTab = "group";
+
+const container = document.getElementById("schedule");
+
+/* LOAD DATA */
 fetch("matches.json?v=" + Date.now())
 .then(r=>r.json())
 .then(data=>{
   groupData = data;
-  if(currentTab==="matches") renderMatches();
+  if(currentTab==="group") renderGroup();
 });
 
 fetch("knockout.json?v=" + Date.now())
@@ -36,25 +35,25 @@ fetch("knockout.json?v=" + Date.now())
   knockoutData = data;
 });
 
-/* ===== TAB SWITCH ===== */
+/* TAB SWITCH */
 function switchTab(tab, e){
   currentTab = tab;
 
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
   e.target.classList.add("active");
 
-  if(tab==="matches") renderMatches();
+  if(tab==="group") renderGroup();
   if(tab==="standings") renderStandings();
   if(tab==="knockout") renderKnockout();
 }
 
-/* ===== SAFE SCORE (กัน undefined) ===== */
+/* SAFE SCORE */
 function safe(v){
   return (v === undefined || v === null || v === "") ? "-" : v;
 }
 
-/* ===== MATCHES (UI เดิม + FIX score) ===== */
-function renderMatches(){
+/* ================= GROUP ================= */
+function renderGroup(){
 
   container.innerHTML = "";
 
@@ -85,7 +84,7 @@ function renderMatches(){
         <div class="teams">
           <div class="home">
             <img class="flag" src="flags/${homeFlag}.jpg"
-            onerror="this.src='flags/none.jpg'">
+            onerror="this.src='flags/none.png'">
             <span class="team-name">${m.home}</span>
           </div>
 
@@ -94,7 +93,7 @@ function renderMatches(){
           <div class="away">
             <span class="team-name">${m.away}</span>
             <img class="flag" src="flags/${awayFlag}.jpg"
-            onerror="this.src='flags/none.jpg'">
+            onerror="this.src='flags/none.png'">
           </div>
         </div>
       </div>`;
@@ -105,7 +104,82 @@ function renderMatches(){
   });
 }
 
-/* ===== STANDINGS (ใหม่) ===== */
+/* ================= STANDINGS ================= */
+function calculateStandings(data){
+
+  const groups = {};
+
+  data.forEach(day=>{
+    day.matches.forEach(m=>{
+
+      if(!m.group) return;
+
+      const g = m.group;
+
+      if(!groups[g]) groups[g] = {};
+
+      const hs = Number(m.homeScore);
+      const as = Number(m.awayScore);
+
+      if(Number.isNaN(hs) || Number.isNaN(as)) return;
+
+      const home = m.home;
+      const away = m.away;
+
+      if(!groups[g][home]) groups[g][home] = init(home);
+      if(!groups[g][away]) groups[g][away] = init(away);
+
+      groups[g][home].played++;
+      groups[g][away].played++;
+
+      groups[g][home].gf += hs;
+      groups[g][home].ga += as;
+
+      groups[g][away].gf += as;
+      groups[g][away].ga += hs;
+
+      if(hs > as){
+        groups[g][home].win++;
+        groups[g][away].lose++;
+        groups[g][home].pts += 3;
+      } else if(hs < as){
+        groups[g][away].win++;
+        groups[g][home].lose++;
+        groups[g][away].pts += 3;
+      } else {
+        groups[g][home].draw++;
+        groups[g][away].draw++;
+        groups[g][home].pts++;
+        groups[g][away].pts++;
+      }
+    });
+  });
+
+  Object.keys(groups).forEach(g=>{
+    groups[g] = Object.values(groups[g]).sort((a,b)=>{
+      if(b.pts !== a.pts) return b.pts - a.pts;
+      const gd = (b.gf-b.ga) - (a.gf-a.ga);
+      if(gd !== 0) return gd;
+      return b.gf - a.gf;
+    });
+  });
+
+  return groups;
+}
+
+function init(name){
+  return {
+    name,
+    played:0,
+    win:0,
+    draw:0,
+    lose:0,
+    gf:0,
+    ga:0,
+    pts:0
+  };
+}
+
 function renderStandings(){
 
   container.innerHTML = "";
@@ -120,21 +194,29 @@ function renderStandings(){
     let html = `<div class="card-header">Group ${group}</div>`;
 
     html += `<div class="match">
-      <table style="width:100%;font-size:13px">
+    <table style="width:100%;font-size:13px;border-collapse:collapse">
       <tr>
         <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
       </tr>`;
 
     table[group].forEach(t=>{
+
+      const flag = flagMap[t.name] || "none";
+
       html += `
       <tr>
-        <td>${t.name}</td>
+        <td style="text-align:left">
+          <img src="flags/${flag}.jpg"
+          style="width:18px;height:12px;vertical-align:middle;margin-right:6px"
+          onerror="this.src='flags/none.png'">
+          ${t.name}
+        </td>
         <td>${t.played}</td>
         <td>${t.win}</td>
         <td>${t.draw}</td>
         <td>${t.lose}</td>
         <td>${t.gf - t.ga}</td>
-        <td>${t.pts}</td>
+        <td><b>${t.pts}</b></td>
       </tr>`;
     });
 
@@ -145,7 +227,7 @@ function renderStandings(){
   });
 }
 
-/* ===== KNOCKOUT (ของเดิมคุณ ไม่แตะ) ===== */
+/* ================= KNOCKOUT (ของเดิมคุณ ไม่แตะ logic) ================= */
 function renderKnockout(){
 
   container.innerHTML = "";
@@ -167,7 +249,7 @@ function renderKnockout(){
         const awayFlag = flagMap[m.away] || "none";
 
         const scoreText =
-          (m.homeScore == null || m.awayScore == null)
+          (m.homeScore == null && m.awayScore == null)
           ? "-"
           : `${m.homeScore} - ${m.awayScore}`;
 
@@ -184,7 +266,7 @@ function renderKnockout(){
           <div class="teams">
             <div class="home">
               <img class="flag" src="flags/${homeFlag}.jpg"
-              onerror="this.src='flags/none.jpg'">
+              onerror="this.src='flags/none.png'">
               <span class="team-name">${m.home}</span>
             </div>
 
@@ -193,7 +275,7 @@ function renderKnockout(){
             <div class="away">
               <span class="team-name">${m.away}</span>
               <img class="flag" src="flags/${awayFlag}.jpg"
-              onerror="this.src='flags/none.jpg'">
+              onerror="this.src='flags/none.png'">
             </div>
           </div>
         </div>`;
