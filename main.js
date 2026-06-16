@@ -249,7 +249,7 @@ function renderStandings(){
         <col style="width:10%">
       </colgroup>
 
-      <tr>
+      <tr class="knockout-date">
         <th style="text-align:left">Team</th>
         <th style="text-align:center">P</th>
         <th style="text-align:center">W</th>
