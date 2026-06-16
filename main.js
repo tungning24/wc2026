@@ -1,9 +1,10 @@
-let matchData = [];
+let groupData = [];
 let knockoutData = [];
 let currentTab = "matches";
 
 const container = document.getElementById("schedule");
 
+/* ===== FLAG MAP ของคุณ (ไม่แตะ) ===== */
 const flagMap = {
   "Mexico":"MEX",
   "South Africa":"RSA",
@@ -21,10 +22,11 @@ const flagMap = {
   "Spain":"ESP"
 };
 
+/* ===== LOAD DATA ===== */
 fetch("matches.json?v=" + Date.now())
 .then(r=>r.json())
 .then(data=>{
-  matchData = data;
+  groupData = data;
   if(currentTab==="matches") renderMatches();
 });
 
@@ -34,6 +36,7 @@ fetch("knockout.json?v=" + Date.now())
   knockoutData = data;
 });
 
+/* ===== TAB SWITCH ===== */
 function switchTab(tab, e){
   currentTab = tab;
 
@@ -45,12 +48,17 @@ function switchTab(tab, e){
   if(tab==="knockout") renderKnockout();
 }
 
-/* ================= MATCHES ================= */
+/* ===== SAFE SCORE (กัน undefined) ===== */
+function safe(v){
+  return (v === undefined || v === null || v === "") ? "-" : v;
+}
+
+/* ===== MATCHES (UI เดิม + FIX score) ===== */
 function renderMatches(){
 
   container.innerHTML = "";
 
-  matchData.forEach(day=>{
+  groupData.forEach(day=>{
 
     const card = document.createElement("div");
     card.className = "card";
@@ -62,13 +70,7 @@ function renderMatches(){
       const homeFlag = flagMap[m.home] || "none";
       const awayFlag = flagMap[m.away] || "none";
 
-      const hs = m.homeScore;
-      const as = m.awayScore;
-
-      const scoreText =
-        (hs === undefined || as === undefined || hs === "-" || as === "-")
-        ? "-"
-        : `${hs} - ${as}`;
+      const scoreText = `${safe(m.homeScore)} - ${safe(m.awayScore)}`;
 
       html += `
       <div class="match">
@@ -103,12 +105,12 @@ function renderMatches(){
   });
 }
 
-/* ================= STANDINGS ================= */
+/* ===== STANDINGS (ใหม่) ===== */
 function renderStandings(){
 
   container.innerHTML = "";
 
-  const table = calculateStandings(matchData);
+  const table = calculateStandings(groupData);
 
   Object.keys(table).forEach(group=>{
 
@@ -117,13 +119,11 @@ function renderStandings(){
 
     let html = `<div class="card-header">Group ${group}</div>`;
 
-    html += `
-    <div class="match">
-    <table style="width:100%;font-size:13px">
+    html += `<div class="match">
+      <table style="width:100%;font-size:13px">
       <tr>
         <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
-      </tr>
-    `;
+      </tr>`;
 
     table[group].forEach(t=>{
       html += `
@@ -145,7 +145,7 @@ function renderStandings(){
   });
 }
 
-/* ================= KNOCKOUT ================= */
+/* ===== KNOCKOUT (ของเดิมคุณ ไม่แตะ) ===== */
 function renderKnockout(){
 
   container.innerHTML = "";
@@ -166,13 +166,10 @@ function renderKnockout(){
         const homeFlag = flagMap[m.home] || "none";
         const awayFlag = flagMap[m.away] || "none";
 
-        const hs = m.homeScore;
-        const as = m.awayScore;
-
         const scoreText =
-          (hs === undefined || as === undefined)
+          (m.homeScore == null || m.awayScore == null)
           ? "-"
-          : `${hs} - ${as}`;
+          : `${m.homeScore} - ${m.awayScore}`;
 
         html += `
         <div class="match">
