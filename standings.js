@@ -5,6 +5,8 @@ function calculateStandings(data){
   data.forEach(day=>{
     day.matches.forEach(m=>{
 
+      if(!m.group) return;
+
       const g = m.group;
 
       if(!groups[g]) groups[g] = {};
@@ -12,8 +14,11 @@ function calculateStandings(data){
       const home = m.home;
       const away = m.away;
 
-      const hs = parseInt(m.homeScore);
-      const as = parseInt(m.awayScore);
+      const hs = Number(m.homeScore);
+      const as = Number(m.awayScore);
+
+      // ถ้ายังไม่มีสกอร์ ข้าม
+      if(Number.isNaN(hs) || Number.isNaN(as)) return;
 
       if(!groups[g][home]) groups[g][home] = init(home);
       if(!groups[g][away]) groups[g][away] = init(away);
@@ -50,9 +55,8 @@ function calculateStandings(data){
   Object.keys(groups).forEach(g=>{
     groups[g] = Object.values(groups[g]).sort((a,b)=>{
       if(b.pts !== a.pts) return b.pts - a.pts;
-      const gdB = b.gf - b.ga;
-      const gdA = a.gf - a.ga;
-      if(gdB !== gdA) return gdB - gdA;
+      const gd = (b.gf-b.ga) - (a.gf-a.ga);
+      if(gd !== 0) return gd;
       return b.gf - a.gf;
     });
   });
