@@ -148,29 +148,24 @@ h1{
 @media(min-width:1000px){
     #schedule{ grid-template-columns:1fr 1fr 1fr; }
 }
-/* card table ของ standings เท่านั้น */
 .card table{
     width:100%;
     border-collapse:collapse;
-    table-layout:fixed;
+    margin:0;
 }
 
-/* header แถวบน */
 .card th{
-    background:#111827;
+    background:#4c5563;
     color:#fff;
-    padding:6px 4px;
-    font-size:12px;
+    padding:10px 6px;
+    border:0;
 }
 
-/* ช่องข้อมูล */
 .card td{
     padding:6px 4px;
-    font-size:12px;
     text-align:center;
 }
 
-/* ทีม (คอลัมน์แรก) */
 .card td:first-child{
     text-align:left;
     white-space:nowrap;
@@ -178,53 +173,11 @@ h1{
     text-overflow:ellipsis;
 }
 
-/* flag */
 .card td img{
     width:18px;
     height:12px;
     vertical-align:middle;
     margin-right:6px;
-}
-/* ทำให้ standings เป็น scope แยก */
-.standings table{
-    width:100%;
-    border-collapse:collapse;
-    margin:0;
-}
-
-/* header ของ table */
-.standings th{
-    background:#1f2937;
-    color:#fff;
-    padding:10px 6px;
-    border:0;
-}
-
-/* cell */
-.standings td{
-    padding:6px 4px;
-    text-align:center;
-}
-
-/* team column */
-.standings td:first-child{
-    text-align:left;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-/* flag */
-.standings td img{
-    width:18px;
-    height:12px;
-    vertical-align:middle;
-    margin-right:6px;
-}
-
-/* ลบช่องว่างให้ติด card-header */
-.standings .match{
-    padding:0;
 }
 </style>
 </head>
