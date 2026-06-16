@@ -8,8 +8,11 @@
 <title>FIFA WORLD CUP 2026</title>
 
 <style>
-/* ===== UI เดิมคุณ 100% ===== */
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
 body{
     font-family:Arial,sans-serif;
@@ -21,7 +24,7 @@ body{
 h1{
     text-align:center;
     font-size:18px;
-    margin:10px 0;
+    margin:10px 0 10px;
     color:#111827;
 }
 
@@ -124,14 +127,17 @@ h1{
 
 <div class="tabs">
   <div class="tab active" onclick="switchTab('group', event)">Group</div>
+
+  <!-- ✔ เพิ่มอย่างเดียว -->
   <div class="tab" onclick="switchTab('standings', event)">Standings</div>
+
   <div class="tab" onclick="switchTab('knockout', event)">Knockout</div>
 </div>
 
 <div id="schedule"></div>
 
-<script src="standings.js"></script>
 <script src="main.js"></script>
+<script src="standings.js"></script>
 
 </body>
 </html>
