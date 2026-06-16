@@ -8,7 +8,6 @@
 <title>FIFA WORLD CUP 2026</title>
 
 <style>
-/* ===== UI เดิมคุณ 100% (ไม่แตะ) ===== */
 *{
     margin:0;
     padding:0;
@@ -140,6 +139,14 @@ h1{
     width:14px;
     height:14px;
     margin-left:4px;
+    vertical-align:middle;
+}
+
+@media(min-width:600px){
+    #schedule{ grid-template-columns:1fr 1fr; }
+}
+@media(min-width:1000px){
+    #schedule{ grid-template-columns:1fr 1fr 1fr; }
 }
 </style>
 </head>
@@ -149,14 +156,13 @@ h1{
 <h1>FIFA WORLD CUP 2026</h1>
 
 <div class="tabs">
-    <div class="tab active" onclick="switchTab('matches', event)">Matches</div>
+    <div class="tab active" onclick="switchTab('group', event)">Group Stage</div>
     <div class="tab" onclick="switchTab('standings', event)">Standings</div>
     <div class="tab" onclick="switchTab('knockout', event)">Knockout</div>
 </div>
 
 <div id="schedule"></div>
 
-<script src="standings.js"></script>
 <script src="main.js"></script>
 
 </body>
