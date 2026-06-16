@@ -1,3 +1,10 @@
+let groupData = [];
+let knockoutData = [];
+let currentTab = "group";
+
+const container = document.getElementById("schedule");
+
+/* ===== FULL FLAG MAP (เพิ่มครบแล้ว) ===== */
 const flagMap = {
   "Mexico":"MEX",
   "South Africa":"RSA",
@@ -47,16 +54,29 @@ const flagMap = {
   "Ghana":"GHA",
   "Panama":"PAN",
   "Uzbekistan":"UZB",
-  "Colombia":"COL"
+  "Colombia":"COL",
+  "Italy":"ITA",
+  "Poland":"POL",
+  "Denmark":"DEN",
+  "Hungary":"HUN",
+  "Ukraine":"UKR",
+  "Serbia":"SRB",
+  "Chile":"CHI",
+  "Peru":"PER",
+  "Venezuela":"VEN",
+  "Costa Rica":"CRC",
+  "Cameroon":"CMR",
+  "Nigeria":"NGA",
+  "Albania":"ALB",
+  "Greece":"GRE",
+  "Romania":"ROU",
+  "Slovakia":"SVK",
+  "Slovenia":"SVN",
+  "Croatia":"CRO",
+  "Wales":"WAL"
 };
 
-let groupData = [];
-let knockoutData = [];
-let currentTab = "group";
-
-const container = document.getElementById("schedule");
-
-/* LOAD DATA */
+/* ===== LOAD DATA ===== */
 fetch("matches.json?v=" + Date.now())
 .then(r=>r.json())
 .then(data=>{
@@ -70,7 +90,7 @@ fetch("knockout.json?v=" + Date.now())
   knockoutData = data;
 });
 
-/* TAB SWITCH */
+/* ===== TAB ===== */
 function switchTab(tab, e){
   currentTab = tab;
 
@@ -78,16 +98,11 @@ function switchTab(tab, e){
   e.target.classList.add("active");
 
   if(tab==="group") renderGroup();
-  if(tab==="standings") renderStandings();
+  if(tab==="standings") renderStandings(groupData, flagMap);
   if(tab==="knockout") renderKnockout();
 }
 
-/* SAFE SCORE */
-function safe(v){
-  return (v === undefined || v === null || v === "") ? "-" : v;
-}
-
-/* ================= GROUP ================= */
+/* ===== MATCH ===== */
 function renderGroup(){
 
   container.innerHTML = "";
@@ -104,29 +119,33 @@ function renderGroup(){
       const homeFlag = flagMap[m.home] || "none";
       const awayFlag = flagMap[m.away] || "none";
 
-      const scoreText = `${safe(m.homeScore)} - ${safe(m.awayScore)}`;
+      const notPlayed =
+        m.homeScore === undefined ||
+        m.homeScore === null ||
+        m.homeScore === "";
+
+      const scoreText = notPlayed
+        ? `${m.home} - ${m.away}`
+        : `${m.homeScore} - ${m.awayScore}`;
 
       html += `
       <div class="match">
         <div class="top-row">
           <div>${m.group}</div>
-          <div>
-            ${m.tv ? `<img src="tv/${m.tv}.png" class="tv-icon">` : ''}
-            ${m.time}
-          </div>
+          <div>${m.time}</div>
         </div>
 
         <div class="teams">
           <div class="home">
             <img class="flag" src="flags/${homeFlag}.jpg"
             onerror="this.src='flags/none.png'">
-            <span class="team-name">${m.home}</span>
+            ${m.home}
           </div>
 
           <div class="score">${scoreText}</div>
 
           <div class="away">
-            <span class="team-name">${m.away}</span>
+            ${m.away}
             <img class="flag" src="flags/${awayFlag}.jpg"
             onerror="this.src='flags/none.png'">
           </div>
@@ -139,130 +158,7 @@ function renderGroup(){
   });
 }
 
-/* ================= STANDINGS ================= */
-function calculateStandings(data){
-
-  const groups = {};
-
-  data.forEach(day=>{
-    day.matches.forEach(m=>{
-
-      if(!m.group) return;
-
-      const g = m.group;
-
-      if(!groups[g]) groups[g] = {};
-
-      const hs = Number(m.homeScore);
-      const as = Number(m.awayScore);
-
-      if(Number.isNaN(hs) || Number.isNaN(as)) return;
-
-      const home = m.home;
-      const away = m.away;
-
-      if(!groups[g][home]) groups[g][home] = init(home);
-      if(!groups[g][away]) groups[g][away] = init(away);
-
-      groups[g][home].played++;
-      groups[g][away].played++;
-
-      groups[g][home].gf += hs;
-      groups[g][home].ga += as;
-
-      groups[g][away].gf += as;
-      groups[g][away].ga += hs;
-
-      if(hs > as){
-        groups[g][home].win++;
-        groups[g][away].lose++;
-        groups[g][home].pts += 3;
-      } else if(hs < as){
-        groups[g][away].win++;
-        groups[g][home].lose++;
-        groups[g][away].pts += 3;
-      } else {
-        groups[g][home].draw++;
-        groups[g][away].draw++;
-        groups[g][home].pts++;
-        groups[g][away].pts++;
-      }
-    });
-  });
-
-  Object.keys(groups).forEach(g=>{
-    groups[g] = Object.values(groups[g]).sort((a,b)=>{
-      if(b.pts !== a.pts) return b.pts - a.pts;
-      const gd = (b.gf-b.ga) - (a.gf-a.ga);
-      if(gd !== 0) return gd;
-      return b.gf - a.gf;
-    });
-  });
-
-  return groups;
-}
-
-function init(name){
-  return {
-    name,
-    played:0,
-    win:0,
-    draw:0,
-    lose:0,
-    gf:0,
-    ga:0,
-    pts:0
-  };
-}
-
-function renderStandings(){
-
-  container.innerHTML = "";
-
-  const table = calculateStandings(groupData);
-
-  Object.keys(table).forEach(group=>{
-
-    const card = document.createElement("div");
-    card.className = "card";
-
-    let html = `<div class="card-header">Group ${group}</div>`;
-
-    html += `<div class="match">
-    <table style="width:100%;font-size:13px;border-collapse:collapse">
-      <tr>
-        <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
-      </tr>`;
-
-    table[group].forEach(t=>{
-
-      const flag = flagMap[t.name] || "none";
-
-      html += `
-      <tr>
-        <td style="text-align:left">
-          <img src="flags/${flag}.jpg"
-          style="width:18px;height:12px;vertical-align:middle;margin-right:6px"
-          onerror="this.src='flags/none.png'">
-          ${t.name}
-        </td>
-        <td>${t.played}</td>
-        <td>${t.win}</td>
-        <td>${t.draw}</td>
-        <td>${t.lose}</td>
-        <td>${t.gf - t.ga}</td>
-        <td><b>${t.pts}</b></td>
-      </tr>`;
-    });
-
-    html += `</table></div>`;
-
-    card.innerHTML = html;
-    container.appendChild(card);
-  });
-}
-
-/* ================= KNOCKOUT (ของเดิมคุณ ไม่แตะ logic) ================= */
+/* ===== KNOCKOUT (ของเดิม) ===== */
 function renderKnockout(){
 
   container.innerHTML = "";
@@ -275,7 +171,6 @@ function renderKnockout(){
     let html = `<div class="card-header">${round.round}</div>`;
 
     round.days.forEach(day=>{
-
       html += `<div class="knockout-date">${day.date}</div>`;
 
       day.matches.forEach(m=>{
@@ -292,25 +187,20 @@ function renderKnockout(){
         <div class="match">
           <div class="top-row">
             <div>${round.round}</div>
-            <div>
-              ${m.tv ? `<img src="tv/${m.tv}.png" class="tv-icon">` : ''}
-              ${m.time}
-            </div>
+            <div>${m.time}</div>
           </div>
 
           <div class="teams">
             <div class="home">
-              <img class="flag" src="flags/${homeFlag}.jpg"
-              onerror="this.src='flags/none.png'">
-              <span class="team-name">${m.home}</span>
+              <img class="flag" src="flags/${homeFlag}.jpg">
+              ${m.home}
             </div>
 
             <div class="score">${scoreText}</div>
 
             <div class="away">
-              <span class="team-name">${m.away}</span>
-              <img class="flag" src="flags/${awayFlag}.jpg"
-              onerror="this.src='flags/none.png'">
+              ${m.away}
+              <img class="flag" src="flags/${awayFlag}.jpg">
             </div>
           </div>
         </div>`;
