@@ -165,6 +165,7 @@ function calculateStandings(data){
       const hs = Number(m.homeScore);
       const as = Number(m.awayScore);
 
+      // ยังไม่แข่งก็แค่สร้างทีมไว้
       if(Number.isNaN(hs) || Number.isNaN(as)) return;
 
       groups[g][home].played++;
@@ -230,35 +231,38 @@ function renderStandings(){
     const card = document.createElement("div");
     card.className = "card";
 
-    let html = `<div class="card-header">Group ${group}</div>`;
+    let html = `
+      <div class="card-header">Group ${group}</div>
 
-    html += `
-    <div class="match">
-      <table>
+      <div class="match" style="padding:0">
+        <table class="standings-table">
+          <colgroup>
+            <col style="width:42%">
+            <col style="width:6%">
+            <col style="width:6%">
+            <col style="width:6%">
+            <col style="width:6%">
+            <col style="width:6%">
+            <col style="width:6%">
+            <col style="width:10%">
+            <col style="width:12%">
+          </colgroup>
 
-        <colgroup>
-          <col style="width:38%">
-          <col style="width:7%">
-          <col style="width:7%">
-          <col style="width:7%">
-          <col style="width:7%">
-          <col style="width:7%">
-          <col style="width:7%">
-          <col style="width:10%">
-          <col style="width:10%">
-        </colgroup>
+          <thead>
+            <tr>
+              <th>Team</th>
+              <th>P</th>
+              <th>W</th>
+              <th>D</th>
+              <th>L</th>
+              <th>F</th>
+              <th>A</th>
+              <th>GD</th>
+              <th>Pts</th>
+            </tr>
+          </thead>
 
-        <tr>
-          <th>Team</th>
-          <th>P</th>
-          <th>W</th>
-          <th>D</th>
-          <th>L</th>
-          <th>F</th>
-          <th>A</th>
-          <th>GD</th>
-          <th>Pts</th>
-        </tr>
+          <tbody>
     `;
 
     table[group].forEach(t=>{
@@ -267,34 +271,34 @@ function renderStandings(){
 
       html += `
         <tr>
-          <td>
+          <td class="team-cell">
             <img src="flags/${flag}.jpg"
                  onerror="this.src='flags/none.png'">
-            ${t.name}
+            <span>${t.name}</span>
           </td>
 
           <td>${t.played}</td>
           <td>${t.win}</td>
           <td>${t.draw}</td>
           <td>${t.lose}</td>
-
           <td>${t.gf}</td>
           <td>${t.ga}</td>
-
           <td>${t.gf - t.ga}</td>
           <td><b>${t.pts}</b></td>
         </tr>
       `;
     });
 
-    html += `</table></div>`;
+    html += `
+          </tbody>
+        </table>
+      </div>
+    `;
 
     card.innerHTML = html;
+    container.appendChild(card);
   });
-
-  container.appendChild(card);
 }
-
 /* ================= KNOCKOUT (ของเดิมคุณ ไม่แตะ logic) ================= */
 function renderKnockout(){
 
