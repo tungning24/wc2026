@@ -148,52 +148,50 @@ function calculateStandings(data){
   const groups = {};
 
   data.forEach(day=>{
-  day.matches.forEach(m=>{
+    day.matches.forEach(m=>{
 
-    if(!m.group) return;
+      if(!m.group) return;
 
-    const g = m.group;
+      const g = m.group;
 
-    if(!groups[g]) groups[g] = {};
+      if(!groups[g]) groups[g] = {};
 
-    const home = m.home;
-    const away = m.away;
+      const home = m.home;
+      const away = m.away;
 
-    // 👇 INIT ก่อนเสมอ (สำคัญ)
-    if(!groups[g][home]) groups[g][home] = init(home);
-    if(!groups[g][away]) groups[g][away] = init(away);
+      if(!groups[g][home]) groups[g][home] = init(home);
+      if(!groups[g][away]) groups[g][away] = init(away);
 
-    const hs = Number(m.homeScore);
-    const as = Number(m.awayScore);
+      const hs = Number(m.homeScore);
+      const as = Number(m.awayScore);
 
-    // ❗ match ยังไม่แข่ง → แค่สร้างทีมพอ
-    if(Number.isNaN(hs) || Number.isNaN(as)) return;
+      if(Number.isNaN(hs) || Number.isNaN(as)) return;
 
-    groups[g][home].played++;
-    groups[g][away].played++;
+      groups[g][home].played++;
+      groups[g][away].played++;
 
-    groups[g][home].gf += hs;
-    groups[g][home].ga += as;
+      groups[g][home].gf += hs;
+      groups[g][home].ga += as;
 
-    groups[g][away].gf += as;
-    groups[g][away].ga += hs;
+      groups[g][away].gf += as;
+      groups[g][away].ga += hs;
 
-    if(hs > as){
-      groups[g][home].win++;
-      groups[g][away].lose++;
-      groups[g][home].pts += 3;
-    } else if(hs < as){
-      groups[g][away].win++;
-      groups[g][home].lose++;
-      groups[g][away].pts += 3;
-    } else {
-      groups[g][home].draw++;
-      groups[g][away].draw++;
-      groups[g][home].pts++;
-      groups[g][away].pts++;
-    }
+      if(hs > as){
+        groups[g][home].win++;
+        groups[g][away].lose++;
+        groups[g][home].pts += 3;
+      } else if(hs < as){
+        groups[g][away].win++;
+        groups[g][home].lose++;
+        groups[g][away].pts += 3;
+      } else {
+        groups[g][home].draw++;
+        groups[g][away].draw++;
+        groups[g][home].pts++;
+        groups[g][away].pts++;
+      }
+    });
   });
-});
 
   Object.keys(groups).forEach(g=>{
     groups[g] = Object.values(groups[g]).sort((a,b)=>{
@@ -220,11 +218,15 @@ function init(name){
   };
 }
 
+/* ================= RENDER ================= */
 function renderStandings(){
 
   container.innerHTML = "";
 
   const table = calculateStandings(groupData);
+
+  const wrap = document.createElement("div");
+  wrap.className = "standings";
 
   Object.keys(table).forEach(group=>{
 
@@ -291,8 +293,10 @@ function renderStandings(){
     html += `</table></div>`;
 
     card.innerHTML = html;
-    container.appendChild(card);
+    wrap.appendChild(card);
   });
+
+  container.appendChild(wrap);
 }
 
 /* ================= KNOCKOUT (ของเดิมคุณ ไม่แตะ logic) ================= */
