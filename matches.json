@@ -203,7 +203,9 @@
         "time": "00:00",
         "home": "Portugal",
         "away": "Congo DR",
-        "tv":"mono"
+        "tv":"mono",
+        "homeScore":"1",
+        "awayScore":"1"
       },
       {
         "group": "L",
