@@ -164,20 +164,26 @@
         "group": "I",
         "time": "02:00",
         "home": "France",
-        "away": "Senegal"
+        "away": "Senegal",
+        "homeScore":"3",
+        "awayScore":"1"
       },
       {
         "group": "I",
         "time": "05:00",
         "home": "Iraq",
-        "away": "Norway"
+        "away": "Norway",
+        "homeScore":"1",
+        "awayScore":"4"
       },
       {
         "group": "J",
         "time": "08:00",
         "home": "Argentina",
         "away": "Algeria",
-        "tv":"mono"
+        "tv":"mono",
+        "homeScore":"1",
+        "awayScore":"0"
       },
       {
         "group": "J",
