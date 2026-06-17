@@ -189,7 +189,9 @@
         "group": "J",
         "time": "11:00",
         "home": "Austria",
-        "away": "Jordan"
+        "away": "Jordan",
+        "homeScore":"3",
+        "awayScore":"1"
       }
     ]
   },
