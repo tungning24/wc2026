@@ -235,7 +235,9 @@
         "group": "A",
         "time": "23:00",
         "home": "Czechia",
-        "away": "South Africa"
+        "away": "South Africa",
+        "homeScore":"1",
+        "awayScore":"1"
       }
     ]
   },
