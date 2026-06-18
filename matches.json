@@ -211,19 +211,25 @@
         "group": "L",
         "time": "03:00",
         "home": "England",
-        "away": "Croatia"
+        "away": "Croatia",
+        "homeScore":"4",
+        "awayScore":"2"
       },
       {
         "group": "L",
         "time": "06:00",
         "home": "Ghana",
-        "away": "Panama"
+        "away": "Panama",
+        "homeScore":"1",
+        "awayScore":"0"
       },
       {
         "group": "K",
         "time": "09:00",
         "home": "Uzbekistan",
-        "away": "Colombia"
+        "away": "Colombia",
+        "homeScore":"0",
+        "awayScore":"10"
       },
       {
         "group": "A",
