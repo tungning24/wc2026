@@ -202,11 +202,21 @@ h1{
   text-overflow:ellipsis;
 }
 /* ================= DARK MODE ================= */
+header-bar{
+    position:relative;
+    margin-bottom:12px;
+}
 
+.header-bar h1{
+    text-align:center;
+    margin:0;
+}
 .theme-toggle{
-    position:fixed;
-    top:12px;
-    right:12px;
+    position:absolute;
+    right:0;
+    top:50%;
+    transform:translateY(-50%);
+
     width:42px;
     height:42px;
     border:none;
@@ -215,8 +225,6 @@ h1{
     font-size:18px;
     background:#111827;
     color:#fff;
-    box-shadow:0 2px 10px rgba(0,0,0,.2);
-    z-index:999;
 }
 
 /* Dark Theme */
@@ -290,9 +298,10 @@ body.dark .theme-toggle{
 </head>
 
 <body>
-
+<div class="header-bar">
 <h1>FIFA WORLD CUP 2026</h1>
 <button id="themeToggle" class="theme-toggle">🌙</button>
+</div>
 <div class="tabs">
     <div class="tab active" onclick="switchTab('group', event)">Group Stage</div>
     <div class="tab" onclick="switchTab('standings', event)">Standings</div>
