@@ -248,20 +248,26 @@
         "group": "B",
         "time": "02:00",
         "home": "Switzerland",
-        "away": "Bosnia"
+        "away": "Bosnia",
+        "homeScore":"4",
+        "awayScore":"1"
       },
       {
         "group": "B",
         "time": "05:00",
         "home": "Canada",
-        "away": "Qatar"
+        "away": "Qatar",
+        "homeScore":"6",
+        "awayScore":"0"
       },
       {
         "group": "A",
         "time": "08:00",
         "home": "Mexico",
         "away": "South Korea",
-        "tv":"mono"
+        "tv":"mono",
+        "homeScore":"1",
+        "awayScore":"0"
       }
     ]
   },
