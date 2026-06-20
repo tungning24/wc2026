@@ -278,19 +278,25 @@
         "group": "D",
         "time": "02:00",
         "home": "USA",
-        "away": "Australia"
+        "away": "Australia",
+        "homeScore":"2",
+        "awayScore":"0"
       },
       {
         "group": "C",
         "time": "05:00",
         "home": "Scotland",
-        "away": "Morocco"
+        "away": "Morocco",
+        "homeScore":"0",
+        "awayScore":"1"
       },
       {
         "group": "C",
         "time": "07:30",
         "home": "Brazil",
-        "away": "Haiti"
+        "away": "Haiti",
+        "homeScore":"3",
+        "awayScore":"0"
       },
       {
         "group": "D",
