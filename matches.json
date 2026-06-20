@@ -303,7 +303,9 @@
         "time": "10:00",
         "home": "Turkiye",
         "away": "Paraguay",
-        "tv":"mono"
+        "tv":"mono",
+        "homeScore":"0",
+        "awayScore":"1"
       }
     ]
   },
