@@ -349,7 +349,9 @@
         "group": "H",
         "time": "23:00",
         "home": "Spain",
-        "away": "Saudi Arabia"
+        "away": "Saudi Arabia",
+        "homeScore":"4",
+        "awayScore":"0"
       }
     ]
   },
