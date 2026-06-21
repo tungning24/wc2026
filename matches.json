@@ -341,7 +341,9 @@
         "time": "11:00",
         "home": "Tunisia",
         "away": "Japan",
-        "tv":"mono"
+        "tv":"mono",
+        "homeScore":"0",
+        "awayScore":"3"
       },
       {
         "group": "H",
