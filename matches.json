@@ -362,20 +362,26 @@
         "group": "G",
         "time": "02:00",
         "home": "Belgium",
-        "away": "Iran"
+        "away": "Iran",
+        "homeScore":"0",
+        "awayScore":"0"
       },
       {
         "group": "H",
         "time": "05:00",
         "home": "Uruguay",
-        "away": "Cape Verde"
+        "away": "Cape Verde",
+        "homeScore":"2",
+        "awayScore":"2"
       },
       {
         "group": "G",
         "time": "08:00",
         "home": "New Zealand",
         "away": "Egypt",
-        "tv":"mono"
+        "tv":"mono",
+        "homeScore":"1",
+        "awayScore":"3"
       }
     ]
   },
