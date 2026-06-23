@@ -417,7 +417,9 @@
         "group": "J",
         "time": "10:00",
         "home": "Jordan",
-        "away": "Algeria"
+        "away": "Algeria",
+        "homeScore":"1",
+        "awayScore":"2"
       }
     ]
   },
