@@ -392,20 +392,26 @@
         "group": "J",
         "time": "00:00",
         "home": "Argentina",
-        "away": "Austria"
+        "away": "Austria",
+        "homeScore":"2",
+        "awayScore":"0"
       },
       {
         "group": "I",
         "time": "04:00",
         "home": "France",
-        "away": "Iraq"
+        "away": "Iraq",
+        "homeScore":"3",
+        "awayScore":"0"
       },
       {
         "group": "I",
         "time": "07:00",
         "home": "Norway",
         "away": "Senegal",
-        "tv":"mono"
+        "tv":"mono",
+        "homeScore":"3",
+        "awayScore":"1"
       },
       {
         "group": "J",
