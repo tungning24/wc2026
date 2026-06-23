@@ -430,7 +430,9 @@
         "group": "K",
         "time": "00:00",
         "home": "Portugal",
-        "away": "Uzbekistan"
+        "away": "Uzbekistan",
+        "homeScore":"5",
+        "awayScore":"0"
       },
       {
         "group": "L",
