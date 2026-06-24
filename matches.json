@@ -431,7 +431,7 @@
         "time": "00:00",
         "home": "Portugal",
         "away": "Uzbekistan",
-        "homeScore":"5",
+        "homeScore":"5",	
         "awayScore":"0"
       },
       {
@@ -439,19 +439,25 @@
         "time": "03:00",
         "home": "England",
         "away": "Ghana",
-        "tv":"mono"
+        "tv":"mono",
+        "homeScore":"0",	
+        "awayScore":"0"
       },
       {
         "group": "L",
         "time": "06:00",
         "home": "Panama",
-        "away": "Croatia"
+        "away": "Croatia",
+        "homeScore":"0",	
+        "awayScore":"1"
       },
       {
         "group": "K",
         "time": "09:00",
         "home": "Colombia",
-        "away": "Congo DR"
+        "away": "Congo DR",
+        "homeScore":"1",	
+        "awayScore":"0"
       }
     ]
   },
