@@ -468,38 +468,51 @@
         "group": "B",
         "time": "02:00",
         "home": "Switzerland",
-        "away": "Canada"
+        "away": "Canada",
+        "homeScore":"2",	
+        "awayScore":"1"
+		
       },
       {
         "group": "B",
         "time": "02:00",
         "home": "Bosnia",
-        "away": "Qatar"
+        "away": "Qatar",
+        "homeScore":"3",	
+        "awayScore":"1"
       },
       {
         "group": "C",
         "time": "05:00",
         "home": "Scotland",
-        "away": "Brazil"
+        "away": "Brazil",
+        "homeScore":"0",	
+        "awayScore":"3"
       },
       {
         "group": "C",
         "time": "05:00",
         "home": "Morocco",
-        "away": "Haiti"
+        "away": "Haiti",
+        "homeScore":"4",	
+        "awayScore":"2"
       },
       {
         "group": "A",
         "time": "08:00",
         "home": "Czechia",
         "away": "Mexico",
-        "tv":"mono"
+        "tv":"mono",
+        "homeScore":"0",	
+        "awayScore":"0"
       },
       {
         "group": "A",
         "time": "08:00",
         "home": "South Africa",
-        "away": "South Korea"
+        "away": "South Korea",
+        "homeScore":"0",	
+        "awayScore":"0"
       }
     ]
   },
