@@ -75,23 +75,6 @@ h1{
     color:#fff;
 }
 
-.tools{
-    display:flex;
-    justify-content:center;
-    gap:8px;
-    margin-bottom:12px;
-}
-
-.tool-btn{
-    border:0;
-    border-radius:8px;
-    background:#e5e7eb;
-    color:#111827;
-    cursor:pointer;
-    font-size:12px;
-    padding:7px 10px;
-}
-
 .bracket-wrap{
     width:100%;
     overflow-x:auto;
@@ -139,16 +122,6 @@ h1{
     font-weight:bold;
 }
 
-.match-meta{
-    background:#4c5563;
-    color:#fff;
-    display:flex;
-    justify-content:space-between;
-    gap:8px;
-    padding:5px 10px;
-    font-size:11px;
-}
-
 .team{
     display:grid;
     grid-template-columns:22px 1fr 34px;
@@ -178,21 +151,11 @@ h1{
     text-overflow:ellipsis;
 }
 
-.score-input{
-    width:34px;
-    height:28px;
-    border:1px solid #d1d5db;
-    border-radius:6px;
-    background:#fff;
+.team-score{
     color:#111827;
     text-align:center;
     font-weight:bold;
-    font-size:13px;
-}
-
-.score-input:focus{
-    outline:2px solid #111827;
-    outline-offset:1px;
+    font-size:14px;
 }
 
 svg{
@@ -225,8 +188,7 @@ body.dark h1{
     color:#fff;
 }
 
-body.dark .tab,
-body.dark .tool-btn{
+body.dark .tab{
     background:#1e293b;
     color:#cbd5e1;
 }
@@ -255,10 +217,6 @@ body.dark .match-header{
     background:#121F3E;
 }
 
-body.dark .match-meta{
-    background:#334155;
-}
-
 body.dark .team{
     border-bottom:1px solid #334155;
 }
@@ -271,14 +229,8 @@ body.dark .flag{
     border-color:#475569;
 }
 
-body.dark .score-input{
-    background:#0f172a;
-    border-color:#475569;
+body.dark .team-score{
     color:#fff;
-}
-
-body.dark .score-input:focus{
-    outline-color:#60a5fa;
 }
 
 body.dark line{
@@ -311,10 +263,6 @@ body.dark .status{
     <a class="tab" href="index.html">Group Stage</a>
     <a class="tab" href="index.html">Standings</a>
     <a class="tab active" href="ko.html">Knockout</a>
-</div>
-
-<div class="tools">
-    <button id="clearScores" class="tool-btn" type="button">Clear Scores</button>
 </div>
 
 <div class="bracket-wrap">
@@ -381,7 +329,6 @@ const bracket = document.getElementById("bracket");
 const svg = document.getElementById("lines");
 const statusEl = document.getElementById("status");
 const themeBtn = document.getElementById("themeToggle");
-const scoreStoreKey = "wc2026_ko_scores";
 
 const roundX = {
     "Round of 32":20,
@@ -427,7 +374,6 @@ const connections = [
     [101,104],[102,104]
 ];
 
-let scoreState = readScores();
 let matchPositions = {};
 
 function applyTheme(theme){
@@ -443,12 +389,6 @@ themeBtn.addEventListener("click", () => {
     localStorage.setItem("theme", nextTheme);
 });
 
-document.getElementById("clearScores").addEventListener("click", () => {
-    localStorage.removeItem(scoreStoreKey);
-    scoreState = {};
-    document.querySelectorAll(".score-input").forEach(input => input.value = "");
-});
-
 fetch("knockout.json?v=" + Date.now())
     .then(response => {
         if(!response.ok) throw new Error("Cannot load knockout.json");
@@ -458,18 +398,6 @@ fetch("knockout.json?v=" + Date.now())
     .catch(error => {
         statusEl.textContent = error.message;
     });
-
-function readScores(){
-    try{
-        return JSON.parse(localStorage.getItem(scoreStoreKey)) || {};
-    }catch(e){
-        return {};
-    }
-}
-
-function saveScores(){
-    localStorage.setItem(scoreStoreKey, JSON.stringify(scoreState));
-}
 
 function flattenMatches(rounds){
     const matches = {};
@@ -528,9 +456,8 @@ function placeRound(matches, roundName, start, end){
 function createMatch(match, x, y){
     if(!match) return;
 
-    const saved = scoreState[match.num] || {};
-    const homeScore = saved.homeScore ?? match.homeScore ?? "";
-    const awayScore = saved.awayScore ?? match.awayScore ?? "";
+    const homeScore = safeScore(match.homeScore);
+    const awayScore = safeScore(match.awayScore);
     const homeFlag = flagMap[match.home] || "none";
     const awayFlag = flagMap[match.away] || "none";
 
@@ -540,30 +467,14 @@ function createMatch(match, x, y){
     div.style.top = y + "px";
     div.innerHTML = `
         <div class="match-header">
-            <span>M${match.num}</span>
-            <span>${match.round}</span>
-        </div>
-        <div class="match-meta">
-            <span>${match.date}</span>
+            <span>M${match.num} ${match.date}</span>
             <span>${match.time}</span>
         </div>
-        ${teamRow(match.num, "homeScore", match.home, homeFlag, homeScore)}
-        ${teamRow(match.num, "awayScore", match.away, awayFlag, awayScore)}
+        ${teamRow(match.home, homeFlag, homeScore)}
+        ${teamRow(match.away, awayFlag, awayScore)}
     `;
 
     bracket.appendChild(div);
-
-    div.querySelectorAll(".score-input").forEach(input => {
-        input.addEventListener("input", event => {
-            const value = event.target.value.trim();
-            const num = event.target.dataset.match;
-            const field = event.target.dataset.field;
-
-            if(!scoreState[num]) scoreState[num] = {};
-            scoreState[num][field] = value;
-            saveScores();
-        });
-    });
 
     matchPositions[match.num] = {
         x,
@@ -573,21 +484,18 @@ function createMatch(match, x, y){
     };
 }
 
-function teamRow(matchNum, field, name, flag, score){
+function teamRow(name, flag, score){
     return `
         <div class="team">
             <img class="flag" src="flags/${flag}.jpg" onerror="this.src='flags/none.png'" alt="">
             <span class="team-name" title="${escapeAttr(name)}">${name}</span>
-            <input
-                class="score-input"
-                data-match="${matchNum}"
-                data-field="${field}"
-                inputmode="numeric"
-                pattern="[0-9]*"
-                maxlength="2"
-                value="${escapeAttr(String(score))}">
+            <span class="team-score">${score}</span>
         </div>
     `;
+}
+
+function safeScore(value){
+    return value === null || value === undefined || value === "" ? "-" : value;
 }
 
 function drawConnection(from, to){
