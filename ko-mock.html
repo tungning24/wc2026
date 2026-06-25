@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>World Cup Bracket</title>
+
+<style>
+
+body{
+    margin:0;
+    padding:20px;
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+}
+
+.bracket{
+    position:relative;
+    width:1400px;
+    height:1200px;
+    margin:auto;
+}
+
+.round-title{
+    position:absolute;
+    font-size:13px;
+    font-weight:bold;
+    color:#555;
+}
+
+.match{
+    position:absolute;
+    width:140px;
+    background:#fff;
+    border:1px solid #bbb;
+    border-radius:6px;
+    padding:4px;
+    box-sizing:border-box;
+}
+
+.match-num{
+    font-size:11px;
+    color:#666;
+    margin-bottom:4px;
+}
+
+.team{
+    border:1px solid #ddd;
+    border-radius:4px;
+    padding:4px;
+    margin:2px 0;
+    font-size:12px;
+}
+
+svg{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+}
+
+line{
+    stroke:#b0b0b0;
+    stroke-width:1.5;
+}
+
+</style>
+</head>
+<body>
+
+<div id="bracket" class="bracket">
+
+<svg id="lines"></svg>
+
+</div>
+
+<script>
+
+const matches = [];
+
+/* ROUND OF 32 */
+
+for(let i=73;i<=88;i++){
+
+    matches.push({
+        num:i,
+        home:"Team A",
+        away:"Team B"
+    });
+
+}
+
+/* ROUND OF 16 */
+
+for(let i=89;i<=96;i++){
+
+    matches.push({
+        num:i,
+        home:`W${(i-89)*2+73}`,
+        away:`W${(i-89)*2+74}`
+    });
+
+}
+
+/* QUARTER */
+
+for(let i=97;i<=100;i++){
+
+    matches.push({
+        num:i,
+        home:`W${(i-97)*2+89}`,
+        away:`W${(i-97)*2+90}`
+    });
+
+}
+
+/* SEMI */
+
+matches.push({
+    num:101,
+    home:"W97",
+    away:"W98"
+});
+
+matches.push({
+    num:102,
+    home:"W99",
+    away:"W100"
+});
+
+matches.push({
+    num:103,
+    home:"L101",
+    away:"L102"
+});
+/* FINAL */
+
+matches.push({
+    num:104,
+    home:"W101",
+    away:"W102"
+});
+
+function roundOf(num){
+
+    if(num<=88) return 1;
+    if(num<=96) return 2;
+    if(num<=100) return 3;
+    if(num<=102) return 4;
+    return 5;
+
+}
+
+const bracket = document.getElementById("bracket");
+const svg = document.getElementById("lines");
+
+const roundX = {
+    1:50,
+    2:250,
+    3:500,
+    4:750,
+    5:1050
+};
+
+const roundGap = {
+    1:70,
+    2:140,
+    3:280,
+    4:560
+};
+
+const positions = {};
+
+function createMatch(match,x,y){
+
+    const div=document.createElement("div");
+
+    div.className="match";
+
+    div.style.left=x+"px";
+    div.style.top=y+"px";
+
+    div.innerHTML=`
+        <div class="match-num">M${match.num}</div>
+        <div class="team">${match.home}</div>
+        <div class="team">${match.away}</div>
+    `;
+
+    bracket.appendChild(div);
+
+    positions[match.num]={
+        x:x,
+        y:y,
+        w:140,
+        h:62
+    };
+}
+
+/* ROUND 32 */
+
+let y=80;
+
+for(let n=73;n<=88;n++){
+
+    const m=matches.find(x=>x.num===n);
+
+    createMatch(m,roundX[1],y);
+
+    y+=70;
+
+}
+
+/* ROUND16 */
+
+y=115;
+
+for(let n=89;n<=96;n++){
+
+    createMatch(
+        matches.find(x=>x.num===n),
+        roundX[2],
+        y
+    );
+
+    y+=140;
+}
+
+/* QF */
+
+y=185;
+
+for(let n=97;n<=100;n++){
+
+    createMatch(
+        matches.find(x=>x.num===n),
+        roundX[3],
+        y
+    );
+
+    y+=280;
+}
+
+/* SF */
+
+createMatch(
+    matches.find(x=>x.num===101),
+    roundX[4],
+    325
+);
+
+createMatch(
+    matches.find(x=>x.num===102),
+    roundX[4],
+    885
+);
+
+/* FINAL */
+
+createMatch(
+    matches.find(x=>x.num===104),
+    roundX[5],
+    605
+);
+/* 3RD */
+createMatch(
+    matches.find(x=>x.num===103),
+    roundX[5],
+    780
+);
+
+/* DRAW LINES */
+
+svg.setAttribute("width","1400");
+svg.setAttribute("height","1200");
+
+function draw(from,to){
+
+    const a=positions[from];
+    const b=positions[to];
+
+    const x1=a.x+a.w;
+    const y1=a.y+a.h/2;
+
+    const x2=b.x;
+    const y2=b.y+b.h/2;
+
+    const mid=(x1+x2)/2;
+
+    svg.innerHTML += `
+        <line x1="${x1}" y1="${y1}" x2="${mid}" y2="${y1}" />
+        <line x1="${mid}" y1="${y1}" x2="${mid}" y2="${y2}" />
+        <line x1="${mid}" y1="${y2}" x2="${x2}" y2="${y2}" />
+    `;
+}
+
+/* R32 -> R16 */
+
+for(let i=73;i<=88;i++){
+
+    draw(
+        i,
+        89 + Math.floor((i-73)/2)
+    );
+
+}
+
+/* R16 -> QF */
+
+for(let i=89;i<=96;i++){
+
+    draw(
+        i,
+        97 + Math.floor((i-89)/2)
+    );
+
+}
+
+/* QF -> SF */
+
+for(let i=97;i<=100;i++){
+
+    draw(
+        i,
+        101 + Math.floor((i-97)/2)
+    );
+
+}
+
+/* SF -> Final */
+
+draw(101,104);
+draw(102,104);
+
+</script>
+
+</body>
+</html>
