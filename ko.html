@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111827">
+<title>World Cup 2026 Knockout</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f3f4f6;
+    padding:12px;
+    overflow-x:hidden;
+    color:#111827;
+}
+
+h1{
+    text-align:center;
+    font-size:18px;
+    margin:10px 0 10px;
+    color:#111827;
+}
+
+.header-bar{
+    position:relative;
+    margin-bottom:12px;
+}
+
+.header-bar h1{
+    text-align:center;
+}
+
+.theme-toggle{
+    position:absolute;
+    right:0;
+    top:50%;
+    transform:translateY(-50%);
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:13px;
+    background:#111827;
+    color:#fff;
+}
+
+.tabs{
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    margin-bottom:12px;
+    flex-wrap:wrap;
+}
+
+.tab{
+    padding:6px 12px;
+    background:#e5e7eb;
+    border-radius:8px;
+    font-size:13px;
+    color:#111827;
+    text-decoration:none;
+}
+
+.tab.active{
+    background:#111827;
+    color:#fff;
+}
+
+.tools{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    margin-bottom:12px;
+}
+
+.tool-btn{
+    border:0;
+    border-radius:8px;
+    background:#e5e7eb;
+    color:#111827;
+    cursor:pointer;
+    font-size:12px;
+    padding:7px 10px;
+}
+
+.bracket-wrap{
+    width:100%;
+    overflow-x:auto;
+    padding-bottom:12px;
+}
+
+.bracket{
+    position:relative;
+    width:1180px;
+    min-width:1180px;
+    height:1180px;
+    margin:0 auto;
+}
+
+.round-title{
+    position:absolute;
+    top:0;
+    width:180px;
+    text-align:center;
+    color:#4b5563;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.match{
+    position:absolute;
+    width:180px;
+    min-height:80px;
+    background:#fff;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
+    z-index:2;
+}
+
+.match-header{
+    background:#111827;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:8px 10px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.match-meta{
+    background:#4c5563;
+    color:#fff;
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    padding:5px 10px;
+    font-size:11px;
+}
+
+.team{
+    display:grid;
+    grid-template-columns:22px 1fr 34px;
+    align-items:center;
+    gap:6px;
+    padding:7px 10px;
+    border-bottom:1px solid #eee;
+}
+
+.team:last-child{
+    border-bottom:none;
+}
+
+.flag{
+    width:22px;
+    height:15px;
+    object-fit:cover;
+    border-radius:2px;
+    border:1px solid #ddd;
+}
+
+.team-name{
+    min-width:0;
+    font-size:12px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.score-input{
+    width:34px;
+    height:28px;
+    border:1px solid #d1d5db;
+    border-radius:6px;
+    background:#fff;
+    color:#111827;
+    text-align:center;
+    font-weight:bold;
+    font-size:13px;
+}
+
+.score-input:focus{
+    outline:2px solid #111827;
+    outline-offset:1px;
+}
+
+svg{
+    position:absolute;
+    inset:0;
+    width:1180px;
+    height:1180px;
+    pointer-events:none;
+    z-index:1;
+}
+
+line{
+    stroke:#b0b0b0;
+    stroke-width:1.5;
+}
+
+.status{
+    text-align:center;
+    color:#6b7280;
+    font-size:13px;
+    padding:20px;
+}
+
+body.dark{
+    background:#0f172a;
+    color:#e5e7eb;
+}
+
+body.dark h1{
+    color:#fff;
+}
+
+body.dark .tab,
+body.dark .tool-btn{
+    background:#1e293b;
+    color:#cbd5e1;
+}
+
+body.dark .tab.active{
+    background:#2563eb;
+    color:#fff;
+}
+
+body.dark .theme-toggle{
+    background:#f8fafc;
+    color:#111827;
+}
+
+body.dark .round-title{
+    color:#cbd5e1;
+}
+
+body.dark .match{
+    background:#1e293b;
+    box-shadow:none;
+    border:1px solid #334155;
+}
+
+body.dark .match-header{
+    background:#121F3E;
+}
+
+body.dark .match-meta{
+    background:#334155;
+}
+
+body.dark .team{
+    border-bottom:1px solid #334155;
+}
+
+body.dark .team-name{
+    color:#e5e7eb;
+}
+
+body.dark .flag{
+    border-color:#475569;
+}
+
+body.dark .score-input{
+    background:#0f172a;
+    border-color:#475569;
+    color:#fff;
+}
+
+body.dark .score-input:focus{
+    outline-color:#60a5fa;
+}
+
+body.dark line{
+    stroke:#475569;
+}
+
+body.dark .status{
+    color:#94a3b8;
+}
+
+@media(max-width:700px){
+    body{
+        padding:10px;
+    }
+
+    .bracket{
+        margin:0;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="header-bar">
+    <h1>FIFA WORLD CUP 2026</h1>
+    <button id="themeToggle" class="theme-toggle" type="button">Dark</button>
+</div>
+
+<div class="tabs">
+    <a class="tab" href="index.html">Group Stage</a>
+    <a class="tab" href="index.html">Standings</a>
+    <a class="tab active" href="ko.html">Knockout</a>
+</div>
+
+<div class="tools">
+    <button id="clearScores" class="tool-btn" type="button">Clear Scores</button>
+</div>
+
+<div class="bracket-wrap">
+    <div id="bracket" class="bracket">
+        <svg id="lines" viewBox="0 0 1180 1180" aria-hidden="true"></svg>
+        <div class="status" id="status">Loading knockout data...</div>
+    </div>
+</div>
+
+<script>
+const flagMap = {
+  "Mexico":"MEX",
+  "South Africa":"RSA",
+  "South Korea":"KOR",
+  "Czechia":"CZE",
+  "Canada":"CAN",
+  "Bosnia & Herz.":"BIH",
+  "Bosnia":"BIH",
+  "USA":"USA",
+  "Paraguay":"PAR",
+  "Qatar":"QAT",
+  "Switzerland":"SUI",
+  "Brazil":"BRA",
+  "Morocco":"MAR",
+  "Haiti":"HAI",
+  "Scotland":"SCO",
+  "Australia":"AUS",
+  "Turkiye":"TUR",
+  "Germany":"GER",
+  "Curacao":"CUW",
+  "Netherlands":"NED",
+  "Japan":"JPN",
+  "Ivory Coast":"CIV",
+  "Ecuador":"ECU",
+  "Sweden":"SWE",
+  "Tunisia":"TUN",
+  "Spain":"ESP",
+  "Cape Verde":"CPV",
+  "Belgium":"BEL",
+  "Egypt":"EGY",
+  "Saudi Arabia":"KSA",
+  "Uruguay":"URU",
+  "Iran":"IRN",
+  "New Zealand":"NZL",
+  "France":"FRA",
+  "Senegal":"SEN",
+  "Iraq":"IRQ",
+  "Norway":"NOR",
+  "Argentina":"ARG",
+  "Algeria":"ALG",
+  "Austria":"AUT",
+  "Jordan":"JOR",
+  "Portugal":"POR",
+  "Congo DR":"COD",
+  "England":"ENG",
+  "Croatia":"CRO",
+  "Ghana":"GHA",
+  "Panama":"PAN",
+  "Uzbekistan":"UZB",
+  "Colombia":"COL"
+};
+
+const bracket = document.getElementById("bracket");
+const svg = document.getElementById("lines");
+const statusEl = document.getElementById("status");
+const themeBtn = document.getElementById("themeToggle");
+const scoreStoreKey = "wc2026_ko_scores";
+
+const roundX = {
+    "Round of 32":20,
+    "Round of 16":250,
+    "Quarter-final":480,
+    "Semi-final":710,
+    "Final":940,
+    "Match for third place":940
+};
+
+const roundTop = {
+    "Round of 32":58,
+    "Round of 16":92,
+    "Quarter-final":160,
+    "Semi-final":300,
+    "Final":570,
+    "Match for third place":760
+};
+
+const roundGap = {
+    "Round of 32":68,
+    "Round of 16":136,
+    "Quarter-final":272,
+    "Semi-final":544
+};
+
+const roundTitles = [
+    ["Round of 32", roundX["Round of 32"]],
+    ["Round of 16", roundX["Round of 16"]],
+    ["Quarter-final", roundX["Quarter-final"]],
+    ["Semi-final", roundX["Semi-final"]],
+    ["Final", roundX["Final"]]
+];
+
+const connections = [
+    [74,89],[77,89],[73,90],[75,90],
+    [76,91],[78,91],[79,92],[80,92],
+    [83,93],[84,93],[81,94],[82,94],
+    [86,95],[88,95],[85,96],[87,96],
+    [89,97],[90,97],[93,98],[94,98],
+    [91,99],[92,99],[95,100],[96,100],
+    [97,101],[98,101],[99,102],[100,102],
+    [101,104],[102,104]
+];
+
+let scoreState = readScores();
+let matchPositions = {};
+
+function applyTheme(theme){
+    document.body.classList.toggle("dark", theme === "dark");
+    themeBtn.textContent = theme === "dark" ? "Light" : "Dark";
+}
+
+applyTheme(localStorage.getItem("theme") || "light");
+
+themeBtn.addEventListener("click", () => {
+    const nextTheme = document.body.classList.contains("dark") ? "light" : "dark";
+    applyTheme(nextTheme);
+    localStorage.setItem("theme", nextTheme);
+});
+
+document.getElementById("clearScores").addEventListener("click", () => {
+    localStorage.removeItem(scoreStoreKey);
+    scoreState = {};
+    document.querySelectorAll(".score-input").forEach(input => input.value = "");
+});
+
+fetch("knockout.json?v=" + Date.now())
+    .then(response => {
+        if(!response.ok) throw new Error("Cannot load knockout.json");
+        return response.json();
+    })
+    .then(renderBracket)
+    .catch(error => {
+        statusEl.textContent = error.message;
+    });
+
+function readScores(){
+    try{
+        return JSON.parse(localStorage.getItem(scoreStoreKey)) || {};
+    }catch(e){
+        return {};
+    }
+}
+
+function saveScores(){
+    localStorage.setItem(scoreStoreKey, JSON.stringify(scoreState));
+}
+
+function flattenMatches(rounds){
+    const matches = {};
+
+    rounds.forEach(round => {
+        round.days.forEach(day => {
+            day.matches.forEach(match => {
+                matches[match.num] = {
+                    ...match,
+                    round: round.round,
+                    date: day.date
+                };
+            });
+        });
+    });
+
+    return matches;
+}
+
+function renderBracket(rounds){
+    statusEl.remove();
+    matchPositions = {};
+    svg.innerHTML = "";
+
+    roundTitles.forEach(([title, x]) => {
+        const titleEl = document.createElement("div");
+        titleEl.className = "round-title";
+        titleEl.style.left = x + "px";
+        titleEl.textContent = title;
+        bracket.appendChild(titleEl);
+    });
+
+    const matches = flattenMatches(rounds);
+
+    placeRound(matches, "Round of 32", 73, 88);
+    placeRound(matches, "Round of 16", 89, 96);
+    placeRound(matches, "Quarter-final", 97, 100);
+
+    createMatch(matches[101], roundX["Semi-final"], roundTop["Semi-final"]);
+    createMatch(matches[102], roundX["Semi-final"], roundTop["Semi-final"] + roundGap["Semi-final"]);
+    createMatch(matches[104], roundX["Final"], roundTop["Final"]);
+    createMatch(matches[103], roundX["Match for third place"], roundTop["Match for third place"]);
+
+    connections.forEach(([from, to]) => drawConnection(from, to));
+}
+
+function placeRound(matches, roundName, start, end){
+    let y = roundTop[roundName];
+
+    for(let num = start; num <= end; num++){
+        createMatch(matches[num], roundX[roundName], y);
+        y += roundGap[roundName];
+    }
+}
+
+function createMatch(match, x, y){
+    if(!match) return;
+
+    const saved = scoreState[match.num] || {};
+    const homeScore = saved.homeScore ?? match.homeScore ?? "";
+    const awayScore = saved.awayScore ?? match.awayScore ?? "";
+    const homeFlag = flagMap[match.home] || "none";
+    const awayFlag = flagMap[match.away] || "none";
+
+    const div = document.createElement("div");
+    div.className = "match";
+    div.style.left = x + "px";
+    div.style.top = y + "px";
+    div.innerHTML = `
+        <div class="match-header">
+            <span>M${match.num}</span>
+            <span>${match.round}</span>
+        </div>
+        <div class="match-meta">
+            <span>${match.date}</span>
+            <span>${match.time}</span>
+        </div>
+        ${teamRow(match.num, "homeScore", match.home, homeFlag, homeScore)}
+        ${teamRow(match.num, "awayScore", match.away, awayFlag, awayScore)}
+    `;
+
+    bracket.appendChild(div);
+
+    div.querySelectorAll(".score-input").forEach(input => {
+        input.addEventListener("input", event => {
+            const value = event.target.value.trim();
+            const num = event.target.dataset.match;
+            const field = event.target.dataset.field;
+
+            if(!scoreState[num]) scoreState[num] = {};
+            scoreState[num][field] = value;
+            saveScores();
+        });
+    });
+
+    matchPositions[match.num] = {
+        x,
+        y,
+        w:180,
+        h:div.offsetHeight
+    };
+}
+
+function teamRow(matchNum, field, name, flag, score){
+    return `
+        <div class="team">
+            <img class="flag" src="flags/${flag}.jpg" onerror="this.src='flags/none.png'" alt="">
+            <span class="team-name" title="${escapeAttr(name)}">${name}</span>
+            <input
+                class="score-input"
+                data-match="${matchNum}"
+                data-field="${field}"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                maxlength="2"
+                value="${escapeAttr(String(score))}">
+        </div>
+    `;
+}
+
+function drawConnection(from, to){
+    const a = matchPositions[from];
+    const b = matchPositions[to];
+
+    if(!a || !b) return;
+
+    const x1 = a.x + a.w;
+    const y1 = a.y + a.h / 2;
+    const x2 = b.x;
+    const y2 = b.y + b.h / 2;
+    const mid = (x1 + x2) / 2;
+
+    addLine(x1, y1, mid, y1);
+    addLine(mid, y1, mid, y2);
+    addLine(mid, y2, x2, y2);
+}
+
+function addLine(x1, y1, x2, y2){
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", x1);
+    line.setAttribute("y1", y1);
+    line.setAttribute("x2", x2);
+    line.setAttribute("y2", y2);
+    svg.appendChild(line);
+}
+
+function escapeAttr(value){
+    return value
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+</script>
+</body>
+</html>
