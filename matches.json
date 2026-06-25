@@ -504,14 +504,14 @@
         "away": "Mexico",
         "tv":"mono",
         "homeScore":"0",	
-        "awayScore":"1"
+        "awayScore":"2"
       },
       {
         "group": "A",
         "time": "08:00",
         "home": "South Africa",
         "away": "South Korea",
-        "homeScore":"0",	
+        "homeScore":"1",	
         "awayScore":"0"
       }
     ]
