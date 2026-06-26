@@ -22,7 +22,7 @@
 			"num": 76,
             "time": "00:00",
             "home": "Brazil",
-            "away": "2F",
+            "away": "Japan",
             "homeScore": null,
             "awayScore": null
           },
@@ -37,7 +37,7 @@
 		  {
 			"num": 75,
             "time": "08:00",
-            "home": "1F",
+            "home": "Netherlands",
             "away": "Morocco",
             "homeScore": null,
             "awayScore": null
@@ -50,7 +50,7 @@
           {
 			"num": 78,
             "time": "00:00",
-            "home": "2E",
+            "home": "Ivory Coast",
             "away": "2I",
             "homeScore": null,
             "awayScore": null
@@ -96,7 +96,7 @@
 			"num": 81,
             "time": "07:00",
             "home": "USA",
-            "away": "3B/E/F/I/J",
+            "away": "Bosnia",
             "homeScore": null,
             "awayScore": null
           }
