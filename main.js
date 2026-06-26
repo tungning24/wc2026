@@ -444,7 +444,7 @@ function renderBracket(rounds){
     bracket.appendChild(titleEl);
   });
 
-  placeRound(matches, "Round of 32", 73, 88);
+  placeRound(matches, "Round of 32", [74,77,73,75,83,84,81,82,76,78,79,80,86,88,85,87]);
   placeRound(matches, "Round of 16", [89,90,93,94,91,92,95,96]);
   placeRound(matches, "Quarter-final", 97, 100);
 
