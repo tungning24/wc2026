@@ -523,26 +523,34 @@
         "group": "E",
         "time": "03:00",
         "home": "Curacao",
-        "away": "Ivory Coast"
+        "away": "Ivory Coast",
+        "homeScore":"0",	
+        "awayScore":"2"
       },
       {
         "group": "E",
         "time": "03:00",
         "home": "Ecuador",
-        "away": "Germany"
+        "away": "Germany",
+        "homeScore":"2",	
+        "awayScore":"1"
       },
       {
         "group": "F",
         "time": "06:00",
         "home": "Japan",
-        "away": "Sweden"
+        "away": "Sweden",
+        "homeScore":"1",	
+        "awayScore":"1"
       },
       {
         "group": "F",
         "time": "06:00",
         "home": "Tunisia",
         "away": "Netherlands",
-        "tv":"mono"
+        "tv":"mono",
+        "homeScore":"1",	
+        "awayScore":"3"
       },
       {
         "group": "D",
