@@ -556,13 +556,17 @@
         "group": "D",
         "time": "09:00",
         "home": "Turkiye",
-        "away": "USA"
+        "away": "USA",
+        "homeScore":"2",	
+        "awayScore":"1"
       },
       {
         "group": "D",
         "time": "09:00",
         "home": "Paraguay",
-        "away": "Australia"
+        "away": "Australia",
+        "homeScore":"0",	
+        "awayScore":"0"
       }
     ]
   },
