@@ -609,14 +609,18 @@
         "group": "G",
         "time": "10:00",
         "home": "Egypt",
-        "away": "Iran"
+        "away": "Iran",
+        "homeScore":"1",	
+        "awayScore":"1"
       },
       {
         "group": "G",
         "time": "10:00",
         "home": "New Zealand",
         "away": "Belgium",
-        "tv":"mono"
+        "tv":"mono",
+        "homeScore":"1",	
+        "awayScore":"5"
       }
     ]
   },
