@@ -53,15 +53,28 @@ function calculateStandings(data){
   });
 
   Object.keys(groups).forEach(g=>{
-    groups[g] = Object.values(groups[g]).sort((a,b)=>{
-      if(b.pts !== a.pts) return b.pts - a.pts;
-      const gd = (b.gf-b.ga) - (a.gf-a.ga);
-      if(gd !== 0) return gd;
-      return b.gf - a.gf;
-    });
+    groups[g] = Object.values(groups[g]).sort(compareTeams);
   });
 
   return groups;
+}
+
+function compareTeams(a,b){
+  if(b.pts !== a.pts) return b.pts - a.pts;
+  const gd = (b.gf-b.ga) - (a.gf-a.ga);
+  if(gd !== 0) return gd;
+  if(b.gf !== a.gf) return b.gf - a.gf;
+  return (a.group || "").localeCompare(b.group || "");
+}
+
+function getThirdPlaceStandings(table){
+  return Object.keys(table)
+    .map(group=>{
+      const team = table[group][2];
+      return team ? { ...team, group } : null;
+    })
+    .filter(Boolean)
+    .sort(compareTeams);
 }
 
 function init(name){

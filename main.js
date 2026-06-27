@@ -199,12 +199,7 @@ function calculateStandings(data){
   });
 
   Object.keys(groups).forEach(g=>{
-    groups[g] = Object.values(groups[g]).sort((a,b)=>{
-      if(b.pts !== a.pts) return b.pts - a.pts;
-      const gd = (b.gf-b.ga) - (a.gf-a.ga);
-      if(gd !== 0) return gd;
-      return b.gf - a.gf;
-    });
+    groups[g] = Object.values(groups[g]).sort(compareTeams);
   });
 
   return groups;
@@ -221,6 +216,24 @@ function init(name){
     ga:0,
     pts:0
   };
+}
+
+function compareTeams(a,b){
+  if(b.pts !== a.pts) return b.pts - a.pts;
+  const gd = (b.gf-b.ga) - (a.gf-a.ga);
+  if(gd !== 0) return gd;
+  if(b.gf !== a.gf) return b.gf - a.gf;
+  return (a.group || "").localeCompare(b.group || "");
+}
+
+function getThirdPlaceStandings(table){
+  return Object.keys(table)
+    .map(group=>{
+      const team = table[group][2];
+      return team ? { ...team, group } : null;
+    })
+    .filter(Boolean)
+    .sort(compareTeams);
 }
 
 /* ================= RENDER ================= */
@@ -303,6 +316,81 @@ function renderStandings(){
     card.innerHTML = html;
     container.appendChild(card);
   });
+
+  const thirdPlaceTeams = getThirdPlaceStandings(table);
+  const thirdPlaceCard = document.createElement("div");
+  thirdPlaceCard.className = "card";
+
+  let thirdPlaceHtml = `
+    <div class="card-header">Best Third-Place Teams</div>
+
+    <div class="match" style="padding:0">
+      <table class="standings-table">
+        <colgroup>
+          <col style="width:8%">
+          <col style="width:8%">
+          <col style="width:32%">
+          <col style="width:6%">
+          <col style="width:6%">
+          <col style="width:6%">
+          <col style="width:6%">
+          <col style="width:6%">
+          <col style="width:6%">
+          <col style="width:6%">
+          <col style="width:10%">
+        </colgroup>
+
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Grp</th>
+            <th>Team</th>
+            <th>P</th>
+            <th>W</th>
+            <th>D</th>
+            <th>L</th>
+            <th>F</th>
+            <th>A</th>
+            <th>GD</th>
+            <th>Pts</th>
+          </tr>
+        </thead>
+
+        <tbody>
+  `;
+
+  thirdPlaceTeams.forEach((t,index)=>{
+    const flag = flagMap[t.name] || "none";
+
+    thirdPlaceHtml += `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${t.group}</td>
+        <td class="team-cell">
+          <img src="flags/${flag}.jpg"
+               onerror="this.src='flags/none.png'">
+          <span>${t.name}</span>
+        </td>
+        <td>${t.played}</td>
+        <td>${t.win}</td>
+        <td>${t.draw}</td>
+        <td>${t.lose}</td>
+        <td>${t.gf}</td>
+        <td>${t.ga}</td>
+        <td>${t.gf - t.ga}</td>
+        <td><b>${t.pts}</b></td>
+      </tr>
+    `;
+  });
+
+  thirdPlaceHtml += `
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  thirdPlaceCard.innerHTML = thirdPlaceHtml;
+  container.appendChild(thirdPlaceCard);
 }
 /* ================= KNOCKOUT (ของเดิมคุณ ไม่แตะ logic) ================= */
 function renderKnockout(){
@@ -444,8 +532,8 @@ function renderBracket(rounds){
     bracket.appendChild(titleEl);
   });
 
-  placeRound(matches, "Round of 32", [74,77,73,75,83,84,81,82,76,78,79,80,86,88,85,87]);
-  placeRound(matches, "Round of 16", [89,90,93,94,91,92,95,96]);
+  placeRound(matches, "Round of 32", 73, 88);
+  placeRound(matches, "Round of 16", 89, 96);
   placeRound(matches, "Quarter-final", 97, 100);
 
   createBracketMatch(matches[101], roundX["Semi-final"], roundTop["Semi-final"]);
@@ -455,17 +543,10 @@ function renderBracket(rounds){
 
   connections.forEach(([from, to])=>drawConnection(from, to));
 
-  function placeRound(matchesByNum, roundName, startOrOrder, end){
+  function placeRound(matchesByNum, roundName, start, end){
     let y = roundTop[roundName];
 
-    const nums = Array.isArray(startOrOrder)
-      ? startOrOrder
-      : Array.from(
-          { length: end - startOrOrder + 1 },
-          (_, i) => startOrOrder + i
-        );
-
-    for (const num of nums) {
+    for(let num = start; num <= end; num++){
       createBracketMatch(matchesByNum[num], roundX[roundName], y);
       y += roundGap[roundName];
     }
