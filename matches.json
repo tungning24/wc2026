@@ -577,25 +577,33 @@
         "group": "I",
         "time": "02:00",
         "home": "Norway",
-        "away": "France"
+        "away": "France",
+        "homeScore":"1",	
+        "awayScore":"4"
       },
       {
         "group": "I",
         "time": "02:00",
         "home": "Senegal",
-        "away": "Iraq"
+        "away": "Iraq",
+        "homeScore":"5",	
+        "awayScore":"0"
       },
       {
         "group": "H",
         "time": "07:00",
         "home": "Cape Verde",
-        "away": "Saudi Arabia"
+        "away": "Saudi Arabia",
+        "homeScore":"0",	
+        "awayScore":"0"
       },
       {
         "group": "H",
         "time": "07:00",
         "home": "Uruguay",
-        "away": "Spain"
+        "away": "Spain",
+        "homeScore":"0",	
+        "awayScore":"1"
       },
       {
         "group": "G",
