@@ -10,6 +10,7 @@
             "time": "02:00",
             "home": "South Africa",
             "away": "Canada",
+			"tv":"mono",
             "homeScore": null,
             "awayScore": null
           }
@@ -23,6 +24,7 @@
             "time": "00:00",
             "home": "Brazil",
             "away": "Japan",
+			"tv":"mono",
             "homeScore": null,
             "awayScore": null
           },
@@ -52,6 +54,7 @@
             "time": "00:00",
             "home": "Ivory Coast",
             "away": "Norway",
+			"tv":"mono",
             "homeScore": null,
             "awayScore": null
           },
@@ -68,6 +71,7 @@
             "time": "08:00",
             "home": "Mexico",
             "away": "Ecuador",
+			"tv":"mono",
             "homeScore": null,
             "awayScore": null
           },
@@ -76,6 +80,7 @@
             "time": "23:00",
             "home": "England",
             "away": "Congo DR",
+			"tv":"mono",
             "homeScore": null,
             "awayScore": null
           }
@@ -110,6 +115,7 @@
             "time": "02:00",
             "home": "Spain",
             "away": "Austria",
+			"tv":"mono",
             "homeScore": null,
             "awayScore": null
           },
@@ -126,6 +132,7 @@
             "time": "10:00",
             "home": "Switzerland",
             "away": "Algeria",
+			"tv":"mono",
             "homeScore": null,
             "awayScore": null
           }
@@ -155,6 +162,7 @@
             "time": "08:30",
             "home": "Colombia",
             "away": "Ghana",
+			"tv":"mono",
             "homeScore": null,
             "awayScore": null
           }
