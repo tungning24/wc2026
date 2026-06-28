@@ -532,8 +532,8 @@ function renderBracket(rounds){
     bracket.appendChild(titleEl);
   });
 
-  placeRound(matches, "Round of 32", 73, 88);
-  placeRound(matches, "Round of 16", 89, 96);
+  placeRound(matches, "Round of 32", [74,77,73,75,83,84,81,82,76,78,79,80,86,88,85,87]);
+  placeRound(matches, "Round of 16", [89,90,93,94,91,92,95,96]);
   placeRound(matches, "Quarter-final", 97, 100);
 
   createBracketMatch(matches[101], roundX["Semi-final"], roundTop["Semi-final"]);
@@ -545,11 +545,14 @@ function renderBracket(rounds){
 
   function placeRound(matchesByNum, roundName, start, end){
     let y = roundTop[roundName];
+    const matchNums = Array.isArray(start)
+      ? start
+      : Array.from({ length: end - start + 1 }, (_, index)=>start + index);
 
-    for(let num = start; num <= end; num++){
+    matchNums.forEach((num)=>{
       createBracketMatch(matchesByNum[num], roundX[roundName], y);
       y += roundGap[roundName];
-    }
+    });
   }
 
   function createBracketMatch(match, x, y){
