@@ -665,7 +665,7 @@
         "home": "Jordan",
         "away": "Argentina",
         "homeScore":"0",	
-        "awayScore":"1"
+        "awayScore":"2"
       },
       {
         "group": "J",
@@ -674,7 +674,7 @@
         "away": "Austria",
         "tv":"mono",
         "homeScore":"0",	
-        "awayScore":"0"
+        "awayScore":"1"
       }
     ]
   }
