@@ -631,25 +631,33 @@
         "group": "L",
         "time": "04:00",
         "home": "Panama",
-        "away": "England"
+        "away": "England",
+        "homeScore":"0",	
+        "awayScore":"2"
       },
       {
         "group": "L",
         "time": "04:00",
         "home": "Croatia",
-        "away": "Ghana"
+        "away": "Ghana",
+        "homeScore":"2",	
+        "awayScore":"1"
       },
       {
         "group": "K",
         "time": "06:30",
         "home": "Colombia",
-        "away": "Portugal"
+        "away": "Portugal",
+        "homeScore":"0",	
+        "awayScore":"0"
       },
       {
         "group": "K",
         "time": "06:30",
         "home": "Congo DR",
-        "away": "Uzbekistan"
+        "away": "Uzbekistan",
+        "homeScore":"3",	
+        "awayScore":"1"
       },
       {
         "group": "J",
