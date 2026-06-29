@@ -11,8 +11,8 @@
             "home": "South Africa",
             "away": "Canada",
 			"tv":"mono",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 0,
+            "awayScore": 1
           }
         ]
       },
@@ -188,7 +188,7 @@
           {
 			"num": 90,
             "time": "04:00",
-            "home": "W73",
+            "home": "Canada",
             "away": "W75",
             "homeScore": null,
             "awayScore": null
