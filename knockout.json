@@ -25,8 +25,8 @@
             "home": "Brazil",
             "away": "Japan",
 			"tv":"mono",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 2,
+            "awayScore": 1
           },
 		  {
 			"num": 74,
@@ -201,7 +201,7 @@
           {
 			"num": 91,
             "time": "03:00",
-            "home": "W76",
+            "home": "Brazil",
             "away": "W78",
             "homeScore": null,
             "awayScore": null
