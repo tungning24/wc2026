@@ -413,11 +413,22 @@ function renderKnockout(){
 
         const homeFlag = flagMap[m.home] || "none";
         const awayFlag = flagMap[m.away] || "none";
+		const formatScore = (score) => {
+		if (score == null) return score;
 
+		const text = String(score);
+		const match = text.match(/^(\d+)\s*\((\d+)\)$/);
+
+		if (match) {
+			return `(${match[2]}) ${match[1]}`;
+		}
+
+    return text;
+  };
         const scoreText =
           (m.homeScore == null && m.awayScore == null)
           ? "-"
-          : `${m.homeScore} - ${m.awayScore}`;
+          : `${formatScore(m.homeScore)} - ${m.awayScore}`;
 
         html += `
         <div class="match">
