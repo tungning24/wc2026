@@ -55,16 +55,16 @@
             "home": "Ivory Coast",
             "away": "Norway",
 			"tv":"mono",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 1,
+            "awayScore": 2
           },
 		  {
 			"num": 77,
             "time": "04:00",
             "home": "France",
             "away": "Sweden",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 3,
+            "awayScore": 0
           },
           {
 			"num": 79,
@@ -181,7 +181,7 @@
 			"num": 89,
             "time": "00:00",
             "home": "Paraguay",
-            "away": "W77",
+            "away": "France",
             "homeScore": null,
             "awayScore": null
           },
@@ -202,7 +202,7 @@
 			"num": 91,
             "time": "03:00",
             "home": "Brazil",
-            "away": "W78",
+            "away": "Norway",
             "homeScore": null,
             "awayScore": null
           },
