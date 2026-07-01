@@ -81,8 +81,8 @@
             "home": "England",
             "away": "Congo DR",
 			"tv":"mono",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 2,
+            "awayScore": 1
           }
         ]
       },
@@ -210,7 +210,7 @@
 			"num": 92,
             "time": "07:00",
             "home": "Mexico",
-            "away": "W80",
+            "away": "England",
             "homeScore": null,
             "awayScore": null
           }
