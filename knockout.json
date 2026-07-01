@@ -72,8 +72,8 @@
             "home": "Mexico",
             "away": "Ecuador",
 			"tv":"mono",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 2,
+            "awayScore": 0
           },
 		  {
 			"num": 80,
@@ -209,7 +209,7 @@
           {
 			"num": 92,
             "time": "07:00",
-            "home": "W79",
+            "home": "Mexico",
             "away": "W80",
             "homeScore": null,
             "awayScore": null
