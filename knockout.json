@@ -116,16 +116,16 @@
             "home": "Spain",
             "away": "Austria",
 			"tv":"mono",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 2,
+            "awayScore": 0
           },
 		  {
 			"num": 83,
             "time": "06:00",
             "home": "Portugal",
             "away": "Croatia",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 2,
+            "awayScore": 1
           },
           {
 			"num": 85,
@@ -222,8 +222,8 @@
           {
 			"num": 93,
             "time": "02:00",
-            "home": "W83",
-            "away": "W84",
+            "home": "Portugal",
+            "away": "Spain",
             "homeScore": null,
             "awayScore": null
           },
