@@ -133,8 +133,8 @@
             "home": "Switzerland",
             "away": "Algeria",
 			"tv":"mono",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 2,
+            "awayScore": 0
           }
         ]
       },
@@ -251,7 +251,7 @@
           {
 			"num": 96,
             "time": "03:00",
-            "home": "W85",
+            "home": "Switzerland",
             "away": "W87",
             "homeScore": null,
             "awayScore": null
