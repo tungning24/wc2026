@@ -146,16 +146,16 @@
             "time": "01:00",
             "home": "Australia",
             "away": "Egypt",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": "1 (2)",
+            "awayScore": "1 (4)"
           },
           {
 			"num": 86,
             "time": "05:00",
             "home": "Argentina",
             "away": "Cape Verde",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 3,
+            "awayScore": 2
           },
           {
 			"num": 87,
@@ -163,8 +163,8 @@
             "home": "Colombia",
             "away": "Ghana",
 			"tv":"mono",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 1,
+            "awayScore": 0
           }
         ]
       }
@@ -238,8 +238,8 @@
 		  {
 			"num": 95,
             "time": "23:00",
-            "home": "W86",
-            "away": "W88",
+            "home": "Argentina",
+            "away": "Egypt",
             "homeScore": null,
             "awayScore": null
           }
@@ -252,7 +252,7 @@
 			"num": 96,
             "time": "03:00",
             "home": "Switzerland",
-            "away": "W87",
+            "away": "Colombia",
             "homeScore": null,
             "awayScore": null
           }
