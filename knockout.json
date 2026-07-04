@@ -190,6 +190,7 @@
             "time": "04:00",
             "home": "Canada",
             "away": "Morocco",
+			"tv":"mono",
             "homeScore": null,
             "awayScore": null
           }
@@ -232,6 +233,7 @@
             "time": "07:00",
             "home": "USA",
             "away": "Belgium",
+			"tv":"mono",
             "homeScore": null,
             "awayScore": null
           },
@@ -253,6 +255,7 @@
             "time": "03:00",
             "home": "Switzerland",
             "away": "Colombia",
+			"tv":"mono",
             "homeScore": null,
             "awayScore": null
           }
