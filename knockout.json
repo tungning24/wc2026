@@ -184,7 +184,7 @@
             "away": "Morocco",
 			"tv":"mono",
             "homeScore": 0, 
-            "awayScore": 1		
+            "awayScore": 2		
           },
           {
 			"num": 89, 
@@ -275,7 +275,7 @@
 			"num": 97,
             "time": "03:00",
             "home": "W89",
-            "away": "W90",
+            "away": "Morocco",
             "homeScore": null,
             "awayScore": null
           }
