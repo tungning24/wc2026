@@ -183,8 +183,8 @@
             "home": "Canada",
             "away": "Morocco",
 			"tv":"mono",
-            "homeScore": null,
-            "awayScore": null		
+            "homeScore": 0,
+            "awayScore": 0		
           },
           {
 			"num": 89, 
