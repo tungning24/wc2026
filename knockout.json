@@ -191,8 +191,8 @@
             "time": "04:00",
             "home": "Paraguay",
             "away": "France",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 0,
+            "awayScore": 1
           }
         ]
       },
@@ -274,7 +274,7 @@
           {
 			"num": 97,
             "time": "03:00",
-            "home": "W89",
+            "home": "France",
             "away": "Morocco",
             "homeScore": null,
             "awayScore": null
