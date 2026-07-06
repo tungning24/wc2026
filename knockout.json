@@ -204,16 +204,16 @@
             "time": "03:00",
             "home": "Brazil",
             "away": "Norway",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 1,
+            "awayScore": 2
           },
           {
 			"num": 92,
             "time": "07:00",
             "home": "Mexico",
             "away": "England",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 2,
+            "awayScore": 3
           }
         ]
       },
@@ -300,8 +300,8 @@
           {
 			"num": 99,
             "time": "04:00",
-            "home": "W91",
-            "away": "W92",
+            "home": "Norway",
+            "away": "England",
             "homeScore": null,
             "awayScore": null
           },
