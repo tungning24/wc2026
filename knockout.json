@@ -225,8 +225,8 @@
             "time": "02:00",
             "home": "Portugal",
             "away": "Spain",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 0,
+            "awayScore": 1
           },
           {
 			"num": 94,
@@ -234,8 +234,8 @@
             "home": "USA",
             "away": "Belgium",
 			"tv":"mono",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 1,
+            "awayScore": 4
           },
 		  {
 			"num": 95,
@@ -287,8 +287,8 @@
           {
 			"num": 98,
             "time": "02:00",
-            "home": "W93",
-            "away": "W94",
+            "home": "Spain",
+            "away": "Belgium",
             "homeScore": null,
             "awayScore": null
           }
