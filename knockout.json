@@ -243,8 +243,8 @@
             "home": "Argentina",
             "away": "Egypt",
 			"tv":"thairath",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 3,
+            "awayScore": 2
           }
         ]
       },
@@ -257,8 +257,8 @@
             "home": "Switzerland",
             "away": "Colombia",
 			"tv":"mono",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": "0 (4)",
+            "awayScore": "0 (3)"
           }
         ]
       }
@@ -308,8 +308,8 @@
           {
 			"num": 100,
             "time": "08:00",
-            "home": "W95",
-            "away": "W96",
+            "home": "Argentina",
+            "away": "Switzerland",
             "homeScore": null,
             "awayScore": null
           }
