@@ -276,6 +276,7 @@
             "time": "03:00",
             "home": "France",
             "away": "Morocco",
+			"tv":"mono",
             "homeScore": 2,
             "awayScore": 0
           }
@@ -310,6 +311,7 @@
             "time": "08:00",
             "home": "Argentina",
             "away": "Switzerland",
+			"tv":"mono",
             "homeScore": null,
             "awayScore": null
           }
