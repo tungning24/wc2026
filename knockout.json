@@ -276,8 +276,8 @@
             "time": "03:00",
             "home": "France",
             "away": "Morocco",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 2,
+            "awayScore": 0
           }
         ]
       },
@@ -327,7 +327,7 @@
           {
 			"num": 101,
             "time": "02:00",
-            "home": "W97",
+            "home": "France",
             "away": "W98",
             "homeScore": null,
             "awayScore": null
