@@ -290,8 +290,8 @@
             "time": "02:00",
             "home": "Spain",
             "away": "Belgium",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 2,
+            "awayScore": 1
           }
         ]
       },
@@ -330,7 +330,7 @@
 			"num": 101,
             "time": "02:00",
             "home": "France",
-            "away": "W98",
+            "away": "Spain",
             "homeScore": null,
             "awayScore": null
           }
