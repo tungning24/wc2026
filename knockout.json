@@ -303,8 +303,8 @@
             "time": "04:00",
             "home": "Norway",
             "away": "England",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 1,
+            "awayScore": 2
           },
           {
 			"num": 100,
@@ -312,8 +312,8 @@
             "home": "Argentina",
             "away": "Switzerland",
 			"tv":"mono",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 3,
+            "awayScore": 1
           }
         ]
       }
@@ -342,8 +342,8 @@
           {
 			"num": 102,
             "time": "02:00",
-            "home": "W99",
-            "away": "W100",
+            "home": "England",
+            "away": "Argentina",
             "homeScore": null,
             "awayScore": null
           }
