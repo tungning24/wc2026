@@ -346,8 +346,8 @@
             "home": "England",
             "away": "Argentina",
 			"tv":"mono",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 1,
+            "awayScore": 2
           }
         ]
       }
@@ -364,7 +364,7 @@
 			"num": 103,
             "time": "04:00",
             "home": "France",
-            "away": "L102",
+            "away": "England",
 			"tv":"mono",
             "homeScore": null,
             "awayScore": null
@@ -384,7 +384,7 @@
 			"num": 104,
             "time": "02:00",
             "home": "Spain",
-            "away": "W102",
+            "away": "Argentina",
 			"tv":"mono",
             "homeScore": null,
             "awayScore": null
