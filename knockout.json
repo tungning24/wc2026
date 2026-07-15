@@ -332,8 +332,8 @@
             "home": "France",
             "away": "Spain",
 			"tv":"mono",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 0,
+            "awayScore": 2
           }
         ]
       },
@@ -363,7 +363,7 @@
           {
 			"num": 103,
             "time": "04:00",
-            "home": "L101",
+            "home": "France",
             "away": "L102",
 			"tv":"mono",
             "homeScore": null,
@@ -383,7 +383,7 @@
           {
 			"num": 104,
             "time": "02:00",
-            "home": "W101",
+            "home": "Spain",
             "away": "W102",
 			"tv":"mono",
             "homeScore": null,
