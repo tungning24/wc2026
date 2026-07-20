@@ -386,8 +386,8 @@
             "home": "Spain",
             "away": "Argentina",
 			"tv":"mono",
-            "homeScore": null,
-            "awayScore": null
+            "homeScore": 1,
+            "awayScore": 0
           }
         ]
       }
